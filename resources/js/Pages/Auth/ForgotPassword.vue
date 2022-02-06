@@ -14,8 +14,6 @@
 
             <ValidationErrors class="mb-4" />
 
-            {{  }}
-
             <Message v-if="status" severity="info">{{status}}</Message>
 
             <form>
