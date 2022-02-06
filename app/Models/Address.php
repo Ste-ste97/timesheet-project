@@ -36,4 +36,13 @@ class Address extends Model
     {
         return $this->city->country();
     }
+
+     /**
+     * Get the user for this address.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
