@@ -11,6 +11,17 @@ class City extends Model
 
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'greek_name',
+    ];
+
+
+    /**
      * Get the country for this city.
      */
     public function country()

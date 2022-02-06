@@ -33,6 +33,10 @@ class UpdateProfileRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
+            ],
+            'country' =>[
+                'nullable',
+                ''
             ]
         ];
     }

@@ -15,11 +15,10 @@
             <FormField label="Email" name="email" v-model="form.email"/>
         </div>
         <div class="field mb-4 col-12 md:col-6">
-            <FormField label="Country" name="country" component="Dropdown" v-model="form.country" :options="countries" :filter="true" optionLabel="name" optionValue="code" placeholder="Select a country" />
+            <FormField label="Country" name="country" component="Dropdown" v-model="form.country" :options="countriesOptions" :filter="true" optionLabel="name" optionValue="id" placeholder="Select a country" />
         </div>
         <div class="field mb-4 col-12 md:col-6">
-            <label for="city" class="font-medium text-900">City</label>
-            <InputText id="city" type="text" />
+            <FormField label="Country" name="country" component="Dropdown" v-model="form.city" :options="citiesOptions" :filter="true" optionLabel="name" optionValue="id" placeholder="Select a city" />
         </div>
         <div class="field mb-4 col-12 md:col-6">
             <label for="state" class="font-medium text-900">State</label>
@@ -36,6 +35,10 @@
 import FormField from "@/Components/FormField.vue"
 
 export default {
+    props:{
+        countries: Object,
+        cities: Object
+    },
     components:{
         FormField
     },
@@ -44,12 +47,9 @@ export default {
             form: this.$inertia.form({
                 name: this.$page.props.auth.user.name,
                 email: this.$page.props.auth.user.email,
-                country: ""
+                country: "",
+                city: ""
             }),
-            countries: [
-                {name: 'Cyprus', code: 'CY'},
-                {name: 'Greece', code: 'GR'},
-            ],
         };
     },
     methods: {
@@ -69,5 +69,33 @@ export default {
             });
         },
     },
+    computed:{
+        countriesOptions(){
+            const options = [];
+
+            this.countries.map((country) =>{
+                options.push({
+                               id: country.id,
+                               name: country.name
+                            })
+            });
+
+            return options;
+        },
+        citiesOptions(){
+            const options = [];
+
+            this.cities.map((city) => {
+                if (city.country.id == this.form.country ){
+                    options.push({
+                        id: city.id,
+                        name: city.name
+                    })
+                }
+            });
+
+            return options;
+        }
+    }
 }
 </script>

@@ -8,7 +8,7 @@
                 <ConfirmDialog></ConfirmDialog>
                 <div class="col-12">
                     <h3>Account Profile</h3>
-                    <ProfileForm></ProfileForm>
+                    <ProfileForm :countries="countries" :cities="cities"></ProfileForm>
                 </div>
                 <div class="col-12">
                     <h3>Account Security</h3>
@@ -29,6 +29,10 @@ import ValidationErrors from '@/Components/ValidationErrors.vue'
 
 export default {
     layout: AuthenticatedLayout,
+    props:{
+        countries: Object,
+        cities: Object
+    },
     components: {
         Head,
         Link,

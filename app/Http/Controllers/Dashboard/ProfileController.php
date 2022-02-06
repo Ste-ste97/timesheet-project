@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\City;
 use Inertia\Inertia;
+use App\Models\Country;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateProfileRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Models\Address;
 
 class ProfileController extends Controller
 {
@@ -17,7 +20,11 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Profile/Index');
+
+        return Inertia::render('Profile/Index', [
+            'countries' => Country::all(),
+            'cities' => City::with('Country')->get()
+        ]);
     }
 
     /**

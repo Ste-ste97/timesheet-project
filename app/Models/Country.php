@@ -9,4 +9,23 @@ class Country extends Model
 {
     use HasFactory;
 
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'greek_name',
+    ];
+
+
+    /**
+     * Get the cities for this country.
+     */
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
+
 }
