@@ -3,12 +3,11 @@ require('./bootstrap');
 import { createApp, h, reactive } from 'vue';
 import {  App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import "primevue/resources/themes/lara-light-indigo/theme.css";
+
 import "primeflex/primeflex.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
-
-import "primevue/resources/themes/lara-light-indigo/theme.css";
-
 
 import PrimeVue from 'primevue/config';
 import Accordion from 'primevue/accordion';

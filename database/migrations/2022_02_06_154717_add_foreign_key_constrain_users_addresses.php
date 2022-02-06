@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAddressesTable extends Migration
+class AddForeignKeyConstrainUsersAddresses extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
-            $table->string('state')->nullable(false);
-            $table->unsignedBigInteger('city_country_id')->nullable(false);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('address_id')->references('id')->on('addresses');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_address_id_foreign');
+        });
     }
 }

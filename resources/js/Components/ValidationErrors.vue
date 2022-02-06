@@ -13,8 +13,7 @@
                 </ul>
             </div>
             <div class="ml-auto">
-                <a
-                    v-ripple
+                <a  v-ripple
                     class="inline-flex align-items-center justify-content-center ml-auto border-circle hover:bg-pink-50 no-underline cursor-pointer transition-colors transition-duration-150 p-ripple"
                     style="width: 1.5rem; height: 1.5rem">
                 </a>
