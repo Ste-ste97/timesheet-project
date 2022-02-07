@@ -20,10 +20,11 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        auth()->user()->load('address');
 
         return Inertia::render('Profile/Index', [
             'countries' => Country::all(),
-            'cities' => City::with('Country')->get()
+            'cities' => City::with('Country')->get(),
         ]);
     }
 
@@ -39,6 +40,17 @@ class ProfileController extends Controller
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+
+        $address = $user->address ?? new Address();
+
+        if (!$request->input('city') && $user->address){
+            $address->delete();
+        }else if ($request->input('city')){
+            $address->city_id = $request->input('city');
+            $address->user()->associate($user);
+            $address->state = $request->input('state');
+            $address->save();
+        }
 
         $user->save();
 

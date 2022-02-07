@@ -21,6 +21,11 @@ class Address extends Model
         'postal_code'
     ];
 
+    protected $with = ['city'];
+
+
+    protected $appends = ['country'];
+
     /**
      * Get the city for this address.
      */
@@ -29,20 +34,20 @@ class Address extends Model
         return $this->belongsTo(City::class);
     }
 
-    /**
-     * Get the country for this address.
-     */
-    public function country()
-    {
-        return $this->city->country();
-    }
-
      /**
      * Get the user for this address.
      */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the country for this address.
+     */
+    public function getCountryAttribute()
+    {
+        return $this->city->country;
     }
 
 }

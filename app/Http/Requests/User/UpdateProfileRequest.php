@@ -36,7 +36,17 @@ class UpdateProfileRequest extends FormRequest
             ],
             'country' =>[
                 'nullable',
-                ''
+                'exists:countries,id',
+                'required_with:state'
+            ],
+            'city' =>[
+                'nullable',
+                'exists:cities,id',
+                'required_with:country,state'
+            ],
+            'state' =>[
+                'nullable',
+                'string',
             ]
         ];
     }

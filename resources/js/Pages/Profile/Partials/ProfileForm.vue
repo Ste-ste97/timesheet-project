@@ -15,14 +15,13 @@
             <FormField label="Email" name="email" v-model="form.email"/>
         </div>
         <div class="field mb-4 col-12 md:col-6">
-            <FormField label="Country" name="country" component="Dropdown" v-model="form.country" :options="countriesOptions" :filter="true" optionLabel="name" optionValue="id" placeholder="Select a country" />
+            <FormField label="Country" name="country" component="Dropdown" v-model="form.country" :options="countries" :filter="true" optionLabel="name" optionValue="id" placeholder="Select a country" />
         </div>
         <div class="field mb-4 col-12 md:col-6">
-            <FormField label="Country" name="country" component="Dropdown" v-model="form.city" :options="citiesOptions" :filter="true" optionLabel="name" optionValue="id" placeholder="Select a city" />
+            <FormField label="City" name="city" component="Dropdown" v-model="form.city" :options="citiesOptions" :filter="true" optionLabel="name" optionValue="id" placeholder="Select a city" />
         </div>
         <div class="field mb-4 col-12 md:col-6">
-            <label for="state" class="font-medium text-900">State</label>
-            <InputText id="state" type="text" />
+            <FormField label="State" name="state" v-model="form.state"/>
         </div>
         <div class="col-12">
             <Button @click="saveProfile()" label="Save Changes" class="w-auto mt-3"></Button>
@@ -47,8 +46,9 @@ export default {
             form: this.$inertia.form({
                 name: this.$page.props.auth.user.name,
                 email: this.$page.props.auth.user.email,
-                country: "",
-                city: ""
+                country: this.$page.props.auth.user.address?.country.id,
+                city: this.$page.props.auth.user.address?.city.id,
+                state: this.$page.props.auth.user.address?.state
             }),
         };
     },
@@ -70,31 +70,8 @@ export default {
         },
     },
     computed:{
-        countriesOptions(){
-            const options = [];
-
-            this.countries.map((country) =>{
-                options.push({
-                               id: country.id,
-                               name: country.name
-                            })
-            });
-
-            return options;
-        },
         citiesOptions(){
-            const options = [];
-
-            this.cities.map((city) => {
-                if (city.country.id == this.form.country ){
-                    options.push({
-                        id: city.id,
-                        name: city.name
-                    })
-                }
-            });
-
-            return options;
+            return this.cities.filter((city) => city.country.id == this.form.country);
         }
     }
 }
