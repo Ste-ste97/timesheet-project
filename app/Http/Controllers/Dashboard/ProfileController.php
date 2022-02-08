@@ -6,8 +6,8 @@ use App\Models\City;
 use Inertia\Inertia;
 use App\Models\Country;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UpdateProfileRequest;
-use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Http\Requests\Profile\UpdateProfileRequest;
+use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Models\Address;
 
 class ProfileController extends Controller
