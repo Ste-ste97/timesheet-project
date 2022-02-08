@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
 
     private function getNavbar(Request $request)
     {
-        return Navlink::where('parent_id', null)->get();
+        return Navlink::whereNull('parent_id')->get();
     }
 
     /**
