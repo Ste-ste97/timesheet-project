@@ -6,16 +6,14 @@
             </div>
             <div class="overflow-y-auto mt-3">
                 <ul class="list-none p-3 m-0">
-                    <NavItem name="Dashboard" icon="pi pi-home" :href="route('dashboard')"/>
-                    <NavItem name="Bookmarks" icon="pi pi-bookmark"/>
-                    <NavItem name="Reports" icon="pi pi-chart-line" :children="[{name: 'Revenue', icon: 'pi pi-chart-line', href: '/profile', children:[]}]"/>
+                    <NavItem v-for="navlink in navlinks" :key="navlink.id" :children="navlink.children" :name="navlink.name" :icon="navlink.icon" :route_name="navlink.route_name"/>
                 </ul>
             </div>
             <div class="mt-auto">
                 <hr class="mb-3 mx-3 border-top-1 border-none border-bluegray-600" />
                 <ul class="list-none p-2 m-0 hidden origin-bottom animation-duration-150 overflow-hidden animation-ease-in-out">
-                    <NavItem name="Profile" icon="pi pi-user" :href="route('profile')"/>
-                    <NavItem name="Sign Out" icon="pi pi-sign-out" :href="route('logout')"/>
+                    <NavItem name="Profile" icon="pi pi-user" route_name="profile"/>
+                    <NavItem name="Sign Out" icon="pi pi-sign-out" route_name="logout"/>
                 </ul>
                 <a v-ripple class="m-3 px-3 py-2 flex align-items-center hover:bg-bluegray-900 border-round cursor-pointer text-bluegray-100 hover:text-bluegray-50
                     transition-duration-150 transition-colors p-ripple"
@@ -36,6 +34,11 @@ export default {
     components: {
         NavItem
     },
+    computed:{
+        navlinks(){
+            return this.$page.props.navbar;
+        }
+    }
 };
 </script>
 

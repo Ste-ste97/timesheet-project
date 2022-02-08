@@ -16,7 +16,7 @@
         <li v-else>
             <Link v-ripple class="no-underline flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50
                 transition-duration-150 transition-colors p-ripple"
-                :href="href"
+                :href="href ? route(href): ''"
                 >
                 <i :class="['mr-2', icon]"></i>
                 <span class="font-medium">{{ name }}</span>

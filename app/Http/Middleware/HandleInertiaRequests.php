@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Navlink;
 use Inertia\Middleware;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -35,6 +36,11 @@ class HandleInertiaRequests extends Middleware
         return array_merge($msg, ['fingerprint' => Str::uuid()]);
     }
 
+    private function getNavbar(Request $request)
+    {
+        return Navlink::where('parent_id', null)->get();
+    }
+
     /**
      * Define the props that are shared by default.
      *
@@ -48,6 +54,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'message' => $this->getMessage($request),
+            'navbar' => $this->getNavbar($request)
         ]);
     }
 }
