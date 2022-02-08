@@ -16,11 +16,11 @@
 
             <Message v-if="status" severity="info">{{status}}</Message>
 
-            <form>
+            <form @submit.prevent="submit">
                 <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-                <InputText id="email1" v-model="form.email" type="text" class="w-full mb-3" />
+                <InputText id="email1" v-model="form.email" type="text" class="w-full mb-3" required/>
 
-                <Button @click="submit" label="Reset Password" class="w-full"></Button>
+                <Button type="submit" :disabled="form.processing" label="Reset Password" class="w-full"></Button>
             </form>
         </div>
     </div>

@@ -65,6 +65,7 @@ app.use(InertiaPlugin);
 app.use(ConfirmationService);
 app.use(ToastService);
 
+app.component('router-link', {}) // to hide warning from primevue
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
 app.component('Avatar', Avatar);

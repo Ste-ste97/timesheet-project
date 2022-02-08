@@ -4,7 +4,7 @@
             <i class="pi pi-times-circle text-pink-900 text-2xl mr-3"></i>
             <div class="mr-3">
                 <div class="text-pink-900 font-medium text-xl mb-3 line-height-1">
-                    Validation Errors
+                    Oops Something went wrong
                 </div>
                 <ul class="m-0 p-0 text-pink-700 ml-3">
                     <li class="p-1" v-for="(error, key) in errors" :key="key">

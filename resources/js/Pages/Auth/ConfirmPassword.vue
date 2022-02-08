@@ -14,7 +14,7 @@
                 <label for="password" class="block text-900 font-medium mb-2">Password</label>
                 <InputText id="password" v-model="form.password" type="password" class="w-full mb-3" />
 
-                <Button @click="submit" label="Reset Password" class="w-full"></Button>
+                <Button @click="submit" :disabled="form.processing" label="Reset Password" class="w-full"></Button>
             </form>
         </div>
     </div>

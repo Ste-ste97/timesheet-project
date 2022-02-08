@@ -11,22 +11,24 @@
                     <Link href="/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</Link>
                 </div>
 
-                <ValidationErrors class="mb-4" />
+                <form @submit.prevent="submit" class="grid formgrid p-fluid">
+                    <div class="field mb-4 col-12">
+                        <FormField label="Name" name="name" v-model="form.name" type="text" />
+                    </div>
 
-                <form>
-                    <label for="name" class="block text-900 font-medium mb-2">Name</label>
-                    <InputText id="name" v-model="form.name" type="text" class="w-full mb-3" />
+                    <div class="field mb-4 col-12">
+                        <FormField label="Email" name="email" v-model="form.email" type="text"/>
+                    </div>
 
-                    <label for="email" class="block text-900 font-medium mb-2">Email</label>
-                    <InputText id="email" v-model="form.email" type="text" class="w-full mb-3" />
+                    <div class="field mb-4 col-12">
+                        <FormField component="Password" label="Password" name="password" v-model="form.password"  />
+                    </div>
 
-                    <label for="password" class="block text-900 font-medium mb-2">Password</label>
-                    <InputText id="password" v-model="form.password" type="password" class="w-full mb-3" />
+                    <div class="field mb-4 col-12">
+                        <FormField component="Password"  label="Confirm Password" name="password_confirm" v-model="form.password_confirmation" type="password" />
+                    </div>
 
-                    <label for="password_confirm" class="block text-900 font-medium mb-2">Confirm Password</label>
-                    <InputText id="password_confirm" v-model="form.password_confirmation" type="password" class="w-full mb-3" />
-
-                    <Button label="Register" @click="submit" class="w-full"></Button>
+                    <Button label="Register" :disabled="form.processing" type="submit" class="w-full"></Button>
                 </form>
             </div>
         </div>
@@ -36,16 +38,16 @@
 
 <script>
 import GuestLayout from '@/Layouts/Guest.vue'
-import ValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import FormField from "@/Components/FormField.vue"
 
 export default {
     layout: GuestLayout,
 
     components: {
-        ValidationErrors,
         Head,
         Link,
+        FormField
     },
 
     data() {

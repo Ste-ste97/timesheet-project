@@ -10,6 +10,7 @@
                     <h3>Account Profile</h3>
                     <ProfileForm :countries="countries" :cities="cities"></ProfileForm>
                 </div>
+                <Divider />
                 <div class="col-12">
                     <h3>Account Security</h3>
                     <PasswordForm></PasswordForm>

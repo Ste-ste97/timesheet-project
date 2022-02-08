@@ -1,6 +1,11 @@
 <template>
-<div class="p-4 md:p-6 lg:p-8">
-    <slot />
+
+<div class="card">
+    <div class="relative card-container green-container">
+        <div class="relative p-4 border-round " style="min-width: 100vw; min-height: 100vh;">
+            <slot/>
+        </div>
+    </div>
 </div>
 </template>
 

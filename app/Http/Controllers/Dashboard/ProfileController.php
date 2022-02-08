@@ -73,7 +73,7 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        $user->password = bcrypt($request->input('password'));
+        $user->password = bcrypt($request->input('new_password'));
 
         $user->save();
 

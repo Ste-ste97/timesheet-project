@@ -20,8 +20,8 @@
                 <a v-ripple class="m-3 px-3 py-2 flex align-items-center hover:bg-bluegray-900 border-round cursor-pointer text-bluegray-100 hover:text-bluegray-50
                     transition-duration-150 transition-colors p-ripple"
                     v-styleclass="{ selector: '@prev', enterClass: 'hidden', enterActiveClass: 'slidedown', leaveToClass: 'hidden', leaveActiveClass: 'slideup'}">
-                    <img src="images/blocks/avatars/circle/avatar-f-1.png" class="mr-2" style="width: 28px; height: 28px"/>
-                    <span class="font-medium">Amy Elsner</span>
+                    <img src="images/blocks/avatars/circle/generic_avatar.png" class="mr-2" style="width: 28px; height: 28px"/>
+                    <span class="font-medium">{{ $page.props.auth.user.name }}</span>
                     <i class="pi pi-chevron-up ml-auto"></i>
                 </a>
             </div>

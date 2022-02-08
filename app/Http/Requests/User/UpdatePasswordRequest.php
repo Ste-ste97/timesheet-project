@@ -31,7 +31,7 @@ class UpdatePasswordRequest extends FormRequest
             ],
             'new_password' => [
                 'required',
-                Password::min(8)->mixedCase()->symbols(),
+                Password::min(8),
             ],
             'confirm_new_password' => [
                 'required',

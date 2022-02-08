@@ -11,9 +11,7 @@
 
     <form @submit.prevent="submit">
         <div class="mt-4 flex items-center justify-between">
-            <BreezeButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Resend Verification Email
-            </BreezeButton>
+            <Button label="Resend Verification Email" :disabled="form.processing" type="submit" class="w-full"></Button>
 
             <Link :href="route('logout')" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
         </div>
