@@ -1,7 +1,7 @@
 <template>
     <Head title="Dashboard" />
     <Toast position="bottom-right" :breakpoints="{'920px': {width: '100%', right: '0', left: '0'}}" />
-    <div class="min-h-screen flex relative lg:static surface-ground">
+    <div class="min-h-screen lg:flex lg:relative lg:static surface-ground">
         <SideBar/>
         <div class="min-h-screen flex flex-column relative flex-auto">
             <TopBar/>

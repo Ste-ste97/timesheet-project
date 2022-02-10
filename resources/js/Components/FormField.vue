@@ -1,7 +1,7 @@
 <template>
     <label :for="name" class="font-medium text-900">{{ label }}</label>
-    <InputText v-if="component === 'InputText'" :id="name" v-bind="$attrs" :class="$page.props.errors[name] ? 'p-invalid' : ''" />
-    <Password v-else-if="component === 'Password'" :id="name" v-bind="$attrs" :class="$page.props.errors[name] ? 'p-invalid' : ''" >
+    <InputText v-if="component === 'InputText'" :id="name" v-bind="$attrs" :class="shouldDisplayErrors ? 'p-invalid' : ''" />
+    <Password v-else-if="component === 'Password'" :id="name" v-bind="$attrs" :class="shouldDisplayErrors ? 'p-invalid' : ''" >
         <template #header>
             <h3>Pick a password</h3>
         </template>
@@ -16,9 +16,9 @@
             </ul>
         </template>
     </Password>
-    <Dropdown v-else-if="component === 'Dropdown'" :id="name" v-bind="$attrs" :class="$page.props.errors[name] ? 'p-invalid' : ''" />
-    <MultiSelect v-else-if="component === 'MultiSelect'" :id="name" v-bind="$attrs" :class="$page.props.errors[name] ? 'p-invalid' : ''" />
-    <small v-if="$page.props.errors[name]" :id="name+'-help'" class="p-error">{{ $page.props.errors[name] }}</small>
+    <Dropdown v-else-if="component === 'Dropdown'" :id="name" v-bind="$attrs" :class="shouldDisplayErrors ? 'p-invalid' : ''" />
+    <MultiSelect v-else-if="component === 'MultiSelect'" :id="name" v-bind="$attrs" :class="shouldDisplayErrors ? 'p-invalid' : ''" />
+    <small v-if="shouldDisplayErrors" :id="name+'-help'" class="p-error">{{ $page.props.errors[name] }}</small>
 </template>
 
 <script>
@@ -26,9 +26,18 @@ export default {
     props:{
         label: String,
         name: String,
+        displayErrors:{
+            type: Boolean,
+            default: true
+        },
         component: {
             type: String,
             default: 'InputText'
+        }
+    },
+    computed:{
+        shouldDisplayErrors(){
+            return this.$page.props.errors[this.name] && this.displayErrors;
         }
     }
 }

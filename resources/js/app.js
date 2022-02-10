@@ -40,6 +40,7 @@ import Password from 'primevue/password';
 import Sidebar from 'primevue/sidebar';
 import StyleClass from 'primevue/styleclass';
 import TabMenu from 'primevue/tabmenu';
+import Toolbar from 'primevue/toolbar';
 import TabPanel from 'primevue/tabpanel';
 import TabView from 'primevue/tabview';
 import Tag from 'primevue/tag';
@@ -48,6 +49,8 @@ import Tooltip from 'primevue/tooltip';
 import Toast from 'primevue/toast';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 const el = document.getElementById('app');
 
@@ -93,11 +96,14 @@ app.component('Password', Password)
 app.component('Rating', Rating);
 app.component('Sidebar', Sidebar);
 app.component('TabMenu', TabMenu);
+app.component('Toolbar', Toolbar);
 app.component('TabPanel', TabPanel);
 app.component('TabView', TabView);
 app.component('Tag', Tag);
 app.component('Textarea', Textarea);
 app.component('Toast', Toast);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
 
 app.directive('badge', BadgeDirective);
 app.directive('tooltip', Tooltip);

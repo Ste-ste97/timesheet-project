@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Dashboard\ProfileController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::post('/users/mass-destroy', [UserController::class, "massDestroy"])->name('users.massDestroy');
+    Route::resource('users', UserController::class)->except(['create', 'edit']);
 
     Route::get('/profile', [ProfileController::class, "index"])->name('profile');
     Route::patch('/profile/update-profile', [ProfileController::class, "updateProfile"])->name('profile.update');
