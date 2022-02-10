@@ -1,5 +1,5 @@
 <template>
-<Dialog @hide="clearForm" @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
+<Dialog @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
         :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="Role Details" :modal="true">
     <form class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">

@@ -35,7 +35,7 @@
                 <Column :exportable="false">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
-                        <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
+                        <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)" class="p-button-rounded p-button-danger" />
                     </template>
                 </Column>
             </DataTable>

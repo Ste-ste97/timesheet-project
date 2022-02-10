@@ -41,6 +41,8 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
 
+        $user->assignRole($request->input('roles'));
+
         $user->save();
 
         $request->session()->flash('message', [
@@ -62,6 +64,8 @@ class UserController extends Controller
     {
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+
+        $user->syncRoles($request->input('roles'));
 
         if ($request->input('password')){
             $user->password = bcrypt($request->input('password'));

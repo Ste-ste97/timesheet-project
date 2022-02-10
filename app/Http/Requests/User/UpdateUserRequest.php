@@ -42,7 +42,14 @@ class UpdateUserRequest extends FormRequest
             'confirm_password' => [
                 'required_with:password',
                 'same:password'
-            ]
+            ],
+            'roles' => [
+                'array',
+            ],
+            'roles.*' => [
+                'numeric',
+                'exists:roles,id'
+            ],
         ];
     }
 }

@@ -42,7 +42,14 @@ class StoreUserRequest extends FormRequest
             'confirm_password' => [
                 'required',
                 'same:password'
-            ]
+            ],
+            'roles' => [
+                'array',
+            ],
+            'roles.*' => [
+                'numeric',
+                'exists:roles,id'
+            ],
         ];
     }
 }

@@ -1,5 +1,5 @@
 <template>
-<Dialog @hide="clearForm" @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
+<Dialog @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
         :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="User Details" :modal="true">
     <form class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
@@ -47,6 +47,9 @@ export default {
             displayErrors: false
         }
     },
+    updated(){
+        console.log(this.localUser.roles)
+    },
     methods:{
         submit(){
             if (this.action === 'Create'){
@@ -76,7 +79,14 @@ export default {
             this.localUser.email = this.user?.email
             this.localUser.password = ''
             this.localUser.confirm_password = ''
-            this.localUser.roles = ''
+
+            const roles = [];
+            this.user?.roles.map((role) =>{
+                roles.push(role.id);
+            })
+
+            this.localUser.roles = roles;
+
         },
         closeForm(){
             this.$emit('update:visible', false)
