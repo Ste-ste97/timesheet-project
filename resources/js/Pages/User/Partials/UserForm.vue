@@ -40,7 +40,7 @@ export default {
         return {
             showForm: this.visible,
             localUser: {},
-            displayErrors: true
+            displayErrors: false
         }
     },
     updated(){

@@ -18,7 +18,13 @@
             <div class="card">
             <DataTable ref="dt" :value="users" v-model:selection="selectedUsers"
                       :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]"
-                       responsiveLayout="scroll" >
+                       responsiveLayout="scroll" :filters="filters">
+                <template #header>
+                    <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
+						<h4 class="mb-2 md:m-0 p-as-md-center">Manage Users</h4>
+                        <InputText v-model="filters['global'].value" class="p-inputtext-sm" placeholder="Search..." />
+					</div>
+                </template>
                 <template #empty>
                     No users found.
                 </template>
@@ -26,7 +32,7 @@
                 <Column field="id" header="Id" :sortable="true"></Column>
                 <Column field="name" header="Name" :sortable="true"></Column>
                 <Column field="email" header="Email" :sortable="true"></Column>
-                <Column header="Actions" :exportable="false">
+                <Column :exportable="false">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editUser(slotProps.data)" />
                         <Button icon="pi pi-trash" iconPos="left" @click="deleteUser(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
@@ -43,6 +49,7 @@
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import UserForm from "./Partials/UserForm.vue"
 import { Inertia } from '@inertiajs/inertia'
+import { FilterMatchMode } from 'primevue/api';
 
 export default {
     layout: AuthenticatedLayout,
@@ -57,8 +64,12 @@ export default {
             selectedUsers: null,
             user: null,
             userDialog: false,
-            action: ""
+            action: "",
+            filters: {}
         }
+    },
+    created() {
+        this.initFilters();
     },
     methods:{
         exportCSV() {
@@ -103,8 +114,24 @@ export default {
                 reject: () => {
                 }
             });
+        },
+        initFilters() {
+            this.filters = {
+                'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+            }
         }
     }
 };
 </script>
 
+<style lang="scss" scoped>
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media screen and (max-width: 960px) {
+        align-items: start;
+	}
+}
+</style>
