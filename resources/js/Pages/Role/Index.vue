@@ -1,6 +1,6 @@
 <template>
     <h3>
-        Users
+        Roles
     </h3>
         <div class="surface-section px-4 py-4">
             <ConfirmDialog></ConfirmDialog>
@@ -16,22 +16,21 @@
                 </template>
             </Toolbar>
             <div class="card">
-            <DataTable ref="dt" :value="users" v-model:selection="selected"
+            <DataTable ref="dt" :value="roles" v-model:selection="selected"
                       :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]"
                        responsiveLayout="scroll" :filters="filters">
                 <template #header>
                     <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
-						<h4 class="mb-2 md:m-0 p-as-md-center">Manage Users</h4>
+						<h4 class="mb-2 md:m-0 p-as-md-center">Manage Roles</h4>
                         <InputText v-model="filters['global'].value" class="p-inputtext-sm" placeholder="Search..." />
 					</div>
                 </template>
                 <template #empty>
-                    No users found.
+                    No roles found.
                 </template>
                 <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
                 <Column field="id" header="Id" :sortable="true"></Column>
                 <Column field="name" header="Name" :sortable="true"></Column>
-                <Column field="email" header="Email" :sortable="true"></Column>
                 <Column :exportable="false">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
@@ -41,29 +40,28 @@
             </DataTable>
             </div>
 
-            <UserForm v-model:visible="formVisible" :roles="roles" :user="user" :action="action"/>
+            <RoleForm v-model:visible="formVisible" :role="role" :action="action"/>
         </div>
 </template>
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import UserForm from "./Partials/UserForm.vue"
+import RoleForm from "./Partials/RoleForm.vue"
 import { Inertia } from '@inertiajs/inertia'
 import { FilterMatchMode } from 'primevue/api';
 
 export default {
     layout: AuthenticatedLayout,
     components:{
-        UserForm
+        RoleForm
     },
     props:{
-        users: Object,
-        roles: Object
+        roles: Object,
     },
     data(){
         return{
             selected: null,
-            user: null,
+            role: null,
             formVisible: false,
             action: "",
             filters: {}
@@ -78,34 +76,34 @@ export default {
         },
         deleteResource(id){
             this.$confirm.require({
-                message: 'Are you sure you want to delete this user?',
+                message: 'Are you sure you want to delete this role?',
                 header: 'Confirmation',
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
-                    Inertia.delete(route('users.destroy', id))
+                    Inertia.delete(route('roles.destroy', id))
                 },
                 reject: () => {
                 }
             });
         },
         createNewResource(){
-            this.user = null
+            this.role = null
             this.action="Create"
             this.formVisible=true;
         },
-        editResource(user){
-            this.user = user;
+        editResource(role){
+            this.role = role;
             this.action="Edit"
             this.formVisible=true;
         },
         massDeleteResource() {
             this.$confirm.require({
-                message: 'Are you sure you want to delete all this users?',
+                message: 'Are you sure you want to delete all this roles?',
                 header: 'Confirmation',
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
-                    Inertia.post(route('users.massDestroy'), {
-                        users: this.selected,
+                    Inertia.post(route('roles.massDestroy'), {
+                        roles: this.selected,
                     },
                     {
                         onSuccess: () =>  this.selected = [],

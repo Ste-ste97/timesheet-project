@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Exception;
 use Throwable;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -23,6 +23,7 @@ class UserController extends Controller
     {
         return Inertia::render('User/Index', [
             'users' => User::all(),
+            'roles' => Role::all()
         ]);
     }
 
@@ -104,7 +105,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove all the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

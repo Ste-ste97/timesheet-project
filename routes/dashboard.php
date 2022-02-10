@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\ProfileController;
 
@@ -25,6 +26,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/users/mass-destroy', [UserController::class, "massDestroy"])->name('users.massDestroy');
     Route::resource('users', UserController::class)->except(['create', 'edit']);
+
+    Route::post('/roles/mass-destroy', [RoleController::class, "massDestroy"])->name('roles.massDestroy');
+    Route::resource('roles', RoleController::class)->except(['create', 'edit']);
 
     Route::get('/profile', [ProfileController::class, "index"])->name('profile');
     Route::patch('/profile/update-profile', [ProfileController::class, "updateProfile"])->name('profile.update');

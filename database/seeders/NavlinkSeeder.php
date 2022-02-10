@@ -20,39 +20,25 @@ class NavlinkSeeder extends Seeder
             'route_name' => 'dashboard'
         ]);
 
-        $level1 = Navlink::create([
-            'name' => 'Test Level 1',
-            'icon' => 'pi pi-home',
+        $user_management = Navlink::create([
+            'name' => 'User Management',
+            'icon' => 'pi pi-users',
         ]);
 
-        $level2 = Navlink::create([
-            'name' => 'Test-1 Level 2',
-            'icon' => 'pi pi-home',
-            'parent_id' => $level1->id
+        Navlink::create([
+            'name' => 'Users',
+            'icon' => 'pi pi-user',
+            'parent_id' => $user_management->id,
+            'route_name' => 'users.index'
         ]);
 
-        $level2_1 = Navlink::create([
-            'name' => 'Test-2 Level 2',
-            'icon' => 'pi pi-home',
-            'parent_id' => $level1->id
+        Navlink::create([
+            'name' => 'Roles',
+            'icon' => 'pi pi-user-plus',
+            'parent_id' => $user_management->id,
+            'route_name' => 'roles.index'
         ]);
 
-        $level3_1 = Navlink::create([
-            'name' => 'Test-1 Level 3',
-            'icon' => 'pi pi-home',
-            'parent_id' => $level2->id,
-        ]);
 
-        $level3_3 = Navlink::create([
-            'name' => 'Test-2 Level 3',
-            'icon' => 'pi pi-home',
-            'parent_id' => $level2->id
-        ]);
-
-        $level3_3 = Navlink::create([
-            'name' => 'Test-3 Level 3',
-            'icon' => 'pi pi-home',
-            'parent_id' => $level2->id
-        ]);
     }
 }
