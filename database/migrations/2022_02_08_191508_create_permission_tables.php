@@ -31,6 +31,7 @@ class CreatePermissionTables extends Migration
             $table->string('resource_name');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->text('description')->nullable();
 
             $table->foreign('parent_id')->references('id')->on($tableNames['permissions']);
             $table->timestamps();

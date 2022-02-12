@@ -30,7 +30,7 @@
             <!-- <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column> -->
             <Column :expander="true" headerStyle="width: 3rem" />
 
-            <Column field="name" header="Resource Name"></Column>
+            <Column field="resource_name" header="Resource Name"></Column>
             <Column field="guard_name" header="Guard Name" sortable></Column>
 
             <Column :exportable="false">
@@ -43,12 +43,12 @@
             <template #expansion="slotProps">
                 <DataTable :value="slotProps.data.children" responsiveLayout="scroll">
                     <Column field="id" header="Id" :sortable="true"></Column>
-                    <Column field="name" header="Name" sortable></Column>
                     <Column header="Type">
                             <template #body="slotProps">
                                 {{ slotProps.data.name.split('.')[1] }}
                             </template>
                     </Column>
+                    <Column field="description" header="Description"></Column>
                     <Column :exportable="false">
                         <template #body="slotProps">
                             <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
