@@ -1,8 +1,6 @@
 <template>
-    <div class="surface-border border-round surface-section flex-auto">
-        <div class="surface-section px-4 py-4">
-            <div class="grid">You're logged in!</div>
-        </div>
+    <div class="card">
+        <div class="grid">You're logged in!</div>
     </div>
 </template>
 

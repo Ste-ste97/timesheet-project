@@ -17,12 +17,8 @@ class CreateCitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('greek_name');
-            $table->unsignedBigInteger('country_id');
+            $table->foreignId('country_id')->constrained();
             $table->timestamps();
-
-            $table->foreign('country_id')->references('id')->on('countries');
-
-
         });
     }
 

@@ -19,11 +19,9 @@ class CreateAddressesTable extends Migration
             $table->string('street_num')->nullable();
             $table->string('state')->nullable();
             $table->string('postal_code')->nullable();
-            $table->unsignedBigInteger('city_id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('city_id')->constrained();
+            $table->foreignId('user_id')->constrained();
 
-            $table->foreign('city_id')->references('id')->on('cities');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
