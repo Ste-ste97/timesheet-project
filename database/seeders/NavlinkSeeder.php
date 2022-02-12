@@ -39,6 +39,13 @@ class NavlinkSeeder extends Seeder
             'route_name' => 'roles.index'
         ]);
 
+        Navlink::create([
+            'name' => 'Permissions',
+            'icon' => 'pi pi-user-plus',
+            'parent_id' => $user_management->id,
+            'route_name' => 'permissions.index'
+        ]);
+
 
     }
 }

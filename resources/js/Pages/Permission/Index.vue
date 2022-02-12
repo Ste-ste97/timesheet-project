@@ -13,47 +13,70 @@
             </template>
         </Toolbar>
         <div class="card">
-        <DataTable ref="dt" :value="roles" v-model:selection="selected"
+        <DataTable ref="dt" v-model:expandedRows="expandedRows" :value="permissions" v-model:selection="selected"
                     :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]"
                     responsiveLayout="scroll" :filters="filters">
             <template #header>
+                <Button icon="pi pi-plus" label="Expand All" @click="expandAll" class="mb-2 mr-2" />
+                <Button label="Collapse All" icon="pi pi-minus" class="mb-2" @click="collapseAll"  />
                 <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
-                    <h5 class="mb-2 md:m-0 p-as-md-center">Manage Roles</h5>
+                    <h5 class="mb-2 md:m-0 p-as-md-center">Manage Permissions</h5>
                     <InputText v-model="filters['global'].value" class="p-inputtext-sm" placeholder="Search..." />
                 </div>
             </template>
             <template #empty>
-                No roles found.
+                No permissions found.
             </template>
-            <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
-            <Column field="id" header="Id" :sortable="true"></Column>
-            <Column field="name" header="Name" :sortable="true"></Column>
+            <!-- <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column> -->
+            <Column :expander="true" headerStyle="width: 3rem" />
+
+            <Column field="name" header="Resource Name"></Column>
+            <Column field="guard_name" header="Guard Name" sortable></Column>
+
             <Column :exportable="false">
                 <template #body="slotProps">
                     <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
                     <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
                 </template>
             </Column>
+
+            <template #expansion="slotProps">
+                <DataTable :value="slotProps.data.children" responsiveLayout="scroll">
+                    <Column field="id" header="Id" :sortable="true"></Column>
+                    <Column field="name" header="Name" sortable></Column>
+                    <Column header="Type">
+                            <template #body="slotProps">
+                                {{ slotProps.data.name.split('.')[1] }}
+                            </template>
+                    </Column>
+                    <Column :exportable="false">
+                        <template #body="slotProps">
+                            <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
+                            <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
+                        </template>
+                    </Column>
+                </DataTable>
+        </template>
         </DataTable>
         </div>
 
-        <RoleForm v-model:visible="formVisible" :role="role" :action="action"/>
+        <!-- <RoleForm v-model:visible="formVisible" :role="role" :action="action"/> -->
     </div>
 </template>
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import RoleForm from "./Partials/RoleForm.vue"
+// import RoleForm from "./Partials/RoleForm.vue"
 import { Inertia } from '@inertiajs/inertia'
 import { FilterMatchMode } from 'primevue/api';
 
 export default {
     layout: AuthenticatedLayout,
     components:{
-        RoleForm
+        // RoleForm
     },
     props:{
-        roles: Object,
+        permissions: Object,
     },
     data(){
         return{
@@ -61,7 +84,8 @@ export default {
             role: null,
             formVisible: false,
             action: "",
-            filters: {}
+            filters: {},
+            expandedRows: []
         }
     },
     created() {
@@ -114,6 +138,12 @@ export default {
             this.filters = {
                 'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
             }
+        },
+        collapseAll() {
+            this.expandedRows = [];
+        },
+        expandAll() {
+            this.expandedRows = this.permissions.filter(p => p.id);
         }
     }
 };

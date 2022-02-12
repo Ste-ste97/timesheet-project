@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\PermissionController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -29,6 +30,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/roles/mass-destroy', [RoleController::class, "massDestroy"])->name('roles.massDestroy');
     Route::resource('roles', RoleController::class)->except(['create', 'edit']);
+
+    Route::post('/permissions/mass-destroy', [PermissionController::class, "massDestroy"])->name('permissions.massDestroy');
+    Route::resource('permissions', PermissionController::class)->except(['create', 'edit']);
 
     Route::get('/profile', [ProfileController::class, "index"])->name('profile');
     Route::patch('/profile/update-profile', [ProfileController::class, "updateProfile"])->name('profile.update');

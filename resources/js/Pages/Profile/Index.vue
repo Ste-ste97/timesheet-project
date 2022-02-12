@@ -1,20 +1,15 @@
 <template>
-    <h3>
-        Profile & Security
-    </h3>
-    <div class="surface-border border-round surface-section flex-auto">
-        <div class="surface-section px-4 py-2">
-            <div class="grid">
-                <ConfirmDialog></ConfirmDialog>
-                <div class="col-12">
-                    <h3>Account Profile</h3>
-                    <ProfileForm :countries="countries" :cities="cities"></ProfileForm>
-                </div>
-                <Divider />
-                <div class="col-12">
-                    <h3>Account Security</h3>
-                    <PasswordForm></PasswordForm>
-                </div>
+    <div class="card">
+        <div class="grid">
+            <ConfirmDialog></ConfirmDialog>
+            <div class="col-12">
+                <h5>Account Profile</h5>
+                <ProfileForm :countries="countries" :cities="cities"></ProfileForm>
+            </div>
+            <Divider />
+            <div class="col-12">
+                <h5>Account Security</h5>
+                <PasswordForm></PasswordForm>
             </div>
         </div>
     </div>

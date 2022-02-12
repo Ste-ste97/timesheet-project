@@ -1,8 +1,7 @@
 <template>
 
-<Head title="Login" />
+    <Head title="Login" />
 
-<div class="card">
     <div class="flex justify-content-center flex-wrap card-container yellow-container">
         <div class="surface-card p-4 shadow-2 border-round w-full md:w-8 xl:w-4">
             <div class="text-center mb-5">
@@ -36,7 +35,6 @@
             </form>
         </div>
     </div>
-</div>
 
 </template>
 
