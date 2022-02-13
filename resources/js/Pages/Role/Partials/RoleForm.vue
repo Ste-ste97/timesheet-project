@@ -1,7 +1,7 @@
 <template>
 <Dialog @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
         :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="Role Details" :modal="true">
-    <form class="grid formgrid p-fluid">
+    <form @submit.prevent="submit" class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
             <FormField :displayErrors="displayErrors" ref="name" label="Name" name="name" v-model="localRole.name"/>
         </div>

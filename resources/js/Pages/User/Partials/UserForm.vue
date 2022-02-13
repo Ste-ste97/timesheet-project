@@ -1,18 +1,18 @@
 <template>
 <Dialog @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
         :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="User Details" :modal="true">
-    <form class="grid formgrid p-fluid">
+     <form @submit.prevent="submit" class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="name" label="Name" name="name" v-model="localUser.name"/>
+            <FormField :displayErrors="displayErrors" ref="name" autocomplete="name"  label="Name" name="name" v-model="localUser.name"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="email" label="Email" name="email" v-model="localUser.email" type="email"/>
+            <FormField :displayErrors="displayErrors" ref="email" autocomplete="email" label="Email" name="email" v-model="localUser.email" type="email"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="password" component="Password" label="Password" v-model="localUser.password" name="password"/>
+            <FormField :displayErrors="displayErrors" ref="password" autocomplete="new-password" component="Password" label="Password" v-model="localUser.password" name="password"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="confirm_password" component="Password" label="Confirm Password" v-model="localUser.confirm_password"  name="confirm_password"/>
+            <FormField :displayErrors="displayErrors" ref="confirm_password" autocomplete="new-password"  component="Password" label="Confirm Password" v-model="localUser.confirm_password"  name="confirm_password"/>
         </div>
         <div class="field mb-4 col-12">
             <FormField :displayErrors="displayErrors" ref="roles" :options="roles" :filter="false" optionLabel="name" optionValue="id" component="MultiSelect" label="Roles" v-model="localUser.roles"  name="roles"/>
@@ -46,9 +46,6 @@ export default {
             localUser: {},
             displayErrors: false
         }
-    },
-    updated(){
-        console.log(this.localUser.roles)
     },
     methods:{
         submit(){

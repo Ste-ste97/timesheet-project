@@ -1,13 +1,13 @@
 <template>
     <form class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
-            <FormField component="InputText" label="Current Password" name="current_password" type="password" v-model="form.current_password" />
+            <FormField component="InputText" label="Current Password" autocomplete="current-password" name="current_password" type="password" v-model="form.current_password" />
         </div>
         <div class="field mb-4 col-12">
-            <FormField component="Password" label="New Password" name="new_password" v-model="form.new_password" />
+            <FormField component="Password" label="New Password" autocomplete="new-password" name="new_password" v-model="form.new_password" />
         </div>
         <div class="field mb-4 col-12">
-            <FormField component="Password" label="Confirm New Password" name="confirm_new_password" type="password" v-model="form.confirm_new_password" />
+            <FormField component="Password" label="Confirm New Password" autocomplete="new-password"  name="confirm_new_password" type="password" v-model="form.confirm_new_password" />
         </div>
 
         <div class="col-12">
