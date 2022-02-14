@@ -5,6 +5,10 @@
         <div class="field mb-4 col-12">
             <FormField :displayErrors="displayErrors" ref="name" label="Name" name="name" v-model="localRole.name"/>
         </div>
+        <div class="field mb-4 col-12">
+            <FormField :displayErrors="displayErrors" ref="permissions" :options="permissions" optionValue="id" optionLabel="type" optionGroupLabel="name" :showToggleAll="false" optionGroupChildren="children" component="MultiSelect" label="Roles" v-model="localRole.permissions"  name="roles"/>
+        </div>
+
     </form>
     <template #footer>
         <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="closeForm"/>
@@ -25,13 +29,14 @@ export default {
     props:{
         visible: Boolean,
         role: Object,
+        permissions: Object,
         action: String
     },
     data(){
         return {
             showForm: this.visible,
             localRole: {},
-            displayErrors: false
+            displayErrors: false,
         }
     },
     methods:{
@@ -60,6 +65,14 @@ export default {
             this.displayErrors = false;
             this.localRole.id = this.role?.id
             this.localRole.name = this.role?.name
+
+            const permissions = [];
+            this.role?.permissions.map((permission) =>{
+                permissions.push(permission.id);
+            })
+
+            this.localRole.permissions = permissions;
+
         },
         closeForm(){
             this.$emit('update:visible', false)

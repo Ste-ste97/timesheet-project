@@ -43,11 +43,7 @@
             <template #expansion="slotProps">
                 <DataTable :value="slotProps.data.children" responsiveLayout="scroll">
                     <Column field="id" header="Id" :sortable="true"></Column>
-                    <Column header="Type">
-                            <template #body="slotProps">
-                                {{ slotProps.data.name.split('.')[1] }}
-                            </template>
-                    </Column>
+                    <Column field="type" header="Type" :sortable="true"></Column>
                     <Column field="description" header="Description"></Column>
                     <Column :exportable="false">
                         <template #body="slotProps">

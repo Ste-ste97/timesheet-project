@@ -30,6 +30,13 @@ class UpdateRoleRequest extends FormRequest
                 'string',
                 Rule::unique('roles')->ignore($this->id)
             ],
+            'permissions' => [
+                'array',
+            ],
+            'permissions.*' => [
+                'numeric',
+                'exists:permissions,id'
+            ]
         ];
     }
 }

@@ -30,6 +30,13 @@ class StoreRoleRequest extends FormRequest
                 'string',
                 Rule::unique('roles')
             ],
+            'permissions' => [
+                'array',
+            ],
+            'permissions.*' => [
+                'numeric',
+                'exists:permissions,id'
+            ]
         ];
     }
 }

@@ -37,7 +37,7 @@
         </DataTable>
         </div>
 
-        <RoleForm v-model:visible="formVisible" :role="role" :action="action"/>
+        <RoleForm v-model:visible="formVisible" :role="role" :permissions="permissions" :action="action"/>
     </div>
 </template>
 
@@ -54,6 +54,7 @@ export default {
     },
     props:{
         roles: Object,
+        permissions: Object
     },
     data(){
         return{
@@ -114,7 +115,7 @@ export default {
             this.filters = {
                 'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
             }
-        }
+        },
     }
 };
 </script>

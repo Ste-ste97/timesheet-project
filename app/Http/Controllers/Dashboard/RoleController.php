@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -19,7 +20,8 @@ class RoleController extends Controller
     public function index()
     {
         return Inertia::render('Role/Index', [
-            'roles' => Role::all(),
+            'roles' => Role::with('permissions')->get(),
+            'permissions' => Permission::whereNull('parent_id')->get()
         ]);
     }
 
@@ -33,8 +35,9 @@ class RoleController extends Controller
     {
         $role = new Role();
         $role->name = $request->input('name');
-
         $role->save();
+
+        $role->permissions()->sync($request->input('permissions'));
 
         $request->session()->flash('message', [
             'type' => 'success', // error, success, info
@@ -56,6 +59,8 @@ class RoleController extends Controller
         $role->name = $request->input('name');
 
         $role->save();
+
+        $role->permissions()->sync($request->input('permissions'));
 
         $request->session()->flash('message', [
             'type' => 'success', // error, success, info

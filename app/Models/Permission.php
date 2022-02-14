@@ -11,11 +11,18 @@ class Permission extends SpatiePermission
 
     protected $with = ['children'];
 
+    protected $appends = ['type'];
+
     /**
      * Get the children for this permission.
      */
     public function children()
     {
         return $this->hasMany(Permission::class, 'parent_id');
+    }
+
+    public function getTypeAttribute()
+    {
+        return str_contains($this->name, '.') ? explode('.', $this->name)[1] : '';
     }
 }
