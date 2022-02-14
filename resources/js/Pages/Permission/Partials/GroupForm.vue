@@ -69,7 +69,7 @@ export default {
             this.displayErrors = false;
             this.localGroup.id = this.group?.id
             this.localGroup.name = this.group?.name
-            this.localGroup.guard_name = this.group?.guard_name
+            this.localGroup.guard_name = this.group?.guard_name ?? 'web'
         },
         closeForm(){
             this.$emit('update:visible', false)
