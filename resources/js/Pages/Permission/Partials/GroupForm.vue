@@ -1,12 +1,16 @@
 <template>
 <Dialog @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
-        :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="Role Details" :modal="true">
+        :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="Group Details" :modal="true">
     <form @submit.prevent="submit" class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" label="Name" name="name" v-model="localRole.name"/>
+            <FormField :displayErrors="displayErrors" label="Group Name" name="name" v-model="localGroup.name"/>
         </div>
+
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" :options="permissions" optionValue="id" optionLabel="type" optionGroupLabel="name" :showToggleAll="false" optionGroupChildren="children" component="MultiSelect" label="Roles" v-model="localRole.permissions"  name="roles"/>
+            <FormField :displayErrors="displayErrors" label="Guard Name" name="guard_name" v-model="localGroup.guard_name"/>
+        </div>
+        <div class="field mb-4 col-12" v-if="action === 'Create'">
+            <Checkbox v-model="isCRUD" :binary="true" /> Make default CRUD permissions.
         </div>
     </form>
     <template #footer>
@@ -27,23 +31,24 @@ export default {
     },
     props:{
         visible: Boolean,
-        role: Object,
-        permissions: Object,
+        group: Object,
         action: String
     },
     data(){
         return {
             showForm: this.visible,
-            localRole: {},
+            localGroup: {},
             displayErrors: false,
+            isCRUD: true
         }
     },
     methods:{
         submit(){
             if (this.action === 'Create'){
                 Inertia.post(
-                    route('roles.store'),
-                    this.localRole,
+                    route('permissions.storeGroup'),
+                    {...this.localGroup,
+                        is_crud: this.isCRUD},
                     {
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
@@ -51,8 +56,8 @@ export default {
                 );
             }else if (this.action === 'Edit'){
                 Inertia.patch(
-                    route('roles.update', this.localRole.id),
-                    this.localRole,
+                    route('permissions.updateGroup', this.localGroup.id),
+                    this.localGroup,
                     {
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
@@ -62,13 +67,9 @@ export default {
         },
         initForm(){
             this.displayErrors = false;
-            this.localRole.id = this.role?.id
-            this.localRole.name = this.role?.name
-
-            this.localRole.permissions = [];
-            this.role?.permissions.map((permission) =>{
-                this.localRole.permissions.push(permission.id);
-            })
+            this.localGroup.id = this.group?.id
+            this.localGroup.name = this.group?.name
+            this.localGroup.guard_name = this.group?.guard_name
         },
         closeForm(){
             this.$emit('update:visible', false)

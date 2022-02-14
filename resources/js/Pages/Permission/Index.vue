@@ -4,8 +4,7 @@
 
         <Toolbar class="mb-4">
             <template #start>
-                <Button label="New" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewResource()" />
-                <Button label="Delete" icon="pi pi-trash" class="p-button-danger mb-2" @click="massDeleteResource()" :disabled="!selected || !selected.length" />
+                <Button label="New Group" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewGroup()" />
             </template>
 
             <template #end>
@@ -13,7 +12,7 @@
             </template>
         </Toolbar>
         <div class="card">
-        <DataTable ref="dt" v-model:expandedRows="expandedRows" :value="permissions" v-model:selection="selected"
+        <DataTable ref="dt" v-model:expandedRows="expandedRows" :value="permissions"
                     :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]"
                     responsiveLayout="scroll" :filters="filters">
             <template #header>
@@ -27,27 +26,29 @@
             <template #empty>
                 No permissions found.
             </template>
-            <!-- <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column> -->
+
             <Column :expander="true" headerStyle="width: 3rem" />
 
-            <Column field="resource_name" header="Resource Name"></Column>
+            <Column field="group_name" header="Group Name"></Column>
             <Column field="guard_name" header="Guard Name" sortable></Column>
 
             <Column :exportable="false">
                 <template #body="slotProps">
-                    <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
+                    <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editGroup(slotProps.data)" />
                     <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
                 </template>
             </Column>
 
             <template #expansion="slotProps">
+                <Button label="New Permission" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewPermission(slotProps.data)" />
+
                 <DataTable :value="slotProps.data.children" responsiveLayout="scroll">
                     <Column field="id" header="Id" :sortable="true"></Column>
                     <Column field="type" header="Type" :sortable="true"></Column>
                     <Column field="description" header="Description"></Column>
                     <Column :exportable="false">
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
+                            <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editPermission(slotProps.data)" />
                             <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
                         </template>
                     </Column>
@@ -56,29 +57,33 @@
         </DataTable>
         </div>
 
-        <!-- <RoleForm v-model:visible="formVisible" :role="role" :action="action"/> -->
+        <GroupForm v-model:visible="formGroupVisible" :group="group" :action="action"/>
+        <PermissionForm v-model:visible="formPermissionVisible" :group="group" :permission="permission" :action="action"/>
     </div>
 </template>
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-// import RoleForm from "./Partials/RoleForm.vue"
+import GroupForm from "./Partials/GroupForm.vue"
+import PermissionForm from "./Partials/PermissionForm.vue"
 import { Inertia } from '@inertiajs/inertia'
 import { FilterMatchMode } from 'primevue/api';
 
 export default {
     layout: AuthenticatedLayout,
     components:{
-        // RoleForm
+        GroupForm,
+        PermissionForm
     },
     props:{
         permissions: Object,
     },
     data(){
         return{
-            selected: null,
-            role: null,
-            formVisible: false,
+            group: null,
+            permission: null,
+            formGroupVisible: false,
+            formPermissionVisible: false,
             action: "",
             filters: {},
             expandedRows: []
@@ -93,42 +98,36 @@ export default {
         },
         deleteResource(id){
             this.$confirm.require({
-                message: 'Are you sure you want to delete this role?',
+                message: 'Are you sure you want to delete this group/permission?',
                 header: 'Confirmation',
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
-                    Inertia.delete(route('roles.destroy', id))
+                    Inertia.delete(route('permissions.destroy', id))
                 },
                 reject: () => {
                 }
             });
         },
-        createNewResource(){
-            this.role = null
+        createNewGroup(){
+            this.group = null
             this.action="Create"
-            this.formVisible=true;
+            this.formGroupVisible=true;
         },
-        editResource(role){
-            this.role = role;
+        editGroup(group){
+            this.group = group;
             this.action="Edit"
-            this.formVisible=true;
+            this.formGroupVisible=true;
         },
-        massDeleteResource() {
-            this.$confirm.require({
-                message: 'Are you sure you want to delete all this roles?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-                accept: () => {
-                    Inertia.post(route('roles.massDestroy'), {
-                        roles: this.selected,
-                    },
-                    {
-                        onSuccess: () =>  this.selected = [],
-                    })
-                },
-                reject: () => {
-                }
-            });
+        createNewPermission(group){
+            this.permission = null
+            this.group = group;
+            this.action="Create"
+            this.formPermissionVisible=true;
+        },
+        editPermission(permission){
+            this.permission = permission;
+            this.action="Edit"
+            this.formPermissionVisible=true;
         },
         initFilters() {
             this.filters = {

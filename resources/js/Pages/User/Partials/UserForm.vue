@@ -3,19 +3,19 @@
         :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="User Details" :modal="true">
      <form @submit.prevent="submit" class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="name" autocomplete="name"  label="Name" name="name" v-model="localUser.name"/>
+            <FormField :displayErrors="displayErrors" autocomplete="name"  label="Name" name="name" v-model="localUser.name"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="email" autocomplete="email" label="Email" name="email" v-model="localUser.email" type="email"/>
+            <FormField :displayErrors="displayErrors" autocomplete="email" label="Email" name="email" v-model="localUser.email" type="email"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="password" autocomplete="new-password" component="Password" label="Password" v-model="localUser.password" name="password"/>
+            <FormField :displayErrors="displayErrors" autocomplete="new-password" component="Password" label="Password" v-model="localUser.password" name="password"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="confirm_password" autocomplete="new-password"  component="Password" label="Confirm Password" v-model="localUser.confirm_password"  name="confirm_password"/>
+            <FormField :displayErrors="displayErrors" autocomplete="new-password"  component="Password" label="Confirm Password" v-model="localUser.confirm_password"  name="confirm_password"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" ref="roles" :options="roles" :filter="false" optionLabel="name" optionValue="id" component="MultiSelect" label="Roles" v-model="localUser.roles"  name="roles"/>
+            <FormField :displayErrors="displayErrors" :options="roles" :filter="false" optionLabel="name" optionValue="id" component="MultiSelect" label="Roles" v-model="localUser.roles"  name="roles"/>
         </div>
     </form>
     <template #footer>

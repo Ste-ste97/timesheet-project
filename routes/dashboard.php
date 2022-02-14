@@ -31,7 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/roles/mass-destroy', [RoleController::class, "massDestroy"])->name('roles.massDestroy');
     Route::resource('roles', RoleController::class)->except(['create', 'edit']);
 
-    Route::post('/permissions/mass-destroy', [PermissionController::class, "massDestroy"])->name('permissions.massDestroy');
+    Route::post('/permissions/store-group', [PermissionController::class, "storeGroup"])->name('permissions.storeGroup');
+    Route::patch('/permissions/{permission}/update-group', [PermissionController::class, "updateGroup"])->name('permissions.updateGroup');
     Route::resource('permissions', PermissionController::class)->except(['create', 'edit']);
 
     Route::get('/profile', [ProfileController::class, "index"])->name('profile');

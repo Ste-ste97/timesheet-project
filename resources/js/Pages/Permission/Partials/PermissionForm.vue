@@ -1,13 +1,15 @@
 <template>
 <Dialog @show="initForm" :visible="visible" @update:visible="$emit('update:visible', event)" :style="{width: '450px'}"
-        :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="Role Details" :modal="true">
+        :breakpoints="{'960px': '75vw', '640px': '100vw'}" header="Permission Details" :modal="true">
     <form @submit.prevent="submit" class="grid formgrid p-fluid">
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" label="Name" name="name" v-model="localRole.name"/>
+            <FormField :displayErrors="displayErrors" label="Type" name="type" v-model="localPermission.type"/>
         </div>
+
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" :options="permissions" optionValue="id" optionLabel="type" optionGroupLabel="name" :showToggleAll="false" optionGroupChildren="children" component="MultiSelect" label="Roles" v-model="localRole.permissions"  name="roles"/>
+            <FormField :displayErrors="displayErrors" label="Description" name="description" v-model="localPermission.description"/>
         </div>
+
     </form>
     <template #footer>
         <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="closeForm"/>
@@ -27,14 +29,14 @@ export default {
     },
     props:{
         visible: Boolean,
-        role: Object,
-        permissions: Object,
-        action: String
+        action: String,
+        group: Object,
+        permission: Object
     },
     data(){
         return {
             showForm: this.visible,
-            localRole: {},
+            localPermission: {},
             displayErrors: false,
         }
     },
@@ -42,8 +44,10 @@ export default {
         submit(){
             if (this.action === 'Create'){
                 Inertia.post(
-                    route('roles.store'),
-                    this.localRole,
+                    route('permissions.store'),
+                    {...this.localPermission,
+                        group: this.group.id
+                    },
                     {
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
@@ -51,8 +55,8 @@ export default {
                 );
             }else if (this.action === 'Edit'){
                 Inertia.patch(
-                    route('roles.update', this.localRole.id),
-                    this.localRole,
+                    route('permissions.update', this.localPermission.id),
+                    this.localPermission,
                     {
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
@@ -62,13 +66,10 @@ export default {
         },
         initForm(){
             this.displayErrors = false;
-            this.localRole.id = this.role?.id
-            this.localRole.name = this.role?.name
+            this.localPermission.id = this.permission?.id
+            this.localPermission.type = this.permission?.type
+            this.localPermission.description = this.permission?.description
 
-            this.localRole.permissions = [];
-            this.role?.permissions.map((permission) =>{
-                this.localRole.permissions.push(permission.id);
-            })
         },
         closeForm(){
             this.$emit('update:visible', false)

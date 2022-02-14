@@ -25,4 +25,24 @@ class Permission extends SpatiePermission
     {
         return str_contains($this->name, '.') ? explode('.', $this->name)[1] : '';
     }
+
+    public function makeCRUDPermissions($request)
+    {
+        Permission::create(['name' => $request->input('name').'.view',
+                            'group_name' => $request->input('name'),
+                            'description' => 'Can view ' . $request->input('name') .'.',
+                            'parent_id' => $this->id]);
+        Permission::create(['name' => $request->input('name').'.edit',
+                            'group_name' => $request->input('name'),
+                            'description' => 'Can edit existing ' . $request->input('name') . '.',
+                            'parent_id' => $this->id]);
+        Permission::create(['name' => $request->input('name').'.create',
+                            'group_name' => $request->input('name'),
+                            'description' => 'Can create new ' . $request->input('name') . '.',
+                            'parent_id' => $this->id]);
+        Permission::create(['name' => $request->input('name').'.delete',
+                            'group_name' => $request->input('name'),
+                            'description' => 'Can delete ' . $request->input('name') . '.',
+                            'parent_id' => $this->id]);
+    }
 }
