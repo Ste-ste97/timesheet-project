@@ -6,7 +6,7 @@
             <FormField :displayErrors="displayErrors" label="Name" name="name" v-model="localRole.name"/>
         </div>
         <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" :options="permissions" optionValue="id" optionLabel="type" optionGroupLabel="name" :showToggleAll="false" optionGroupChildren="children" component="MultiSelect" label="Roles" v-model="localRole.permissions"  name="roles"/>
+            <FormField :displayErrors="displayErrors" :options="permissions" optionValue="id" optionLabel="type" optionGroupLabel="name" :showToggleAll="false" optionGroupChildren="children" component="MultiSelect" label="Permissions" v-model="localRole.permissions"  name="roles"/>
         </div>
     </form>
     <template #footer>

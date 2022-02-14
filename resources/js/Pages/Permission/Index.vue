@@ -42,7 +42,7 @@
             <template #expansion="slotProps">
                 <Button label="New Permission" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewPermission(slotProps.data)" />
 
-                <DataTable :value="slotProps.data.children" responsiveLayout="scroll">
+                <DataTable class="pt-4" :value="slotProps.data.children" responsiveLayout="scroll">
                     <Column field="id" header="Id" :sortable="true"></Column>
                     <Column field="type" header="Type" :sortable="true"></Column>
                     <Column field="description" header="Description"></Column>
