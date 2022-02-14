@@ -1,10 +1,8 @@
 <template>
 
-<div class="card">
-    <div class="relative card-container green-container">
-        <div class="relative p-4 border-round " style="min-width: 100vw; min-height: 100vh;">
-            <slot/>
-        </div>
+<div class="flex justify-content-center align-items-center" style="min-height: 100vh">
+    <div class="surface-card p-4 shadow-2 border-round w-full md:w-8 xl:w-4">
+        <slot/>
     </div>
 </div>
 </template>
