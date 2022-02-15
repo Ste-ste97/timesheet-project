@@ -45,6 +45,7 @@ export default {
                     route('roles.store'),
                     this.localRole,
                     {
+                        preserveScroll: true,
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
                     }
@@ -54,6 +55,7 @@ export default {
                     route('roles.update', this.localRole.id),
                     this.localRole,
                     {
+                        preserveScroll: true,
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
                     }

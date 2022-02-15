@@ -49,6 +49,7 @@ export default {
                         group: this.group.id
                     },
                     {
+                        preserveScroll: true,
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
                     }
@@ -58,6 +59,7 @@ export default {
                     route('permissions.update', this.localPermission.id),
                     this.localPermission,
                     {
+                        preserveScroll: true,
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
                     }

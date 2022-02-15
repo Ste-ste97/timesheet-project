@@ -54,6 +54,7 @@ export default {
                     route('users.store'),
                     this.localUser,
                     {
+                        preserveScroll: true,
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
                     }
@@ -63,6 +64,7 @@ export default {
                     route('users.update', this.localUser.id),
                     this.localUser,
                     {
+                        preserveScroll: true,
                         onSuccess: () =>  this.closeForm(),
                         onFinish: () => this.displayErrors = true,
                     }
