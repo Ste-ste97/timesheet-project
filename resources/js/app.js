@@ -52,6 +52,10 @@ import ToastService from 'primevue/toastservice';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
+// custom directives
+import HasPermissionDirective from './Components/Directives/HasPermissionDirective'
+import HasRoleDirective from './Components/Directives/HasRoleDirective'
+
 const el = document.getElementById('app');
 
 const app = createApp({
@@ -110,6 +114,8 @@ app.directive('tooltip', Tooltip);
 app.directive('ripple', Ripple);
 app.directive('styleclass', StyleClass);
 
+app.directive('has-permission', HasPermissionDirective)
+app.directive('has-role', HasRoleDirective)
 
 app.mount(el);
 

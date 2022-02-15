@@ -1,6 +1,12 @@
 <template>
-    <div class="card">
-        <div class="grid">You're logged in!</div>
+    <div class="card" v-has-permission="{props: $page.props,
+                                        permissions: ['fasdl;fkas;d', 'users.view']}">
+        <div class="grid">You have access to view users.</div>
+    </div>
+
+    <div class="card" v-has-role="{props: $page.props,
+                                    roles: ['admin', 'fasdflkdasjl']}">
+        <div class="grid">You have access to admin role.</div>
     </div>
 </template>
 
