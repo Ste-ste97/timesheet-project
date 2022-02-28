@@ -2,7 +2,6 @@
 
 export default {
     created(el, binding){
-        console.log(binding.value.permissions)
         if (!binding.value.permissions){
             return;
         }
