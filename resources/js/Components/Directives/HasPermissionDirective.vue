@@ -2,6 +2,11 @@
 
 export default {
     created(el, binding){
+        console.log(binding.value.permissions)
+        if (!binding.value.permissions){
+            return;
+        }
+
         const user_permissions = binding.value.props.auth.permissions;
 
         const found = binding.value.permissions.find(permission => {
@@ -13,6 +18,10 @@ export default {
         }
     },
     updated(el, binding){
+        if (!binding.value.permissions){
+            return;
+        }
+
         const user_permissions = binding.value.props.auth.permissions;
 
         const found = binding.value.permissions.find(permission => {

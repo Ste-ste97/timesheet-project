@@ -17,6 +17,7 @@ class Navlink extends Model
     protected $fillable = [
         'name',
         'icon',
+        'permissions',
         'route_name',
         'parent_id'
     ];

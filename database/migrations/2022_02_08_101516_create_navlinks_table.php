@@ -17,6 +17,7 @@ class CreateNavlinksTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon');
+            $table->string('permissions')->nullable();
             $table->string('route_name')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
 
