@@ -13,6 +13,18 @@ use App\Http\Requests\Permission\UpdatePermissionRequest;
 
 class PermissionController extends Controller
 {
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Permission::class, 'permission');
+    }
+
+
     /**
      * Display a listing of the resource.
      *

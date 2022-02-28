@@ -14,8 +14,8 @@
         <div class="field mb-4 col-12">
             <FormField :displayErrors="displayErrors" autocomplete="new-password"  component="Password" label="Confirm Password" v-model="localUser.confirm_password"  name="confirm_password"/>
         </div>
-        <div class="field mb-4 col-12">
-            <FormField :displayErrors="displayErrors" :options="roles" :filter="false" optionLabel="name" optionValue="id" component="MultiSelect" label="Roles" v-model="localUser.roles"  name="roles"/>
+        <div class="field mb-4 col-12" v-has-permission="{props: $page.props, permissions: ['roles.assign']}">
+            <FormField :displayErrors="displayErrors" :options="roles" :filter="false" optionLabel="name" optionValue="id" component="MultiSelect" label="Roles" v-model="localUser.roles" name="roles"/>
         </div>
     </form>
     <template #footer>

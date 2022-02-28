@@ -7,13 +7,23 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
+   /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,7 +51,9 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
 
-        $user->assignRole($request->input('roles'));
+        // has permission to assign roles
+        if (auth()->user()->hasPermissionTo('roles.assign'))
+            $user->assignRole($request->input('roles'));
 
         $user->save();
 
@@ -65,7 +77,9 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
 
-        $user->syncRoles($request->input('roles'));
+        // has permission to assign roles
+        if (auth()->user()->hasPermissionTo('roles.assign'))
+            $user->syncRoles($request->input('roles'));
 
         if ($request->input('password')){
             $user->password = bcrypt($request->input('password'));
@@ -116,6 +130,8 @@ class UserController extends Controller
      */
     public function massDestroy(Request $request)
     {
+        $this->authorize('delete', User::class);
+
         DB::beginTransaction();
 
         foreach ($request->input('users') as $user) {

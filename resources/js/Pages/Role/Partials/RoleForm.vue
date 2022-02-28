@@ -5,7 +5,7 @@
         <div class="field mb-4 col-12">
             <FormField :displayErrors="displayErrors" label="Name" name="name" v-model="localRole.name"/>
         </div>
-        <div class="field mb-4 col-12">
+        <div class="field mb-4 col-12" v-has-permission="{props: $page.props, permissions: ['permissions.assign']}">
             <FormField :displayErrors="displayErrors" :options="permissions" optionValue="id" optionLabel="type" optionGroupLabel="name" :showToggleAll="false" optionGroupChildren="children" component="MultiSelect" label="Permissions" v-model="localRole.permissions"  name="roles"/>
         </div>
     </form>

@@ -15,7 +15,7 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        Role::create(['name' => 'admin']);
+        $admin = Role::create(['name' => 'admin']);
 
         // user permissions
         $users = Permission::create(['name' => 'users',
@@ -88,5 +88,9 @@ class RolePermissionSeeder extends Seeder
                             'description' => 'Can assign permissions to models (typically to roles).',
                             'parent_id' => $permissions->id]);
 
+
+        $admin->givePermissionTo([$users->children]);
+        $admin->givePermissionTo([$permissions->children]);
+        $admin->givePermissionTo([$roles->children]);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
@@ -12,6 +12,18 @@ use App\Models\Permission;
 
 class RoleController extends Controller
 {
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +49,9 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         $role->save();
 
-        $role->permissions()->sync($request->input('permissions'));
+        // has permission to assign permissions
+        if (auth()->user()->hasPermissionTo('permissions.assign'))
+            $role->permissions()->sync($request->input('permissions'));
 
         $request->session()->flash('message', [
             'type' => 'success', // error, success, info
@@ -60,7 +74,9 @@ class RoleController extends Controller
 
         $role->save();
 
-        $role->permissions()->sync($request->input('permissions'));
+        // has permission to assign permissions
+        if (auth()->user()->hasPermissionTo('permissions.assign'))
+            $role->permissions()->sync($request->input('permissions'));
 
         $request->session()->flash('message', [
             'type' => 'success', // error, success, info
@@ -97,6 +113,7 @@ class RoleController extends Controller
      */
     public function massDestroy(Request $request)
     {
+        $this->authorize('delete', Role::class);
 
         Role::whereIn('id', collect($request->input('roles'))->pluck('id'))->delete();
 

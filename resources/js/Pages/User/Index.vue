@@ -4,8 +4,8 @@
 
         <Toolbar class="mb-4">
             <template #start>
-                <Button label="New" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewResource()" />
-                <Button label="Delete" icon="pi pi-trash" class="p-button-danger mb-2" @click="massDeleteResource()" :disabled="!selected || !selected.length" />
+                <Button label="New" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewResource()" v-has-permission="{props: $page.props, permissions: ['users.create']}"/>
+                <Button label="Delete" icon="pi pi-trash" class="p-button-danger mb-2" @click="massDeleteResource()" v-has-permission="{props: $page.props, permissions: ['users.delete']}" :disabled="!selected || !selected.length" />
             </template>
 
             <template #end>
@@ -31,8 +31,8 @@
             <Column field="email" header="Email" :sortable="true"></Column>
             <Column :exportable="false">
                 <template #body="slotProps">
-                    <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
-                    <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)" class="p-button-rounded p-button-danger" />
+                    <Button icon="pi pi-pencil" v-has-permission="{props: $page.props, permissions: ['users.edit']}" class="p-button-rounded mr-2" @click="editResource(slotProps.data)" />
+                    <Button icon="pi pi-trash" iconPos="left" v-has-permission="{props: $page.props, permissions: ['users.delete']}" @click="deleteResource(slotProps.data.id)" class="p-button-rounded p-button-danger" />
                 </template>
             </Column>
         </DataTable>

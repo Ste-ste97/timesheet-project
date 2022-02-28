@@ -4,7 +4,7 @@
 
         <Toolbar class="mb-4">
             <template #start>
-                <Button label="New Group" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewGroup()" />
+                <Button label="New Group" icon="pi pi-plus" class="p-button-success mr-2 mb-2" v-has-permission="{props: $page.props, permissions: ['permissions.create']}" @click="createNewGroup()" />
             </template>
 
             <template #end>
@@ -34,13 +34,13 @@
 
             <Column :exportable="false">
                 <template #body="slotProps">
-                    <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editGroup(slotProps.data)" />
-                    <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
+                    <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editGroup(slotProps.data)" v-has-permission="{props: $page.props, permissions: ['permissions.edit']}" />
+                    <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" v-has-permission="{props: $page.props, permissions: ['permissions.delete']}"  />
                 </template>
             </Column>
 
             <template #expansion="slotProps">
-                <Button label="New Permission" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewPermission(slotProps.data)" />
+                <Button label="New Permission" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewPermission(slotProps.data)" v-has-permission="{props: $page.props, permissions: ['permissions.create']}"  />
 
                 <DataTable class="pt-4" :value="slotProps.data.children" responsiveLayout="scroll">
                     <Column field="id" header="Id" :sortable="true"></Column>
@@ -48,8 +48,8 @@
                     <Column field="description" header="Description"></Column>
                     <Column :exportable="false">
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editPermission(slotProps.data)" />
-                            <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)"  class="p-button-rounded p-button-danger" />
+                            <Button icon="pi pi-pencil"  class="p-button-rounded mr-2" @click="editPermission(slotProps.data)" v-has-permission="{props: $page.props, permissions: ['permissions.edit']}"  />
+                            <Button icon="pi pi-trash" iconPos="left" @click="deleteResource(slotProps.data.id)" v-has-permission="{props: $page.props, permissions: ['permissions.delete']}"   class="p-button-rounded p-button-danger" />
                         </template>
                     </Column>
                 </DataTable>
