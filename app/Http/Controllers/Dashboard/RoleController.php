@@ -51,7 +51,7 @@ class RoleController extends Controller
 
         // has permission to assign permissions
         if (auth()->user()->hasPermissionTo('permissions.assign'))
-            $role->permissions()->sync($request->input('permissions'));
+            $role->syncPermissions($request->input('permissions'));
 
         $request->session()->flash('message', [
             'type' => 'success', // error, success, info
@@ -76,7 +76,7 @@ class RoleController extends Controller
 
         // has permission to assign permissions
         if (auth()->user()->hasPermissionTo('permissions.assign'))
-            $role->permissions()->sync($request->input('permissions'));
+            $role->syncPermissions($request->input('permissions'));
 
         $request->session()->flash('message', [
             'type' => 'success', // error, success, info
