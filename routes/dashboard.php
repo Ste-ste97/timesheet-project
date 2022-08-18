@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\NotificationController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -24,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::resource('notifications', NotificationController::class)->except(['create', 'edit']);
 
     Route::post('/users/mass-destroy', [UserController::class, "massDestroy"])->name('users.massDestroy');
     Route::resource('users', UserController::class)->except(['create', 'edit']);

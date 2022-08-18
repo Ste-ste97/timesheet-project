@@ -1,6 +1,6 @@
 {
-    "/js/app.js": "/js/app.js?id=7c05a03204e65b3e95343621d78f0618",
-    "/images/icon-primeblocks.svg": "/images/icon-primeblocks.svg?id=9c72d97701c066fbbe0e9f98558bf52d",
-    "/images/logo-primeblocks-dark.svg": "/images/logo-primeblocks-dark.svg?id=2c5113c20f9f3fa317de43feaf94d736",
-    "/images/logo-primeblocks.svg": "/images/logo-primeblocks.svg?id=a7af8d8efd299e21d0e3ca316c10fe24"
+    "/js/app.js": "/js/app.js",
+    "/images/icon-primeblocks.svg": "/images/icon-primeblocks.svg",
+    "/images/logo-primeblocks-dark.svg": "/images/logo-primeblocks-dark.svg",
+    "/images/logo-primeblocks.svg": "/images/logo-primeblocks.svg"
 }
