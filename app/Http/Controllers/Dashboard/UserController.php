@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Throwable;
 use App\Models\User;
 use Inertia\Inertia;
@@ -14,23 +17,21 @@ use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
-   /**
+    /**
      * Create the controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->authorizeResource(User::class, 'user');
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function index()
-    {
+    public function index(): \Inertia\Response {
         return Inertia::render('User/Index', [
             'users' => User::all(),
             'roles' => Role::all()
@@ -40,25 +41,25 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserRequest $request
+     * @return RedirectResponse
      */
-    public function store(StoreUserRequest $request)
-    {
+    public function store(StoreUserRequest $request): RedirectResponse {
         $user = new User();
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
+        $user->name     = $request->input('name');
+        $user->email    = $request->input('email');
         $user->password = bcrypt($request->input('password'));
 
         // has permission to assign roles
-        if (auth()->user()->hasPermissionTo('roles.assign'))
+        if (auth()->user()->hasPermissionTo('roles.assign')) {
             $user->assignRole($request->input('roles'));
+        }
 
         $user->save();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('User has been created.')
         ]);
 
@@ -68,27 +69,27 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param UpdateUserRequest $request
+     * @param User              $user
+     * @return RedirectResponse
      */
-    public function update(UpdateUserRequest $request, User $user)
-    {
-        $user->name = $request->input('name');
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse {
+        $user->name  = $request->input('name');
         $user->email = $request->input('email');
 
         // has permission to assign roles
-        if (auth()->user()->hasPermissionTo('roles.assign'))
+        if (auth()->user()->hasPermissionTo('roles.assign')) {
             $user->syncRoles($request->input('roles'));
+        }
 
-        if ($request->input('password')){
+        if ($request->input('password')) {
             $user->password = bcrypt($request->input('password'));
         }
 
         $user->save();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('User has been updated.')
         ]);
 
@@ -98,22 +99,21 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param User    $user
+     * @return RedirectResponse
      */
-    public function destroy(Request $request, User $user)
-    {
-        if ($user->id === auth()->user()->id){
+    public function destroy(Request $request, User $user): RedirectResponse {
+        if ($user->id === auth()->user()->id) {
             $request->session()->flash('message', [
-                'type' => 'error', // error, success, info
+                'type'    => 'error', // error, success, info
                 'message' => __('You cannot delete yourself.')
             ]);
-        }else{
+        } else {
             $user->delete();
 
             $request->session()->flash('message', [
-                'type' => 'success', // error, success, info
+                'type'    => 'success', // error, success, info
                 'message' => __('User has been deleted.')
             ]);
 
@@ -125,28 +125,28 @@ class UserController extends Controller
     /**
      * Remove all the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function massDestroy(Request $request)
-    {
+    public function massDestroy(Request $request): RedirectResponse {
         $this->authorize('delete', User::class);
 
         DB::beginTransaction();
 
         foreach ($request->input('users') as $user) {
-            try{
-                if ($user['id'] === auth()->user()->id){
+            try {
+                if ($user['id'] === auth()->user()->id) {
                     $request->session()->flash('message', [
-                        'type' => 'error', // error, success, info
+                        'type'    => 'error', // error, success, info
                         'message' => __('You cannot delete yourself.')
                     ]);
                     return redirect()->route('users.index');
                 }
                 User::find($user['id'])->delete();
-            }catch(Throwable $e){
+            } catch (Throwable $e) {
                 $request->session()->flash('message', [
-                    'type' => 'error', // error, success, info
+                    'type'    => 'error', // error, success, info
                     'message' => __('Something went wrong try again later.')
                 ]);
                 return redirect()->route('users.index');
@@ -156,13 +156,12 @@ class UserController extends Controller
         DB::commit();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Users have been deleted.')
         ]);
 
         return redirect()->route('users.index');
     }
-
 
 
 }

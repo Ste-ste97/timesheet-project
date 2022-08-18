@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 use App\Models\Permission;
 use Illuminate\Http\Request;
@@ -19,8 +21,7 @@ class PermissionController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->authorizeResource(Permission::class, 'permission');
     }
 
@@ -28,10 +29,9 @@ class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function index()
-    {
+    public function index(): \Inertia\Response {
         return Inertia::render('Permission/Index', [
             'permissions' => Permission::whereNull('parent_id')->get()
         ]);
@@ -40,25 +40,24 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreGroupRequest $request
+     * @return RedirectResponse
      */
-    public function storeGroup(StoreGroupRequest $request)
-    {
+    public function storeGroup(StoreGroupRequest $request): RedirectResponse {
         $permission = new Permission();
 
-        $permission->name = $request->input('name');
+        $permission->name       = $request->input('name');
         $permission->group_name = $request->input('name');
         $permission->guard_name = $request->input('guard_name');
 
         $permission->save();
 
-        if ($request->input('is_crud')){
+        if ($request->input('is_crud')) {
             $permission->makeCRUDPermissions($request);
         }
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Group has been created.')
         ]);
 
@@ -68,24 +67,23 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePermissionRequest $request
+     * @return RedirectResponse
      */
-    public function store(StorePermissionRequest $request)
-    {
+    public function store(StorePermissionRequest $request): RedirectResponse {
         $permission = new Permission();
-        $group = Permission::findOrFail($request->input('group'));
+        $group      = Permission::findOrFail($request->input('group'));
 
-        $permission->name = $group->name . '.'. $request->input('type');
-        $permission->group_name = $group->group_name;
-        $permission->guard_name = $group->guard_name;
-        $permission->parent_id = $group->id;
+        $permission->name        = $group->name . '.' . $request->input('type');
+        $permission->group_name  = $group->group_name;
+        $permission->guard_name  = $group->guard_name;
+        $permission->parent_id   = $group->id;
         $permission->description = $request->input('description');
 
         $permission->save();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Permission has been created.')
         ]);
 
@@ -95,26 +93,25 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Permission  $permission
-     * @return \Illuminate\Http\Response
+     * @param UpdateGroupRequest $request
+     * @param Permission         $permission
+     * @return RedirectResponse
      */
-    public function updateGroup(UpdateGroupRequest $request, Permission $permission)
-    {
-        $permission->name = $request->input('name');
+    public function updateGroup(UpdateGroupRequest $request, Permission $permission): RedirectResponse {
+        $permission->name       = $request->input('name');
         $permission->group_name = $request->input('name');
         $permission->guard_name = $request->input('guard_name');
         $permission->save();
 
-        $permission->children->map(function($child) use ($request){
-            $child->name = $request->input('name').'.'.$child->type;
-            $child->group_name =$request->input('name');
+        $permission->children->map(function ($child) use ($request) {
+            $child->name       = $request->input('name') . '.' . $child->type;
+            $child->group_name = $request->input('name');
             $child->guard_name = $request->input('guard_name');
             $child->save();
         });
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Group has been updated.')
         ]);
 
@@ -124,19 +121,18 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Permission  $permission
-     * @return \Illuminate\Http\Response
+     * @param UpdatePermissionRequest $request
+     * @param Permission              $permission
+     * @return RedirectResponse
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission)
-    {
-        $permission->name = $permission->group_name . '.'. $request->input('type');
+    public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse {
+        $permission->name        = $permission->group_name . '.' . $request->input('type');
         $permission->description = $request->input('description');
 
         $permission->save();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Permission has been created.')
         ]);
 
@@ -146,15 +142,15 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Permission  $permission
-     * @return \Illuminate\Http\Response
+     * @param Request    $request
+     * @param Permission $permission
+     * @return RedirectResponse
      */
-    public function destroy(Request $request, Permission $permission)
-    {
+    public function destroy(Request $request, Permission $permission): RedirectResponse {
         $permission->delete();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Group/Permission has been deleted.')
         ]);
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Role;
@@ -18,8 +21,7 @@ class RoleController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->authorizeResource(Role::class, 'role');
     }
 
@@ -27,12 +29,11 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function index()
-    {
+    public function index(): \Inertia\Response {
         return Inertia::render('Role/Index', [
-            'roles' => Role::with('permissions')->get(),
+            'roles'       => Role::with('permissions')->get(),
             'permissions' => Permission::whereNull('parent_id')->get()
         ]);
     }
@@ -40,21 +41,21 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRoleRequest $request
+     * @return RedirectResponse
      */
-    public function store(StoreRoleRequest $request)
-    {
-        $role = new Role();
+    public function store(StoreRoleRequest $request): RedirectResponse {
+        $role       = new Role();
         $role->name = $request->input('name');
         $role->save();
 
         // has permission to assign permissions
-        if (auth()->user()->hasPermissionTo('permissions.assign'))
+        if (auth()->user()->hasPermissionTo('permissions.assign')) {
             $role->syncPermissions($request->input('permissions'));
+        }
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Role has been created.')
         ]);
 
@@ -64,22 +65,22 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
+     * @param UpdateRoleRequest $request
+     * @param Role              $role
+     * @return RedirectResponse
      */
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse {
         $role->name = $request->input('name');
 
         $role->save();
 
         // has permission to assign permissions
-        if (auth()->user()->hasPermissionTo('permissions.assign'))
+        if (auth()->user()->hasPermissionTo('permissions.assign')) {
             $role->syncPermissions($request->input('permissions'));
+        }
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Role has been updated.')
         ]);
 
@@ -89,15 +90,15 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Role  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Role    $role
+     * @return RedirectResponse
      */
-    public function destroy(Request $request, Role $role)
-    {
+    public function destroy(Request $request, Role $role): RedirectResponse {
         $role->delete();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Role has been deleted.')
         ]);
 
@@ -108,17 +109,17 @@ class RoleController extends Controller
     /**
      * Remove all the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function massDestroy(Request $request)
-    {
+    public function massDestroy(Request $request): RedirectResponse {
         $this->authorize('delete', Role::class);
 
         Role::whereIn('id', collect($request->input('roles'))->pluck('id'))->delete();
 
         $request->session()->flash('message', [
-            'type' => 'success', // error, success, info
+            'type'    => 'success', // error, success, info
             'message' => __('Role has been deleted.')
         ]);
 

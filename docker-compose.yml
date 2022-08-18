@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - UID=${UID:-1000}
-        - GID=${GID:-1000}
+        user: demetrisk
+        uid: 1000
     image: application
     container_name: app
     restart: unless-stopped
