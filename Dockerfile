@@ -1,10 +1,7 @@
 FROM php:8.1-fpm
 
-ARG UID
-ARG GID
-
-ENV UID=${UID}
-ENV GID=${GID}
+ARG user
+ARG uid
 
 # Copy composer.lock and composer.json into the working directory
 COPY composer.lock composer.json /var/www/html/
@@ -39,6 +36,9 @@ RUN docker-php-ext-install gd
 
 # Install composer (php package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer
+RUN chown -R $user:$user /home/$user
 
 # Copy existing application directory contents to the working directory
 COPY . /var/www/html
@@ -66,6 +66,8 @@ ADD ./docker-data/supervisor/supervisor.conf /etc/supervisor/conf.d/worker.conf
 
 # Cleaning
 RUN apt-get clean && apt-get autoremove -y
+
+USER $user
 
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
