@@ -2,9 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Navlink;
+use App\Entities\Message;
+use App\Entities\Navbar;
+use App\Entities\Auth;
 use Inertia\Middleware;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
@@ -16,46 +17,35 @@ class HandleInertiaRequests extends Middleware
      */
     protected $rootView = 'app';
 
+
+    public function __construct(Message $message, Navbar $navbar, Auth $auth) {
+        $this->message = $message;
+        $this->navbar  = $navbar;
+        $this->auth    = $auth;
+    }
+
     /**
      * Determine the current asset version.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return string|null
      */
-    public function version(Request $request)
-    {
+    public function version(Request $request): ?string {
         return parent::version($request);
     }
 
-    private function getMessage(Request $request)
-    {
-        $msg = $request->session()->get('message');
-        if (! $msg)
-            return null;
-
-        return array_merge($msg, ['fingerprint' => Str::uuid()]);
-    }
-
-    private function getNavbar(Request $request)
-    {
-        return Navlink::whereNull('parent_id')->get();
-    }
 
     /**
      * Define the props that are shared by default.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
-    public function share(Request $request)
-    {
+    public function share(Request $request): array {
         return array_merge(parent::share($request), [
-            'auth' => [
-                'user' => $request->user(),
-                'permissions' => $request->user()?->getAllPermissions()
-            ],
-            'message' => $this->getMessage($request),
-            'navbar' => $this->getNavbar($request)
+            'auth'    => $this->auth->toArray(),
+            'message' => $this->message->getMessage(),
+            'navbar'  => $this->navbar->getNavbar()
         ]);
     }
 }

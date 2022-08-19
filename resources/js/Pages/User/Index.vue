@@ -1,6 +1,5 @@
 <template>
     <div class="card">
-        <ConfirmDialog></ConfirmDialog>
 
         <Toolbar class="mb-4">
             <template #start>

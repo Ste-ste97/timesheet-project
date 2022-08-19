@@ -17,23 +17,25 @@
         <ul class="list-none p-0 m-0 hidden lg:flex lg:align-items-center select-none lg:flex-row
             surface-section border-1 lg:border-none surface-border right-0 top-100 z-1 shadow-2 lg:shadow-none absolute lg:static">
             <li>
-                <a v-ripple class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
+                <Link :href="route('notifications.index')"
+                    v-ripple class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
                     transition-duration-150 transition-colors p-ripple">
-                    <i class="pi pi-inbox text-base lg:text-2xl mr-2 lg:mr-0"></i>
+                    <i v-if="$page.props.auth.hasUnreadNotifications" class="pi pi-inbox text-base lg:text-2xl mr-2 lg:mr-0 " v-badge.danger></i>
+                    <i v-else class="pi pi-inbox text-base lg:text-2xl mr-2 lg:mr-0 "></i>
                     <span class="block lg:hidden font-medium">Inbox</span>
-                </a>
+                </Link>
             </li>
-            <li>
-                <a v-ripple class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
-                    transition-duration-150 transition-colors p-ripple">
-                    <i class="pi pi-bell text-base lg:text-2xl mr-2 lg:mr-0" v-badge.danger></i>
-                    <span class="block lg:hidden font-medium">Notifications</span>
-                </a>
-            </li>
+<!--            <li>-->
+<!--                <a v-ripple class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer-->
+<!--                    transition-duration-150 transition-colors p-ripple">-->
+<!--                    <i class="pi pi-bell text-base lg:text-2xl mr-2 lg:mr-0" v-badge.danger></i>-->
+<!--                    <span class="block lg:hidden font-medium">Notifications</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="border-top-1 surface-border lg:border-top-none">
                 <a @click="toggle" v-ripple class="flex p-3 lg:px-3 lg:py-2 align-items-center hover:surface-100 font-medium border-round cursor-pointer
                     transition-duration-150 transition-colors p-ripple">
-                    <img src="images/blocks/avatars/circle/generic_avatar.png" class="mr-3 lg:mr-0" style="width: 32px; height: 32px"/>
+                    <img src="/images/blocks/avatars/circle/generic_avatar.png" class="mr-3 lg:mr-0" style="width: 32px; height: 32px"/>
                     <div class="block lg:hidden">
                         <div class="text-900 font-medium">{{$page.props.auth.user.name}}</div>
                         <span class="text-600 font-medium text-sm">{{$page.props.auth.user.email}}</span>
@@ -46,32 +48,35 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3'
 export default {
-    data() {
-		return {
-			profileItems: [
-				{
-					label: 'Profile',
-					icon: 'pi pi-user',
-					command: () => {
-                        this.$inertia.visit(route('profile'))
-					}
-				},
-				{
-					label: 'Sign out',
-					icon: 'pi pi-sign-out',
-					command: () => {
-                        this.$inertia.visit(route('logout'))
-						// this.$toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000});
-					}
-				},
-			]
-		}
-	},
-    methods:{
-        toggle(event) {
-            this.$refs.profileMenu.toggle(event);
-        }
+  components: {
+    Link
+  },
+  data() {
+    return {
+      profileItems : [
+        {
+          label   : 'Profile',
+          icon    : 'pi pi-user',
+          command : () => {
+            this.$inertia.visit(route('profile'))
+          }
+        },
+        {
+          label   : 'Sign out',
+          icon    : 'pi pi-sign-out',
+          command : () => {
+            this.$inertia.visit(route('logout'))
+          }
+        },
+      ]
     }
+  },
+  methods : {
+    toggle(event) {
+      this.$refs.profileMenu.toggle(event);
+    }
+  }
 }
 </script>

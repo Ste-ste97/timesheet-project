@@ -25,7 +25,7 @@ class Navlink extends Model
     protected $with = ['children'];
 
 
-     /**
+    /**
      * Get the children for this navlink.
      */
     public function children()

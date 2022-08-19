@@ -3,7 +3,7 @@
     <Head title="Login" />
 
     <div class="text-center mb-5">
-        <img src="images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
+        <img src="/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
         <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
         <div class="grid">
             <span class="col-12 text-600 font-medium line-height-3">Don't have an account?</span>

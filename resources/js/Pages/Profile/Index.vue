@@ -1,7 +1,6 @@
 <template>
     <div class="card">
         <div class="grid">
-            <ConfirmDialog></ConfirmDialog>
             <div class="col-12">
                 <h5>Account Profile</h5>
                 <ProfileForm :countries="countries" :cities="cities"></ProfileForm>

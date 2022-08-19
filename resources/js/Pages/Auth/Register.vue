@@ -2,7 +2,7 @@
     <Head title="Register" />
 
     <div class="text-center mb-5">
-        <img src="images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
+        <img src="/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
         <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
         <span class="text-600 font-medium line-height-3">Already registered?</span>
         <Link href="/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</Link>

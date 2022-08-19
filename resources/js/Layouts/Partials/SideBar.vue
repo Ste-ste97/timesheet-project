@@ -2,7 +2,7 @@
     <div id="app-sidebar-2" class="bg-bluegray-800 lg:h-auto h-screen hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 select-none" style="width:280px">
         <div class="flex flex-column h-full">
             <div class="flex align-items-center px-5 bg-bluegray-900 flex-shrink-0" style="height:60px">
-                <img src="images/blocks/logos/hyper-300.svg" alt="Image" height="30">
+                <img src="/images/blocks/logos/hyper-300.svg" alt="Image" height="30">
             </div>
             <div class="overflow-y-auto mt-3">
                 <ul class="list-none p-3 m-0">
@@ -18,7 +18,7 @@
                 <a v-ripple class="m-3 px-3 py-2 flex align-items-center hover:bg-bluegray-900 border-round cursor-pointer text-bluegray-100 hover:text-bluegray-50
                     transition-duration-150 transition-colors p-ripple"
                     v-styleclass="{ selector: '@prev', enterClass: 'hidden', enterActiveClass: 'slidedown', leaveToClass: 'hidden', leaveActiveClass: 'slideup'}">
-                    <img src="images/blocks/avatars/circle/generic_avatar.png" class="mr-2" style="width: 28px; height: 28px"/>
+                    <img src="/images/blocks/avatars/circle/generic_avatar.png" class="mr-2" style="width: 28px; height: 28px"/>
                     <span class="font-medium">{{ $page.props.auth.user.name }}</span>
                     <i class="pi pi-chevron-up ml-auto"></i>
                 </a>

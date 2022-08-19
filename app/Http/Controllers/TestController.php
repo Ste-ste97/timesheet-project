@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Notifications\SimpleNotification;
+use Illuminate\Http\Request;
+
+class TestController extends Controller
+{
+    public function __invoke() {
+        $user = User::first();
+        $user->notify(new SimpleNotification('Test', 'Testing body'));
+
+        echo 'OK';
+    }
+}
