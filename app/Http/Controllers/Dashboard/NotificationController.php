@@ -45,6 +45,10 @@ class NotificationController extends Controller
      * @return RedirectResponse
      */
     public function markAllRead(Request $request): RedirectResponse {
+        if ($this->checkIfEmpty($request)) {
+            return redirect()->back();
+        }
+
         auth()->user()->notifications->markAsRead();
 
         $request->session()->flash('message', [
@@ -62,6 +66,10 @@ class NotificationController extends Controller
      * @return RedirectResponse
      */
     public function massDestroy(Request $request): RedirectResponse {
+        if ($this->checkIfEmpty($request)) {
+            return redirect()->back();
+        }
+
         auth()->user()->notifications()->delete();
 
         $request->session()->flash('message', [
@@ -70,6 +78,24 @@ class NotificationController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    /**
+     * Check whether the inbox is empty
+     *
+     * @param Request $request
+     * @return bool
+     */
+    private function checkIfEmpty(Request $request): bool {
+        if (!auth()->user()->notifications()->exists()) {
+            $request->session()->flash('message', [
+                'type'    => 'info', // error, success, info
+                'message' => __('Your inbox is empty.')
+            ]);
+
+            return true;
+        }
+        return false;
     }
 
 }
