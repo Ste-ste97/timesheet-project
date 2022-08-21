@@ -50,10 +50,5 @@ class NavlinkSeeder extends Seeder
             'route_name' => 'permissions.index'
         ]);
 
-        Navlink::create([
-            'name' => 'Settings',
-            'icon' => 'pi pi-cog',
-            'route_name' => 'dashboard'
-        ]);
     }
 }
