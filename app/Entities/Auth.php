@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class Auth
 {
-    private UserModel $user;
+    private ?UserModel $user;
 
     public function __construct(Request $request) {
         $this->user = $request->user();
@@ -28,11 +28,11 @@ class Auth
     }
 
     public function toArray(): array {
-        return [
+        return $this->user ? [
             'user'                   => $this->user,
             'permissions'            => $this->getUserPermissions(),
             'hasUnreadNotifications' => $this->hasUnreadNotifications()
-        ];
+        ] : [];
     }
 
 
