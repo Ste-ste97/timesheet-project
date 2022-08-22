@@ -1,5 +1,9 @@
 FROM php:8.1-fpm
 
+# Build args
+ARG node
+ARG supervisor
+ARG cron
 ARG user
 ARG uid
 
@@ -24,34 +28,41 @@ RUN apt-get update && apt-get install -y \
     mariadb-client
 
 # Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    apt-get update
 
 # Install extensions for php
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd
 
 # Install composer (php package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN if [ "$user" != "root" ] ; then useradd -G www-data,root -u $uid -d /home/$user $user; fi
-RUN if [ "$user" != "root" ] ; then mkdir -p /home/$user/.composer; fi
-RUN if [ "$user" != "root" ] ; then chown -R $user:$user /home/$user; fi
+RUN if [ "$user" != "root" ] ; then \
+    useradd -G www-data,root -u $uid -d /home/$user $user && \
+    mkdir -p /home/$user/.composer &&\
+    chown -R $user:$user /home/$user; \
+    fi
 
-# Install yarn
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs
-RUN npm -g install yarn
+# Install node & yarn
+RUN if [ $node ] ; then \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs && \
+    npm -g install yarn; \
+    fi
 
 # Enable cron job
-RUN apt-get -y install cron
-RUN echo "* * * * * root cd /var/www/html && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1" > /etc/cron.d/scheduler
-RUN chmod 0644 /etc/cron.d/scheduler \
-    && crontab /etc/cron.d/scheduler
-RUN service cron start
+RUN if [ $cron ] ; then \
+    apt-get -y install cron && \
+    echo "* * * * * root cd /var/www/html && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1" > /etc/cron.d/scheduler && \
+    chmod 0644 /etc/cron.d/scheduler && \
+    crontab /etc/cron.d/scheduler && \
+    service cron start; \
+    fi
 
 # Enable supervisor
-RUN apt-get install -y supervisor
+RUN if [ $supervisor ] ; then apt-get install -y supervisor; fi
 
 # Cleaning
 RUN apt-get clean && apt-get autoremove -y

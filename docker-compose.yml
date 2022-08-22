@@ -7,6 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        node: True
         user: demetrisk
         uid: 1000
     image: application
@@ -63,6 +64,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        supervisor: true
+        cron: true
         user: root
         uid: 0
     restart: unless-stopped
