@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\TwoFactorRequest;
-use App\Notifications\SimpleNotification;
 use App\Notifications\TwoFactorAuthNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
