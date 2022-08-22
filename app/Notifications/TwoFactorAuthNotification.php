@@ -41,7 +41,7 @@ class TwoFactorAuthNotification extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject('Authentication Code')
-            ->line('Here is your secret code to login:' . $this->code)
+            ->line('Here is your secret code to login: ' . $this->code)
             ->line('This code is one time password is valid for 10 minutes');
     }
 

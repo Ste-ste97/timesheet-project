@@ -3,9 +3,6 @@ FROM php:8.1-fpm
 ARG user
 ARG uid
 
-# Copy composer.lock and composer.json into the working directory
-COPY composer.lock composer.json /var/www/html/
-
 # Set working directory
 WORKDIR /var/www/html/
 
@@ -36,17 +33,10 @@ RUN docker-php-ext-install gd
 
 # Install composer (php package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer
-RUN chown -R $user:$user /home/$user
 
-# Copy existing application directory contents to the working directory
-COPY . /var/www/html
-
-# Assign permissions of the working directory to the www-data user
-RUN chown -R www-data:www-data \
-        /var/www/html/storage \
-        /var/www/html/bootstrap/cache
+RUN if [ "$user" != "root" ] ; then useradd -G www-data,root -u $uid -d /home/$user $user; fi
+RUN if [ "$user" != "root" ] ; then mkdir -p /home/$user/.composer; fi
+RUN if [ "$user" != "root" ] ; then chown -R $user:$user /home/$user; fi
 
 # Install yarn
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
@@ -62,7 +52,6 @@ RUN service cron start
 
 # Enable supervisor
 RUN apt-get install -y supervisor
-ADD ./docker-data/supervisor/supervisor.conf /etc/supervisor/conf.d/worker.conf
 
 # Cleaning
 RUN apt-get clean && apt-get autoremove -y
