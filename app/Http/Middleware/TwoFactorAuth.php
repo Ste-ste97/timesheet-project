@@ -16,6 +16,10 @@ class TwoFactorAuth
      * @return mixed
      */
     public function handle($request, Closure $next) {
+        if (!config('template.enable_2fa')) {
+            return $next($request);
+        }
+
         if ($request->user() && !$request->user()->hasPassed2FA() && !str_starts_with($request->route()->getName(), '2FA')) {
             return redirect()->route('2FA.verify');
         }

@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('2fa_codes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->unique()->constrained();
-            $table->string('code');
-            $table->dateTime('expires_at');
-        });
+        if (config('template.enable_2fa')) {
+            Schema::create('2fa_codes', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->unique()->constrained();
+                $table->string('code');
+                $table->dateTime('expires_at');
+            });
+        }
     }
 
     /**

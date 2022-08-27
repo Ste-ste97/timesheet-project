@@ -15,7 +15,6 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        $sAdmin = Role::create(['name' => 'super admin']);
         $admin = Role::create(['name' => 'admin']);
 
         // user permissions
@@ -89,25 +88,6 @@ class RolePermissionSeeder extends Seeder
                             'description' => 'Can assign permissions to models (typically to roles).',
                             'parent_id' => $permissions->id]);
 
-        // app settings
-        $settings = Permission::create(['name' => 'settings',
-                                     'group_name' => 'settings']);
-
-        Permission::create(['name' => 'settings.view',
-                            'group_name' => 'settings',
-                            'description' => 'Can view settings.',
-                            'parent_id' => $users->id]);
-        Permission::create(['name' => 'settings.edit',
-                            'group_name' => 'settings',
-                            'description' => 'Can edit existing settings.',
-                            'parent_id' => $users->id]);
-
-
-        // assign permissions to super admin
-        $sAdmin->givePermissionTo([$users->children]);
-        $sAdmin->givePermissionTo([$permissions->children]);
-        $sAdmin->givePermissionTo([$roles->children]);
-        $sAdmin->givePermissionTo([$settings->children]);
 
         // assign permissions to admin
         $admin->givePermissionTo([$users->children]);

@@ -22,7 +22,7 @@ class TwoFactorAuthController extends Controller
      * @return Response|RedirectResponse
      */
     public function __invoke(): Response|RedirectResponse {
-        return auth()->user()->hasPassed2FA() ? redirect()->intended(RouteServiceProvider::HOME) :
+        return (auth()->user()->hasPassed2FA() || !config('template.enable_2fa')) ? redirect()->intended(RouteServiceProvider::HOME) :
             Inertia::render('Auth/TwoFactorAuth');
     }
 
