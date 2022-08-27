@@ -65,7 +65,7 @@ Route::get('/two-factor-auth', [TwoFactorAuthController::class, '__invoke'])
      ->name('2FA.verify');
 
 Route::post('/two-factor-auth/generate-code', [TwoFactorAuthController::class, 'generateCode'])
-     ->middleware('auth', 'throttle:10,1')
+     ->middleware('auth', 'throttle:1,1')
      ->name('2FA.generateCode');
 
 Route::post('/two-factor-auth/validate', [TwoFactorAuthController::class, 'validateSession'])
