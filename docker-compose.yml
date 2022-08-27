@@ -64,8 +64,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        supervisor: true
-        cron: true
+        supervisor: True
+        cron: True
         user: root
         uid: 0
     restart: unless-stopped
@@ -100,7 +100,7 @@ services:
       - app-network
 
 
-#Docker Networks
+# Docker Network
 networks:
   app-network:
     driver: bridge
