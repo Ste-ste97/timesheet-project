@@ -22,7 +22,7 @@ class Address extends Model
         'postal_code'
     ];
 
-    protected $with    = ['city'];
+    protected $with = ['city'];
 
     protected $appends = ['country'];
 
