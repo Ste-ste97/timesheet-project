@@ -17,20 +17,10 @@ use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
     public function __construct() {
         $this->authorizeResource(User::class, 'user');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
     public function index(): \Inertia\Response {
         return Inertia::render('User/Index', [
             'users' => User::all(),
@@ -38,12 +28,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreUserRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreUserRequest $request): RedirectResponse {
         $user = new User();
 
@@ -66,13 +50,6 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateUserRequest $request
-     * @param User              $user
-     * @return RedirectResponse
-     */
     public function update(UpdateUserRequest $request, User $user): RedirectResponse {
         $user->name  = $request->input('name');
         $user->email = $request->input('email');
@@ -96,13 +73,6 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @param User    $user
-     * @return RedirectResponse
-     */
     public function destroy(Request $request, User $user): RedirectResponse {
         if ($user->id === auth()->user()->id) {
             $request->session()->flash('message', [
@@ -123,11 +93,8 @@ class UserController extends Controller
     }
 
     /**
-     * Remove all the specified resource from storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
      * @throws AuthorizationException
+     * @throws Throwable
      */
     public function massDestroy(Request $request): RedirectResponse {
         $this->authorize('delete', User::class);

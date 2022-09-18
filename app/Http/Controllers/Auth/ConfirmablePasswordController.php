@@ -11,24 +11,15 @@ use Inertia\Inertia;
 
 class ConfirmablePasswordController extends Controller
 {
-    /**
-     * Show the confirm password view.
-     *
-     * @return \Inertia\Response
-     */
-    public function show()
-    {
+
+    public function show(): \Inertia\Response {
         return Inertia::render('Auth/ConfirmPassword');
     }
 
     /**
-     * Confirm the user's password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
+     * @throws ValidationException
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request): \Illuminate\Http\RedirectResponse {
         if (! Auth::guard('web')->validate([
             'email' => $request->user()->email,
             'password' => $request->password,

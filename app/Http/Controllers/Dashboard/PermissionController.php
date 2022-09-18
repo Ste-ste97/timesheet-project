@@ -16,33 +16,16 @@ use App\Http\Requests\Permission\UpdatePermissionRequest;
 class PermissionController extends Controller
 {
 
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
     public function __construct() {
         $this->authorizeResource(Permission::class, 'permission');
     }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
     public function index(): \Inertia\Response {
         return Inertia::render('Permission/Index', [
             'permissions' => Permission::whereNull('parent_id')->get()
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreGroupRequest $request
-     * @return RedirectResponse
-     */
     public function storeGroup(StoreGroupRequest $request): RedirectResponse {
         $permission = new Permission();
 
@@ -64,12 +47,6 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StorePermissionRequest $request
-     * @return RedirectResponse
-     */
     public function store(StorePermissionRequest $request): RedirectResponse {
         $permission = new Permission();
         $group      = Permission::findOrFail($request->input('group'));
@@ -90,13 +67,6 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateGroupRequest $request
-     * @param Permission         $permission
-     * @return RedirectResponse
-     */
     public function updateGroup(UpdateGroupRequest $request, Permission $permission): RedirectResponse {
         $permission->name       = $request->input('name');
         $permission->group_name = $request->input('name');
@@ -118,13 +88,6 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdatePermissionRequest $request
-     * @param Permission              $permission
-     * @return RedirectResponse
-     */
     public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse {
         $permission->name        = $permission->group_name . '.' . $request->input('type');
         $permission->description = $request->input('description');
@@ -139,13 +102,6 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request    $request
-     * @param Permission $permission
-     * @return RedirectResponse
-     */
     public function destroy(Request $request, Permission $permission): RedirectResponse {
         $permission->delete();
 

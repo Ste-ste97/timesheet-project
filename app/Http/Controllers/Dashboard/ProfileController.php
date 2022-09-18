@@ -16,12 +16,7 @@ use App\Models\Address;
 class ProfileController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
-    public function index() {
+    public function index(): \Inertia\Response {
         auth()->user()->load('address');
 
         return Inertia::render('Profile/Index', [
@@ -29,13 +24,6 @@ class ProfileController extends Controller
             'cities'    => City::with('Country')->get(),
         ]);
     }
-
-    /**
-     * Update profile of the authenticated user.
-     *
-     * @param UpdateProfileRequest $request
-     * @return RedirectResponse
-     */
 
     public function updateProfile(UpdateProfileRequest $request): RedirectResponse {
         $user = auth()->user();
@@ -65,14 +53,6 @@ class ProfileController extends Controller
 
         return redirect()->route('profile');
     }
-
-
-    /**
-     * Update password of the authenticated user.
-     *
-     * @param UpdatePasswordRequest $request
-     * @return RedirectResponse
-     */
 
     public function updatePassword(UpdatePasswordRequest $request): RedirectResponse {
         $user = auth()->user();

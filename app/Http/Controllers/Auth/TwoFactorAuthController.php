@@ -16,20 +16,12 @@ use Inertia\Response;
 
 class TwoFactorAuthController extends Controller
 {
-    /**
-     * Display the 2FA view.
-     *
-     * @return Response|RedirectResponse
-     */
-    public function __invoke(): Response|RedirectResponse {
+    public function show(): Response|RedirectResponse {
         return (auth()->user()->hasPassed2FA() || !config('template.enable_2fa')) ? redirect()->intended(RouteServiceProvider::HOME) :
             Inertia::render('Auth/TwoFactorAuth');
     }
 
     /**
-     * @param TwoFactorRequest $request
-     * @return RedirectResponse
-     *
      * @throws ValidationException
      */
     public function validateSession(TwoFactorRequest $request): RedirectResponse {
@@ -52,9 +44,6 @@ class TwoFactorAuthController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    /**
-     * Generate a new token
-     */
     public function generateCode(): RedirectResponse {
         $code = Str::random(6);
         DB::table('2fa_codes')

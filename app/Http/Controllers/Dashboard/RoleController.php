@@ -16,21 +16,10 @@ use App\Models\Permission;
 class RoleController extends Controller
 {
 
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
     public function __construct() {
         $this->authorizeResource(Role::class, 'role');
     }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
     public function index(): \Inertia\Response {
         return Inertia::render('Role/Index', [
             'roles'       => Role::with('permissions')->get(),
@@ -38,12 +27,6 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreRoleRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreRoleRequest $request): RedirectResponse {
         $role       = new Role();
         $role->name = $request->input('name');
@@ -62,13 +45,6 @@ class RoleController extends Controller
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateRoleRequest $request
-     * @param Role              $role
-     * @return RedirectResponse
-     */
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse {
         $role->name = $request->input('name');
 
@@ -87,13 +63,6 @@ class RoleController extends Controller
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @param Role    $role
-     * @return RedirectResponse
-     */
     public function destroy(Request $request, Role $role): RedirectResponse {
         $role->delete();
 
@@ -105,14 +74,6 @@ class RoleController extends Controller
         return redirect()->route('roles.index');
     }
 
-
-    /**
-     * Remove all the specified resource from storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     * @throws AuthorizationException
-     */
     public function massDestroy(Request $request): RedirectResponse {
         $this->authorize('delete', Role::class);
 

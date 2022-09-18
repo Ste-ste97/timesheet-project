@@ -10,7 +10,7 @@ services:
         node: True
         user: demetrisk
         uid: 1000
-    image: application
+    image: kaizer-starter-kit
     container_name: app
     restart: unless-stopped
     tty: true
@@ -68,6 +68,7 @@ services:
         cron: True
         user: root
         uid: 0
+    image: kaizer-starter-kit
     restart: unless-stopped
     networks:
       - app-network
