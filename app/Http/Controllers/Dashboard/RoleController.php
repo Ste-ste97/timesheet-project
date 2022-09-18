@@ -13,19 +13,23 @@ use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Models\Permission;
 
-class RoleController extends Controller {
-    public function __construct() {
+class RoleController extends Controller
+{
+    public function __construct()
+    {
         $this->authorizeResource(Role::class, 'role');
     }
 
-    public function index(): \Inertia\Response {
+    public function index(): \Inertia\Response
+    {
         return Inertia::render('Role/Index', [
             'roles'       => Role::with('permissions')->get(),
             'permissions' => Permission::whereNull('parent_id')->get()
         ]);
     }
 
-    public function store(StoreRoleRequest $request): RedirectResponse {
+    public function store(StoreRoleRequest $request): RedirectResponse
+    {
         $role       = new Role();
         $role->name = $request->input('name');
         $role->save();
@@ -43,7 +47,8 @@ class RoleController extends Controller {
         return redirect()->route('roles.index');
     }
 
-    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse {
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
+    {
         $role->name = $request->input('name');
 
         $role->save();
@@ -61,7 +66,8 @@ class RoleController extends Controller {
         return redirect()->route('roles.index');
     }
 
-    public function destroy(Request $request, Role $role): RedirectResponse {
+    public function destroy(Request $request, Role $role): RedirectResponse
+    {
         $role->delete();
 
         $request->session()->flash('message', [
@@ -72,7 +78,8 @@ class RoleController extends Controller {
         return redirect()->route('roles.index');
     }
 
-    public function massDestroy(Request $request): RedirectResponse {
+    public function massDestroy(Request $request): RedirectResponse
+    {
         $this->authorize('delete', Role::class);
 
         Role::whereIn('id', collect($request->input('roles'))->pluck('id'))->delete();

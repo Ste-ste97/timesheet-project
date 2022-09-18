@@ -4,8 +4,7 @@ namespace {{ namespace }};
 
 use Illuminate\Support\ServiceProvider;
 
-class {{ class }} extends ServiceProvider
-{
+class {{ class }} extends ServiceProvider {
     public function register() {
         //
     }

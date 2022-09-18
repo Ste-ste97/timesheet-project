@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Navlink extends Model {
+class Navlink extends Model
+{
     use HasFactory;
 
     /**
@@ -28,7 +29,8 @@ class Navlink extends Model {
     /**
      * Get the children for this navlink.
      */
-    public function children(): HasMany {
+    public function children(): HasMany
+    {
         return $this->hasMany(Navlink::class, 'parent_id');
     }
 }

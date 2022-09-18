@@ -8,14 +8,17 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class NotificationController extends Controller {
-    public function index(): Response {
+class NotificationController extends Controller
+{
+    public function index(): Response
+    {
         return Inertia::render('Notification/Index', [
             'notifications' => auth()->user()->notifications()->paginate(10)
         ]);
     }
 
-    public function show($id): Response {
+    public function show($id): Response
+    {
         $notification = auth()->user()->notifications()
                               ->where('id', $id)
                               ->firstOrFail();
@@ -26,7 +29,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function markAllRead(Request $request): RedirectResponse {
+    public function markAllRead(Request $request): RedirectResponse
+    {
         if ($this->checkIfEmpty($request)) {
             return redirect()->back();
         }
@@ -41,7 +45,8 @@ class NotificationController extends Controller {
         return redirect()->back();
     }
 
-    public function massDestroy(Request $request): RedirectResponse {
+    public function massDestroy(Request $request): RedirectResponse
+    {
         if ($this->checkIfEmpty($request)) {
             return redirect()->back();
         }
@@ -56,7 +61,8 @@ class NotificationController extends Controller {
         return redirect()->back();
     }
 
-    private function checkIfEmpty(Request $request): bool {
+    private function checkIfEmpty(Request $request): bool
+    {
         if (!auth()->user()->notifications()->exists()) {
             $request->session()->flash('message', [
                 'type'    => 'info', // error, success, info

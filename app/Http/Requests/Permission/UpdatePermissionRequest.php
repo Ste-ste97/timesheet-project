@@ -5,12 +5,15 @@ namespace App\Http\Requests\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Permission\UniquePermissionTypeExceptSelf;
 
-class UpdatePermissionRequest extends FormRequest {
-    public function authorize(): bool {
+class UpdatePermissionRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
         return true;
     }
 
-    public function rules(): array {
+    public function rules(): array
+    {
         return [
             'description' => [
                 'required',

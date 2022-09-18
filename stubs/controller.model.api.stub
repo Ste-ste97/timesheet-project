@@ -6,8 +6,7 @@ use {{ namespacedModel }};
 use {{ rootNamespace }}Http\Controllers\Controller;
 use {{ namespacedRequests }}
 
-class {{ class }} extends Controller
-{
+class {{ class }} extends Controller {
     public function index() {
         //
     }

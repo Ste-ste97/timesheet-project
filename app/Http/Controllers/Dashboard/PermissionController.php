@@ -14,12 +14,15 @@ use App\Http\Requests\Permission\UpdateGroupRequest;
 use App\Http\Requests\Permission\StorePermissionRequest;
 use App\Http\Requests\Permission\UpdatePermissionRequest;
 
-class PermissionController extends Controller {
-    public function __construct() {
+class PermissionController extends Controller
+{
+    public function __construct()
+    {
         $this->authorizeResource(Permission::class, 'permission');
     }
 
-    public function index(): \Inertia\Response {
+    public function index(): \Inertia\Response
+    {
         return Inertia::render('Permission/Index', [
             'permissions' => Permission::whereNull('parent_id')->get()
         ]);
@@ -28,7 +31,8 @@ class PermissionController extends Controller {
     /**
      * @throws AuthorizationException
      */
-    public function storeGroup(StoreGroupRequest $request): RedirectResponse {
+    public function storeGroup(StoreGroupRequest $request): RedirectResponse
+    {
         $this->authorize('create', Permission::class);
 
         $permission             = new Permission();
@@ -50,7 +54,8 @@ class PermissionController extends Controller {
         return redirect()->route('permissions.index');
     }
 
-    public function store(StorePermissionRequest $request): RedirectResponse {
+    public function store(StorePermissionRequest $request): RedirectResponse
+    {
         $permission = new Permission();
         $group      = Permission::findOrFail($request->input('group'));
 
@@ -73,7 +78,8 @@ class PermissionController extends Controller {
     /**
      * @throws AuthorizationException
      */
-    public function updateGroup(UpdateGroupRequest $request, Permission $permission): RedirectResponse {
+    public function updateGroup(UpdateGroupRequest $request, Permission $permission): RedirectResponse
+    {
         $this->authorize('update', [Permission::class, $permission]);
 
         $permission->name       = $request->input('name');
@@ -96,7 +102,8 @@ class PermissionController extends Controller {
         return redirect()->route('permissions.index');
     }
 
-    public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse {
+    public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse
+    {
         $permission->name        = $permission->group_name . '.' . $request->input('type');
         $permission->description = $request->input('description');
 
@@ -110,7 +117,8 @@ class PermissionController extends Controller {
         return redirect()->route('permissions.index');
     }
 
-    public function destroy(Request $request, Permission $permission): RedirectResponse {
+    public function destroy(Request $request, Permission $permission): RedirectResponse
+    {
         $permission->delete();
 
         $request->session()->flash('message', [

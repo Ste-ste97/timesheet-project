@@ -13,8 +13,10 @@ use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Models\Address;
 
-class ProfileController extends Controller {
-    public function index(): \Inertia\Response {
+class ProfileController extends Controller
+{
+    public function index(): \Inertia\Response
+    {
         auth()->user()->load('address');
 
         return Inertia::render('Profile/Index', [
@@ -23,7 +25,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function updateProfile(UpdateProfileRequest $request): RedirectResponse {
+    public function updateProfile(UpdateProfileRequest $request): RedirectResponse
+    {
         $user = auth()->user();
 
         $user->name  = $request->input('name');
@@ -52,7 +55,8 @@ class ProfileController extends Controller {
         return redirect()->route('profile');
     }
 
-    public function updatePassword(UpdatePasswordRequest $request): RedirectResponse {
+    public function updatePassword(UpdatePasswordRequest $request): RedirectResponse
+    {
         $user = auth()->user();
 
         $user->password = bcrypt($request->input('new_password'));

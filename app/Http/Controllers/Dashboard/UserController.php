@@ -15,19 +15,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
-class UserController extends Controller {
-    public function __construct() {
+class UserController extends Controller
+{
+    public function __construct()
+    {
         $this->authorizeResource(User::class, 'user');
     }
 
-    public function index(): \Inertia\Response {
+    public function index(): \Inertia\Response
+    {
         return Inertia::render('User/Index', [
             'users' => User::all(),
             'roles' => Role::all()
         ]);
     }
 
-    public function store(StoreUserRequest $request): RedirectResponse {
+    public function store(StoreUserRequest $request): RedirectResponse
+    {
         $user = new User();
 
         $user->name     = $request->input('name');
@@ -49,7 +53,8 @@ class UserController extends Controller {
         return redirect()->route('users.index');
     }
 
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse {
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    {
         $user->name  = $request->input('name');
         $user->email = $request->input('email');
 
@@ -72,7 +77,8 @@ class UserController extends Controller {
         return redirect()->route('users.index');
     }
 
-    public function destroy(Request $request, User $user): RedirectResponse {
+    public function destroy(Request $request, User $user): RedirectResponse
+    {
         if ($user->id === auth()->user()->id) {
             $request->session()->flash('message', [
                 'type'    => 'error', // error, success, info
@@ -95,7 +101,8 @@ class UserController extends Controller {
      * @throws AuthorizationException
      * @throws Throwable
      */
-    public function massDestroy(Request $request): RedirectResponse {
+    public function massDestroy(Request $request): RedirectResponse
+    {
         $this->authorize('delete', User::class);
 
         DB::beginTransaction();

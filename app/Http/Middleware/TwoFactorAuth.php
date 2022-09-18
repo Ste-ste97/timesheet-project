@@ -6,8 +6,10 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
-class TwoFactorAuth {
-    public function handle(Request $request, Closure $next): mixed {
+class TwoFactorAuth
+{
+    public function handle(Request $request, Closure $next): mixed
+    {
         if (!config('template.enable_2fa')) {
             return $next($request);
         }

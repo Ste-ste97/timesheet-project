@@ -14,8 +14,10 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class TwoFactorAuthController extends Controller {
-    public function show(): Response|RedirectResponse {
+class TwoFactorAuthController extends Controller
+{
+    public function show(): Response|RedirectResponse
+    {
         return (auth()->user()->hasPassed2FA() || !config('template.enable_2fa')) ? redirect()->intended(RouteServiceProvider::HOME) :
             Inertia::render('Auth/TwoFactorAuth');
     }
@@ -23,7 +25,8 @@ class TwoFactorAuthController extends Controller {
     /**
      * @throws ValidationException
      */
-    public function validateSession(TwoFactorRequest $request): RedirectResponse {
+    public function validateSession(TwoFactorRequest $request): RedirectResponse
+    {
         $codeDB = DB::table('2fa_codes')
                     ->where('user_id', auth()->user()->id)
                     ->where('expires_at', '>', now())
@@ -43,7 +46,8 @@ class TwoFactorAuthController extends Controller {
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    public function generateCode(): RedirectResponse {
+    public function generateCode(): RedirectResponse
+    {
         $code = Str::random(6);
         DB::table('2fa_codes')
           ->updateOrInsert(

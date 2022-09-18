@@ -14,12 +14,15 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller {
-    public function create(): Response {
+class RegisteredUserController extends Controller
+{
+    public function create(): Response
+    {
         return Inertia::render('Auth/Register');
     }
 
-    public function store(Request $request): RedirectResponse {
+    public function store(Request $request): RedirectResponse
+    {
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',

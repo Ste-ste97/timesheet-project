@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Address extends Model {
+class Address extends Model
+{
     use HasFactory;
 
     /**
@@ -28,21 +29,24 @@ class Address extends Model {
     /**
      * Get the city for this address.
      */
-    public function city(): BelongsTo {
+    public function city(): BelongsTo
+    {
         return $this->belongsTo(City::class);
     }
 
     /**
      * Get the user for this address.
      */
-    public function user(): BelongsTo {
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
     /**
      * Get the country for this address.
      */
-    public function getCountryAttribute() {
+    public function getCountryAttribute()
+    {
         return $this->city->country;
     }
 

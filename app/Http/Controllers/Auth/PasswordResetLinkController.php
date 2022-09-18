@@ -10,8 +10,10 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class PasswordResetLinkController extends Controller {
-    public function create(): Response {
+class PasswordResetLinkController extends Controller
+{
+    public function create(): Response
+    {
         return Inertia::render('Auth/ForgotPassword', [
             'status' => session('status'),
         ]);
@@ -20,7 +22,8 @@ class PasswordResetLinkController extends Controller {
     /**
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse {
+    public function store(Request $request): RedirectResponse
+    {
         $request->validate([
             'email' => 'required|email',
         ]);

@@ -5,9 +5,11 @@ namespace App\Entities;
 use App\Models\Navlink;
 use Illuminate\Support\Collection;
 
-class Navbar {
+class Navbar
+{
 
-    public function getNavbar(): Collection {
+    public function getNavbar(): Collection
+    {
         return Navlink::whereNull('parent_id')->get();
     }
 

@@ -14,8 +14,10 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class NewPasswordController extends Controller {
-    public function create(Request $request): Response {
+class NewPasswordController extends Controller
+{
+    public function create(Request $request): Response
+    {
         return Inertia::render('Auth/ResetPassword', [
             'email' => $request->email,
             'token' => $request->route('token'),
@@ -25,7 +27,8 @@ class NewPasswordController extends Controller {
     /**
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse {
+    public function store(Request $request): RedirectResponse
+    {
         $request->validate([
             'token'    => 'required',
             'email'    => 'required|email',

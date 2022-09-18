@@ -4,8 +4,7 @@ namespace {{ namespace }};
 
 use Illuminate\View\Component;
 
-class {{ class }} extends Component
-{
+class {{ class }} extends Component {
     public function __construct() {
         //
     }

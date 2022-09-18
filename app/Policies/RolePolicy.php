@@ -7,26 +7,32 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class RolePolicy {
+class RolePolicy
+{
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool {
+    public function viewAny(User $user): bool
+    {
         return $user->hasPermissionTo('roles.view');
     }
 
-    public function view(User $user, Role $role): bool {
+    public function view(User $user, Role $role): bool
+    {
         return $user->hasPermissionTo('roles.view');
     }
 
-    public function create(User $user): bool {
+    public function create(User $user): bool
+    {
         return $user->hasPermissionTo('roles.create');
     }
 
-    public function update(User $user, Role $role): bool {
+    public function update(User $user, Role $role): bool
+    {
         return $user->hasPermissionTo('roles.edit');
     }
 
-    public function delete(User $user, Role $role): bool {
+    public function delete(User $user, Role $role): bool
+    {
         return $user->hasPermissionTo('roles.delete');
     }
 

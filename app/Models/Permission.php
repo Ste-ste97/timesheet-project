@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Permission extends SpatiePermission {
+class Permission extends SpatiePermission
+{
     use HasFactory;
 
     protected $with = ['children'];
@@ -16,15 +17,18 @@ class Permission extends SpatiePermission {
     /**
      * Get the children for this permission.
      */
-    public function children(): HasMany {
+    public function children(): HasMany
+    {
         return $this->hasMany(Permission::class, 'parent_id');
     }
 
-    public function getTypeAttribute(): string {
+    public function getTypeAttribute(): string
+    {
         return str_contains($this->name, '.') ? explode('.', $this->name)[1] : '';
     }
 
-    public function makeCRUDPermissions($request) {
+    public function makeCRUDPermissions($request)
+    {
         Permission::create([
             'name'        => $request->input('name') . '.view',
             'group_name'  => $request->input('name'),
