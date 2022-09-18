@@ -8,15 +8,9 @@ use Illuminate\Database\Seeder;
 
 class CityCountrySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
+    public function run(): void {
         $cyprus = Country::firstOrCreate([
-            'name' => 'Cyprus',
+            'name'       => 'Cyprus',
             'greek_name' => 'Κύπρος'
         ]);
 

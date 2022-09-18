@@ -8,13 +8,7 @@ use Database\Seeders\CityCountrySeeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
-    {
+    public function run() {
         $this->call(CityCountrySeeder::class);
         $this->call(NavlinkSeeder::class);
         $this->call(RolePermissionSeeder::class);
