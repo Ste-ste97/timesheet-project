@@ -10,7 +10,6 @@ use Inertia\Response;
 
 class NotificationController extends Controller
 {
-
     public function index(): Response {
         return Inertia::render('Notification/Index', [
             'notifications' => auth()->user()->notifications()->paginate(10)

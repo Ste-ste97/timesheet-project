@@ -15,7 +15,6 @@ use App\Models\Permission;
 
 class RoleController extends Controller
 {
-
     public function __construct() {
         $this->authorizeResource(Role::class, 'role');
     }

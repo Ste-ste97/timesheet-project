@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class AuthenticatedSessionController extends Controller
@@ -19,6 +20,9 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function store(LoginRequest $request): \Illuminate\Http\RedirectResponse {
         $request->authenticate();
 
