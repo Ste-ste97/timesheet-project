@@ -5,20 +5,19 @@ namespace App\Http\Requests\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRoleRequest extends FormRequest
-{
+class StoreRoleRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
 
     public function rules(): array {
         return [
-            'name' => [
+            'name'          => [
                 'required',
                 'string',
                 Rule::unique('roles')
             ],
-            'permissions' => [
+            'permissions'   => [
                 'array',
             ],
             'permissions.*' => [

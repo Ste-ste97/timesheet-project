@@ -6,24 +6,23 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
-{
+class StoreUserRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
 
     public function rules(): array {
         return [
-            'email' => [
+            'email'            => [
                 'required',
                 'email',
                 Rule::unique('users')
             ],
-            'name' => [
+            'name'             => [
                 'required',
                 'string',
             ],
-            'password' => [
+            'password'         => [
                 'required',
                 Password::min(8),
             ],
@@ -31,10 +30,10 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'same:password'
             ],
-            'roles' => [
+            'roles'            => [
                 'array',
             ],
-            'roles.*' => [
+            'roles.*'          => [
                 'numeric',
                 'exists:roles,id'
             ],

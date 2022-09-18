@@ -5,9 +5,9 @@ namespace App\Entities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class Message
-{
-    public function __construct(private Request $request) {}
+class Message {
+    public function __construct(private Request $request) {
+    }
 
     public function getMessage(): ?array {
         $msg = $this->request->session()->get('message');

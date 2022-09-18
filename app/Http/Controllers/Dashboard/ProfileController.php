@@ -13,8 +13,7 @@ use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Models\Address;
 
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
     public function index(): \Inertia\Response {
         auth()->user()->load('address');
 

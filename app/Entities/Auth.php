@@ -5,8 +5,7 @@ namespace App\Entities;
 use App\Models\User as UserModel;
 use Illuminate\Http\Request;
 
-class Auth
-{
+class Auth {
     private ?UserModel $user;
 
     public function __construct(Request $request) {

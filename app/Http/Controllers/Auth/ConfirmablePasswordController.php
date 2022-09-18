@@ -4,24 +4,25 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Inertia\Response;
 
-class ConfirmablePasswordController extends Controller
-{
+class ConfirmablePasswordController extends Controller {
 
-    public function show(): \Inertia\Response {
+    public function show(): Response {
         return Inertia::render('Auth/ConfirmPassword');
     }
 
     /**
      * @throws ValidationException
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse {
-        if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
+    public function store(Request $request): RedirectResponse {
+        if (!Auth::guard('web')->validate([
+            'email'    => $request->user()->email,
             'password' => $request->password,
         ])) {
             throw ValidationException::withMessages([

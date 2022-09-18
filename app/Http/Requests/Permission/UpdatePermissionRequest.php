@@ -5,8 +5,7 @@ namespace App\Http\Requests\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Permission\UniquePermissionTypeExceptSelf;
 
-class UpdatePermissionRequest extends FormRequest
-{
+class UpdatePermissionRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
@@ -17,11 +16,11 @@ class UpdatePermissionRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'group' => [
+            'group'       => [
                 'numeric',
                 'exists:permissions,id'
             ],
-            'type' => [
+            'type'        => [
                 'required',
                 'string',
                 new UniquePermissionTypeExceptSelf($this->id)

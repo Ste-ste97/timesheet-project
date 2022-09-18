@@ -15,8 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     public function __construct() {
         $this->authorizeResource(User::class, 'user');
     }

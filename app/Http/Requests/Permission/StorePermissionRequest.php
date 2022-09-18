@@ -5,8 +5,7 @@ namespace App\Http\Requests\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Permission\UniquePermissionType;
 
-class StorePermissionRequest extends FormRequest
-{
+class StorePermissionRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
@@ -17,11 +16,11 @@ class StorePermissionRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'group' => [
+            'group'       => [
                 'numeric',
                 'exists:permissions,id'
             ],
-            'type' => [
+            'type'        => [
                 'required',
                 'string',
                 new UniquePermissionType($this->group)

@@ -6,24 +6,23 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
-{
+class UpdateUserRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
 
     public function rules(): array {
         return [
-            'email' => [
+            'email'            => [
                 'required',
                 'email',
                 Rule::unique('users')->ignore($this->id)
             ],
-            'name' => [
+            'name'             => [
                 'required',
                 'string',
             ],
-            'password' => [
+            'password'         => [
                 'nullable',
                 Password::min(8),
             ],
@@ -31,10 +30,10 @@ class UpdateUserRequest extends FormRequest
                 'required_with:password',
                 'same:password'
             ],
-            'roles' => [
+            'roles'            => [
                 'array',
             ],
-            'roles.*' => [
+            'roles.*'          => [
                 'numeric',
                 'exists:roles,id'
             ],

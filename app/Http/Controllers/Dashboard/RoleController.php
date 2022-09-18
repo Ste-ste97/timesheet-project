@@ -13,8 +13,7 @@ use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Models\Permission;
 
-class RoleController extends Controller
-{
+class RoleController extends Controller {
     public function __construct() {
         $this->authorizeResource(Role::class, 'role');
     }

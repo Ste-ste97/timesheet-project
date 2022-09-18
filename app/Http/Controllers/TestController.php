@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
 use App\Models\User;
 use App\Notifications\SimpleNotification;
 
-class TestController extends Controller
-{
+class TestController extends Controller {
     /**
      * Your test logic goes here.
      */

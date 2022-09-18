@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
-{
+class LoginRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }

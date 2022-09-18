@@ -5,34 +5,33 @@ namespace App\Http\Requests\Profile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateProfileRequest extends FormRequest
-{
+class UpdateProfileRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
 
     public function rules(): array {
         return [
-            'email' => [
+            'email'   => [
                 'required',
                 'email',
                 Rule::unique('users')->ignore(auth()->user()->id)
             ],
-            'name' => [
+            'name'    => [
                 'required',
                 'string',
             ],
-            'country' =>[
+            'country' => [
                 'nullable',
                 'exists:countries,id',
                 'required_with:state'
             ],
-            'city' =>[
+            'city'    => [
                 'nullable',
                 'exists:cities,id',
                 'required_with:country,state'
             ],
-            'state' =>[
+            'state'   => [
                 'nullable',
                 'string',
             ]

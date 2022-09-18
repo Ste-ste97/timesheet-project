@@ -14,8 +14,7 @@ use App\Http\Requests\Permission\UpdateGroupRequest;
 use App\Http\Requests\Permission\StorePermissionRequest;
 use App\Http\Requests\Permission\UpdatePermissionRequest;
 
-class PermissionController extends Controller
-{
+class PermissionController extends Controller {
     public function __construct() {
         $this->authorizeResource(Permission::class, 'permission');
     }
@@ -32,7 +31,7 @@ class PermissionController extends Controller
     public function storeGroup(StoreGroupRequest $request): RedirectResponse {
         $this->authorize('create', Permission::class);
 
-        $permission = new Permission();
+        $permission             = new Permission();
         $permission->name       = $request->input('name');
         $permission->group_name = $request->input('name');
         $permission->guard_name = $request->input('guard_name');

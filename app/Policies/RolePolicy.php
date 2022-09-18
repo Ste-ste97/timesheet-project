@@ -7,8 +7,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class RolePolicy
-{
+class RolePolicy {
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool {

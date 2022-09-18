@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class NotificationController extends Controller
-{
+class NotificationController extends Controller {
     public function index(): Response {
         return Inertia::render('Notification/Index', [
             'notifications' => auth()->user()->notifications()->paginate(10)
@@ -18,8 +17,8 @@ class NotificationController extends Controller
 
     public function show($id): Response {
         $notification = auth()->user()->notifications()
-                                      ->where('id', $id)
-                                      ->firstOrFail();
+                              ->where('id', $id)
+                              ->firstOrFail();
         $notification->markAsRead();
 
         return Inertia::render('Notification/Show', [

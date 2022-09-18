@@ -7,11 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TwoFactorAuthNotification extends Notification implements ShouldQueue
-{
+class TwoFactorAuthNotification extends Notification implements ShouldQueue {
     use Queueable;
 
-    public function __construct(private string $code) {}
+    public function __construct(private string $code) {
+    }
 
     public function via(): array {
         return ['mail'];

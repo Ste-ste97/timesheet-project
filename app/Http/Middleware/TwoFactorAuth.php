@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
-class TwoFactorAuth
-{
+class TwoFactorAuth {
     public function handle(Request $request, Closure $next): mixed {
         if (!config('template.enable_2fa')) {
             return $next($request);
@@ -18,7 +17,7 @@ class TwoFactorAuth
         }
 
         if ($request->route()->getName() === 'logout') {
-            Cache::forget('2fa-'. $request->session()->getId());
+            Cache::forget('2fa-' . $request->session()->getId());
         }
 
         return $next($request);

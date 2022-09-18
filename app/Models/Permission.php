@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Permission extends SpatiePermission
-{
+class Permission extends SpatiePermission {
     use HasFactory;
 
     protected $with = ['children'];
