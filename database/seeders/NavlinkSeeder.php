@@ -7,7 +7,8 @@ use Illuminate\Database\Seeder;
 
 class NavlinkSeeder extends Seeder
 {
-    public function run(): void {
+    public function run(): void
+    {
         Navlink::create([
             'name'       => 'Dashboard',
             'icon'       => 'pi pi-home',

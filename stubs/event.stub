@@ -10,14 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class {{ class }} {
+class {{ class }}
+{
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct() {
+    public function __construct()
+    {
         //
     }
 
-    public function broadcastOn() {
+    public function broadcastOn()
+    {
         return new PrivateChannel('channel-name');
     }
 }

@@ -8,7 +8,8 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-    public function run(): void {
+    public function run(): void
+    {
         $user = User::create([
             'name'              => 'Admin',
             'email'             => 'admin@admin.com',

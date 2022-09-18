@@ -5,8 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    public function up(): void
+    {
         $tableNames  = config('permission.table_names');
         $columnNames = config('permission.column_names');
         $teams       = config('permission.teams');
@@ -117,7 +119,8 @@ return new class extends Migration {
             ->forget(config('permission.cache.key'));
     }
 
-    public function down(): void {
+    public function down(): void
+    {
         $tableNames = config('permission.table_names');
 
         if (empty($tableNames)) {

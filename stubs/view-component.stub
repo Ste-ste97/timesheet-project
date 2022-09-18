@@ -4,12 +4,15 @@ namespace {{ namespace }};
 
 use Illuminate\View\Component;
 
-class {{ class }} extends Component {
-    public function __construct() {
+class {{ class }} extends Component
+{
+    public function __construct()
+    {
         //
     }
 
-    public function render(): \Illuminate\Contracts\View\View|\Closure|string {
+    public function render(): \Illuminate\Contracts\View\View|\Closure|string
+    {
         return {{ view }};
     }
 }
