@@ -8,8 +8,8 @@
     <ul class="list-none p-0 m-0">
       <Link v-for="notification in notifications.data" :href="route('notifications.show', notification.id)">
         <li class="lg:px-3 lg:py-2 align-items-center hover:text-900 hover:surface-100 border-round cursor-pointer pb-3 border-bottom-1 surface-border">
-          <div class="font-medium text-900 mb-2 pt-2">{{notification.data.title}}</div>
-          <div class="line-height-3 text-600" style="max-width: 30rem">{{notification.data.message}}</div>
+          <div class="font-medium text-900 mb-2 pt-2">{{ notification.data.title }}</div>
+          <div class="line-height-3 text-600" style="max-width: 30rem">{{ notification.data.message }}</div>
           <Badge value="New" v-if="!notification.read_at"></Badge>
         </li>
       </Link>
@@ -23,55 +23,57 @@
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Head } from "@inertiajs/inertia-vue3";
-import { Link } from '@inertiajs/inertia-vue3'
-import { Inertia } from '@inertiajs/inertia'
+import {Head} from "@inertiajs/inertia-vue3";
+import {Link} from '@inertiajs/inertia-vue3'
+import {Inertia} from '@inertiajs/inertia'
 
 export default {
-  layout: AuthenticatedLayout,
-  components: {
+  layout     : AuthenticatedLayout,
+  components : {
     AuthenticatedLayout,
     Head,
     Link
   },
-  props: {
-    notifications: Object,
+  props      : {
+    notifications : Object,
   },
-  methods: {
+  methods    : {
     changePage(data) {
       Inertia.get(
           route('notifications.index'),
-          {page: data.page + 1},
+          {page : data.page + 1},
           {
-            preserveScroll: true,
-            preserveState: true,
+            preserveScroll : true,
+            preserveState  : true,
           }
       );
     },
     markAllRead() {
       this.$confirm.require({
-        message: 'Are you sure you want to mark everything as read?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
+        message : 'Are you sure you want to mark everything as read?',
+        header  : 'Confirmation',
+        icon    : 'pi pi-exclamation-triangle',
+        accept  : () => {
           Inertia.post(route('notifications.markAllRead'));
         },
-        reject: () => {}
+        reject  : () => {
+        }
       });
     },
     deleteAll() {
       this.$confirm.require({
-        message: 'Are you sure you want to delete everything?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
+        message : 'Are you sure you want to delete everything?',
+        header  : 'Confirmation',
+        icon    : 'pi pi-exclamation-triangle',
+        accept  : () => {
           Inertia.post(route('notifications.massDestroy'));
         },
-        reject: () => {}
+        reject  : () => {
+        }
       });
     }
   },
-  computed : {
+  computed   : {
     firstItem() {
       return (this.notifications.current_page - 1) * this.notifications.per_page
     }

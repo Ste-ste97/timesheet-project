@@ -1,8 +1,8 @@
 require('./bootstrap');
 
-import { createApp, h } from 'vue';
-import {  App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
-import { InertiaProgress } from '@inertiajs/progress';
+import {createApp, h} from 'vue';
+import {App as InertiaApp, plugin as InertiaPlugin} from '@inertiajs/inertia-vue3';
+import {InertiaProgress} from '@inertiajs/progress';
 import "primevue/resources/themes/lara-light-indigo/theme.css";
 
 import "primeflex/primeflex.css";
@@ -54,22 +54,21 @@ import ToastService from 'primevue/toastservice';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-// custom directives
 import HasPermissionDirective from './Components/Directives/HasPermissionDirective'
 import HasRoleDirective from './Components/Directives/HasRoleDirective'
 
 const el = document.getElementById('app');
 
 const app = createApp({
-    render: () =>
+    render : () =>
         h(InertiaApp, {
-            initialPage: JSON.parse(el.dataset.page),
-            resolveComponent: (name) => require(`./Pages/${name}`).default,
+            initialPage      : JSON.parse(el.dataset.page),
+            resolveComponent : (name) => require(`./Pages/${name}`).default,
         }),
 });
 
-app.mixin({ methods: { route } });
-app.use(PrimeVue, { ripple: true })
+app.mixin({methods : {route}});
+app.use(PrimeVue, {ripple : true})
 app.use(InertiaPlugin);
 app.use(ConfirmationService);
 app.use(ToastService);
@@ -123,4 +122,4 @@ app.directive('has-role', HasRoleDirective)
 
 app.mount(el);
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({color : '#4B5563'});
