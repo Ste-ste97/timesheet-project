@@ -11,43 +11,13 @@ class SimpleNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * @var string
-     */
-    private $title;
+    public function __construct(private string $title, private string $message) {}
 
-    /**
-     * @var string
-     */
-    private $message;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(string $title, string $message) {
-        $this->title   = $title;
-        $this->message = $message;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function via($notifiable): array {
+    public function via(): array {
         return ['database'];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable): array {
+    public function toArray(): array {
         return [
             'title'   => $this->title,
             'message' => $this->message,

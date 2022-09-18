@@ -8,14 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 class TwoFactorAuth
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next) {
+    public function handle(Request $request, Closure $next): mixed {
         if (!config('template.enable_2fa')) {
             return $next($request);
         }

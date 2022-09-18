@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
@@ -25,9 +26,13 @@ class PermissionController extends Controller
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function storeGroup(StoreGroupRequest $request): RedirectResponse {
-        $permission = new Permission();
+        $this->authorize('create', Permission::class);
 
+        $permission = new Permission();
         $permission->name       = $request->input('name');
         $permission->group_name = $request->input('name');
         $permission->guard_name = $request->input('guard_name');
@@ -66,7 +71,12 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function updateGroup(UpdateGroupRequest $request, Permission $permission): RedirectResponse {
+        $this->authorize('update', [Permission::class, $permission]);
+
         $permission->name       = $request->input('name');
         $permission->group_name = $request->input('name');
         $permission->guard_name = $request->input('guard_name');

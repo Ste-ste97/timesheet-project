@@ -11,34 +11,13 @@ class TwoFactorAuthNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private string $code;
+    public function __construct(private string $code) {}
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(string $code) {
-        $this->code = $code;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function via($notifiable) {
+    public function via(): array {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return MailMessage
-     */
-    public function toMail($notifiable): MailMessage {
+    public function toMail(): MailMessage {
         return (new MailMessage)
             ->subject('Authentication Code')
             ->line('Here is your one time password: ' . $this->code)

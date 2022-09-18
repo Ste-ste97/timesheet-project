@@ -15,9 +15,6 @@ class TestController extends Controller
         $user = User::first();
         $user->notify(new SimpleNotification('Test', 'Testing body'));
 
-        $address = Address::first();
-
-        $address->country();
         echo 'OK';
     }
 }

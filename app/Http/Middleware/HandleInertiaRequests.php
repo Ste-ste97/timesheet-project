@@ -18,11 +18,7 @@ class HandleInertiaRequests extends Middleware
     protected $rootView = 'app';
 
 
-    public function __construct(Message $message, Navbar $navbar, Auth $auth) {
-        $this->message = $message;
-        $this->navbar  = $navbar;
-        $this->auth    = $auth;
-    }
+    public function __construct(private Message $message, private Navbar $navbar, private Auth $auth) {}
 
     /**
      * Determine the current asset version.
