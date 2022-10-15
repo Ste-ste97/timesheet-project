@@ -1,46 +1,46 @@
 <template>
-  <div class="card">
-
-    <Toolbar class="mb-4">
-      <template #start>
-        <Button label="New" icon="pi pi-plus" class="p-button-success mr-2 mb-2" @click="createNewResource()" v-has-permission="{props: $page.props, permissions: ['users.create']}"/>
-        <Button label="Delete" icon="pi pi-trash" class="p-button-danger mb-2" @click="massDeleteResource()" v-has-permission="{props: $page.props, permissions: ['users.delete']}"
-                :disabled="!selected || !selected.length"/>
-      </template>
-
-      <template #end>
-        <Button label="Export" icon="pi pi-upload" class="p-button-help mb-2" @click="exportCSV($event)"/>
-      </template>
-    </Toolbar>
     <div class="card">
-      <DataTable ref="dt" :value="users" v-model:selection="selected"
-                 :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]"
-                 responsiveLayout="scroll" :filters="filters">
-        <template #header>
-          <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
-            <h5 class="mb-2 md:m-0 p-as-md-center">Manage Users</h5>
-            <InputText v-model="filters['global'].value" class="p-inputtext-sm" placeholder="Search..."/>
-          </div>
-        </template>
-        <template #empty>
-          No users found.
-        </template>
-        <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
-        <Column field="id" header="Id" :sortable="true"></Column>
-        <Column field="name" header="Name" :sortable="true"></Column>
-        <Column field="email" header="Email" :sortable="true"></Column>
-        <Column :exportable="false">
-          <template #body="slotProps">
-            <Button icon="pi pi-pencil" v-has-permission="{props: $page.props, permissions: ['users.edit']}" class="p-button-rounded mr-2" @click="editResource(slotProps.data)"/>
-            <Button icon="pi pi-trash" iconPos="left" v-has-permission="{props: $page.props, permissions: ['users.delete']}" @click="deleteResource(slotProps.data.id)"
-                    class="p-button-rounded p-button-danger"/>
-          </template>
-        </Column>
-      </DataTable>
-    </div>
 
-    <UserForm v-model:visible="formVisible" :roles="roles" :user="user" :action="action"/>
-  </div>
+        <Toolbar class="mb-4">
+            <template #start>
+                <Button v-has-permission="{props: $page.props, permissions: ['users.create']}" class="p-button-success mr-2 mb-2" icon="pi pi-plus" label="New" @click="createNewResource()"/>
+                <Button v-has-permission="{props: $page.props, permissions: ['users.delete']}" :disabled="!selected || !selected.length" class="p-button-danger mb-2" icon="pi pi-trash" label="Delete"
+                        @click="massDeleteResource()"/>
+            </template>
+
+            <template #end>
+                <Button class="p-button-help mb-2" icon="pi pi-upload" label="Export" @click="exportCSV($event)"/>
+            </template>
+        </Toolbar>
+        <div class="card">
+            <DataTable ref="dt" v-model:selection="selected" :filters="filters"
+                       :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]"
+                       :value="users" responsiveLayout="scroll">
+                <template #header>
+                    <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
+                        <h5 class="mb-2 md:m-0 p-as-md-center">Manage Users</h5>
+                        <InputText v-model="filters['global'].value" class="p-inputtext-sm" placeholder="Search..."/>
+                    </div>
+                </template>
+                <template #empty>
+                    No users found.
+                </template>
+                <Column :exportable="false" selectionMode="multiple" style="width: 3rem"></Column>
+                <Column :sortable="true" field="id" header="Id"></Column>
+                <Column :sortable="true" field="name" header="Name"></Column>
+                <Column :sortable="true" field="email" header="Email"></Column>
+                <Column :exportable="false">
+                    <template #body="slotProps">
+                        <Button v-has-permission="{props: $page.props, permissions: ['users.edit']}" class="p-button-rounded mr-2" icon="pi pi-pencil" @click="editResource(slotProps.data)"/>
+                        <Button v-has-permission="{props: $page.props, permissions: ['users.delete']}" class="p-button-rounded p-button-danger" icon="pi pi-trash" iconPos="left"
+                                @click="deleteResource(slotProps.data.id)"/>
+                    </template>
+                </Column>
+            </DataTable>
+        </div>
+
+        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user"/>
+    </div>
 </template>
 
 <script>
@@ -50,86 +50,86 @@ import {Inertia} from '@inertiajs/inertia'
 import {FilterMatchMode} from 'primevue/api';
 
 export default {
-  layout     : AuthenticatedLayout,
-  components : {
-    UserForm
-  },
-  props      : {
-    users : Object,
-    roles : Object
-  },
-  data() {
-    return {
-      selected    : null,
-      user        : null,
-      formVisible : false,
-      action      : "",
-      filters     : {}
-    }
-  },
-  created() {
-    this.initFilters();
-  },
-  methods : {
-    exportCSV() {
-      this.$refs.dt.exportCSV();
+    layout     : AuthenticatedLayout,
+    components : {
+        UserForm
     },
-    deleteResource(id) {
-      this.$confirm.require({
-        message : 'Are you sure you want to delete this user?',
-        header  : 'Confirmation',
-        icon    : 'pi pi-exclamation-triangle',
-        accept  : () => {
-          Inertia.delete(route('users.destroy', id))
-        },
-        reject  : () => {
+    props      : {
+        users : Object,
+        roles : Object
+    },
+    data() {
+        return {
+            selected    : null,
+            user        : null,
+            formVisible : false,
+            action      : "",
+            filters     : {}
         }
-      });
     },
-    createNewResource() {
-      this.user        = null
-      this.action      = "Create"
-      this.formVisible = true;
+    created() {
+        this.initFilters();
     },
-    editResource(user) {
-      this.user        = user;
-      this.action      = "Edit"
-      this.formVisible = true;
-    },
-    massDeleteResource() {
-      this.$confirm.require({
-        message : 'Are you sure you want to delete all this users?',
-        header  : 'Confirmation',
-        icon    : 'pi pi-exclamation-triangle',
-        accept  : () => {
-          Inertia.post(route('users.massDestroy'), {
-                users : this.selected,
-              },
-              {
-                onSuccess : () => this.selected = [],
-              })
+    methods : {
+        exportCSV() {
+            this.$refs.dt.exportCSV();
         },
-        reject  : () => {
+        deleteResource(id) {
+            this.$confirm.require({
+                message : 'Are you sure you want to delete this user?',
+                header  : 'Confirmation',
+                icon    : 'pi pi-exclamation-triangle',
+                accept  : () => {
+                    Inertia.delete(route('users.destroy', id))
+                },
+                reject  : () => {
+                }
+            });
+        },
+        createNewResource() {
+            this.user        = null
+            this.action      = "Create"
+            this.formVisible = true;
+        },
+        editResource(user) {
+            this.user        = user;
+            this.action      = "Edit"
+            this.formVisible = true;
+        },
+        massDeleteResource() {
+            this.$confirm.require({
+                message : 'Are you sure you want to delete all this users?',
+                header  : 'Confirmation',
+                icon    : 'pi pi-exclamation-triangle',
+                accept  : () => {
+                    Inertia.post(route('users.massDestroy'), {
+                            users : this.selected,
+                        },
+                        {
+                            onSuccess : () => this.selected = [],
+                        })
+                },
+                reject  : () => {
+                }
+            });
+        },
+        initFilters() {
+            this.filters = {
+                'global' : {value : null, matchMode : FilterMatchMode.CONTAINS},
+            }
         }
-      });
-    },
-    initFilters() {
-      this.filters = {
-        'global' : {value : null, matchMode : FilterMatchMode.CONTAINS},
-      }
     }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 .table-header {
-  display         : flex;
-  align-items     : center;
-  justify-content : space-between;
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
 
-  @media screen and (max-width : 960px) {
-    align-items : start;
-  }
+    @media screen and (max-width : 960px) {
+        align-items : start;
+    }
 }
 </style>

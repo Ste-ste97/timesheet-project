@@ -1,32 +1,32 @@
 <template>
-  <Head title="Register"/>
+    <Head title="Register"/>
 
-  <div class="text-center mb-5">
-    <img src="/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
-    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-    <span class="text-600 font-medium line-height-3">Already registered?</span>
-    <Link href="/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</Link>
-  </div>
-
-  <form @submit.prevent="submit" class="grid formgrid p-fluid">
-    <div class="field mb-4 col-12">
-      <FormField label="Name" name="name" v-model="form.name" type="text"/>
+    <div class="text-center mb-5">
+        <img alt="Image" class="mb-3" height="50" src="/images/blocks/logos/hyper.svg">
+        <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+        <span class="text-600 font-medium line-height-3">Already registered?</span>
+        <Link class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" href="/login">Login</Link>
     </div>
 
-    <div class="field mb-4 col-12">
-      <FormField label="Email" name="email" v-model="form.email" type="text"/>
-    </div>
+    <form class="grid formgrid p-fluid" @submit.prevent="submit">
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.name" label="Name" name="name" type="text"/>
+        </div>
 
-    <div class="field mb-4 col-12">
-      <FormField component="Password" label="Password" name="password" v-model="form.password"/>
-    </div>
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.email" label="Email" name="email" type="text"/>
+        </div>
 
-    <div class="field mb-4 col-12">
-      <FormField component="Password" label="Confirm Password" name="password_confirm" v-model="form.password_confirmation" type="password"/>
-    </div>
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.password" component="Password" label="Password" name="password"/>
+        </div>
 
-    <Button label="Register" :disabled="form.processing" type="submit" class="w-full"></Button>
-  </form>
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.password_confirmation" component="Password" label="Confirm Password" name="password_confirm" type="password"/>
+        </div>
+
+        <Button :disabled="form.processing" class="w-full" label="Register" type="submit"></Button>
+    </form>
 
 </template>
 
@@ -36,32 +36,32 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 import FormField from "@/Components/FormField.vue"
 
 export default {
-  layout : GuestLayout,
+    layout : GuestLayout,
 
-  components : {
-    Head,
-    Link,
-    FormField
-  },
+    components : {
+        Head,
+        Link,
+        FormField
+    },
 
-  data() {
-    return {
-      form : this.$inertia.form({
-        name                  : '',
-        email                 : '',
-        password              : '',
-        password_confirmation : '',
-        terms                 : false,
-      })
+    data() {
+        return {
+            form : this.$inertia.form({
+                name                  : '',
+                email                 : '',
+                password              : '',
+                password_confirmation : '',
+                terms                 : false,
+            })
+        }
+    },
+
+    methods : {
+        submit() {
+            this.form.post(this.route('register'), {
+                onFinish : () => this.form.reset('password', 'password_confirmation'),
+            })
+        }
     }
-  },
-
-  methods : {
-    submit() {
-      this.form.post(this.route('register'), {
-        onFinish : () => this.form.reset('password', 'password_confirmation'),
-      })
-    }
-  }
 }
 </script>

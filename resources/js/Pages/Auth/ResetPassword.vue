@@ -1,28 +1,28 @@
 <template>
-  <Head title="Reset Password"/>
+    <Head title="Reset Password"/>
 
-  <div class="text-center mb-5">
-    <img src="/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
-    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-    <span class="text-600 font-medium line-height-3">Already registered?</span>
-    <Link href="/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</Link>
-  </div>
-
-  <form @submit.prevent="submit" class="grid formgrid p-fluid">
-    <div class="field mb-4 col-12">
-      <FormField label="Email" name="email" v-model="form.email" type="text" class="w-full"/>
+    <div class="text-center mb-5">
+        <img alt="Image" class="mb-3" height="50" src="/images/blocks/logos/hyper.svg">
+        <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+        <span class="text-600 font-medium line-height-3">Already registered?</span>
+        <Link class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" href="/login">Login</Link>
     </div>
 
-    <div class="field mb-4 col-12">
-      <FormField component="Password" label="Password" name="password" v-model="form.password"/>
-    </div>
+    <form class="grid formgrid p-fluid" @submit.prevent="submit">
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.email" class="w-full" label="Email" name="email" type="text"/>
+        </div>
 
-    <div class="field mb-4 col-12">
-      <FormField label="Confirm Password" name="password_confirm" v-model="form.password_confirmation" type="password"/>
-    </div>
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.password" component="Password" label="Password" name="password"/>
+        </div>
 
-    <Button label="Reset Password" :disabled="form.processing" type="submit" class="w-full"></Button>
-  </form>
+        <div class="field mb-4 col-12">
+            <FormField v-model="form.password_confirmation" label="Confirm Password" name="password_confirm" type="password"/>
+        </div>
+
+        <Button :disabled="form.processing" class="w-full" label="Reset Password" type="submit"></Button>
+    </form>
 </template>
 
 <script>
@@ -32,37 +32,37 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 import FormField from "@/Components/FormField.vue"
 
 export default {
-  layout : GuestLayout,
+    layout : GuestLayout,
 
-  components : {
-    ValidationErrors,
-    Head,
-    Link,
-    FormField
-  },
+    components : {
+        ValidationErrors,
+        Head,
+        Link,
+        FormField
+    },
 
-  props : {
-    email : String,
-    token : String,
-  },
+    props : {
+        email : String,
+        token : String,
+    },
 
-  data() {
-    return {
-      form : this.$inertia.form({
-        token                 : this.token,
-        email                 : this.email,
-        password              : '',
-        password_confirmation : '',
-      })
+    data() {
+        return {
+            form : this.$inertia.form({
+                token                 : this.token,
+                email                 : this.email,
+                password              : '',
+                password_confirmation : '',
+            })
+        }
+    },
+
+    methods : {
+        submit() {
+            this.form.post(this.route('password.update'), {
+                onFinish : () => this.form.reset('password', 'password_confirmation'),
+            })
+        }
     }
-  },
-
-  methods : {
-    submit() {
-      this.form.post(this.route('password.update'), {
-        onFinish : () => this.form.reset('password', 'password_confirmation'),
-      })
-    }
-  }
 }
 </script>
