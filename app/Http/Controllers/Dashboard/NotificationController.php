@@ -17,7 +17,7 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function show(int $id, Request $request): Response
+    public function show(String $id, Request $request): Response
     {
         $notification = $request->user()->notifications()
                               ->where('id', $id)
