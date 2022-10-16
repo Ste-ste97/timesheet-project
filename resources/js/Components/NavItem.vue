@@ -25,7 +25,7 @@ export default {
         icon        : String,
         route_name  : String,
         permissions : String,
-        external    : Boolean,
+        external    : Number,
         children    : {
             type    : Array,
             default : []

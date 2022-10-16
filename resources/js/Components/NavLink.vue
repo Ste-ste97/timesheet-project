@@ -34,7 +34,7 @@ export default {
         name     : String,
         icon     : String,
         href     : String,
-        external : Boolean,
+        external : Number,
         children : {
             type    : Array,
             default : []
