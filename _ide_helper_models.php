@@ -14,7 +14,6 @@ namespace App\Models{
 /**
  * App\Models\Address
  *
- * @method string country
  * @property int $id
  * @property string|null $street_name
  * @property string|null $street_num
@@ -136,7 +135,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $children
  * @property-read int|null $children_count
- * @property-read mixed $type
+ * @property-read string $type
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
