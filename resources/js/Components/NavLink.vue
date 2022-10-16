@@ -14,12 +14,12 @@
         </ul>
     </li>
     <li v-else>
-        <Link v-ripple :href="href ? route(href): ''"
-              class="no-underline flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50
+        <component :is="getComponent()" v-ripple :href="href ? route(href): ''"
+                   class="no-underline flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50
                 transition-duration-150 transition-colors p-ripple">
             <i :class="['mr-2', icon]"></i>
             <span class="font-medium">{{ name }}</span>
-        </Link>
+        </component>
     </li>
 </template>
 
@@ -34,10 +34,16 @@ export default {
         name     : String,
         icon     : String,
         href     : String,
+        external : Boolean,
         children : {
             type    : Array,
             default : []
         }
     },
+    methods    : {
+        getComponent() {
+            return this.external ? 'a' : Link;
+        }
+    }
 }
 </script>

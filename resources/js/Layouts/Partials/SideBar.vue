@@ -6,7 +6,7 @@
             </div>
             <div class="overflow-y-auto mt-3">
                 <ul class="list-none p-3 m-0">
-                    <NavItem v-for="navlink in navlinks" :key="navlink.id" :children="navlink.children" :icon="navlink.icon" :name="navlink.name"
+                    <NavItem v-for="navlink in navlinks" :key="navlink.id" :children="navlink.children" :external="navlink.external" :icon="navlink.icon" :name="navlink.name"
                              :permissions="navlink.permissions" :route_name="navlink.route_name"/>
                 </ul>
             </div>

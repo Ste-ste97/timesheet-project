@@ -45,5 +45,13 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'permissions.index'
         ]);
 
+        Navlink::create([
+            'name'        => 'Log Viewer',
+            'icon'        => 'pi pi-book',
+            'external'    => true,
+            'permissions' => 'logs.view',
+            'route_name'  => 'blv.index'
+        ]);
+
     }
 }

@@ -13,30 +13,30 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::findOrCreate('admin');
 
         // user permissions
-        $users = Permission::firstOrCreate([
+        $users = Permission::create([
             'name'       => 'users',
             'group_name' => 'users'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'users.view',
             'group_name'  => 'users',
             'description' => 'Can view users.',
             'parent_id'   => $users->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'users.edit',
             'group_name'  => 'users',
             'description' => 'Can edit existing users.',
             'parent_id'   => $users->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'users.create',
             'group_name'  => 'users',
             'description' => 'Can create new users.',
             'parent_id'   => $users->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'users.delete',
             'group_name'  => 'users',
             'description' => 'Can delete users.',
@@ -44,36 +44,36 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // roles permissions
-        $roles = Permission::firstOrCreate([
+        $roles = Permission::create([
             'name'       => 'roles',
             'group_name' => 'roles'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'roles.view',
             'group_name'  => 'roles',
             'description' => 'Can view roles.',
             'parent_id'   => $roles->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'roles.edit',
             'group_name'  => 'roles',
             'description' => 'Can edit existing roles.',
             'parent_id'   => $roles->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'roles.create',
             'group_name'  => 'roles',
             'description' => 'Can create new roles.',
             'parent_id'   => $roles->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'roles.delete',
             'group_name'  => 'roles',
             'description' => 'Can delete roles.',
             'parent_id'   => $roles->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'roles.assign',
             'group_name'  => 'roles',
             'description' => 'Can assign roles to models (typically to users).',
@@ -81,12 +81,12 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // permissions permissions
-        $permissions = Permission::firstOrCreate([
+        $permissions = Permission::create([
             'name'       => 'permissions',
             'group_name' => 'permissions'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'permissions.view',
             'group_name'  => 'permissions',
             'description' => 'Can view permissions.',
@@ -98,19 +98,19 @@ class RolePermissionSeeder extends Seeder
             'description' => 'Can edit existing permissions.',
             'parent_id'   => $permissions->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'permissions.create',
             'group_name'  => 'permissions',
             'description' => 'Can create new permissions.',
             'parent_id'   => $permissions->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'permissions.delete',
             'group_name'  => 'permissions',
             'description' => 'Can delete permissions.',
             'parent_id'   => $permissions->id
         ]);
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'permissions.assign',
             'group_name'  => 'permissions',
             'description' => 'Can assign permissions to models (typically to roles).',
@@ -118,12 +118,12 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // log permissions
-        $logs = Permission::firstOrCreate([
+        $logs = Permission::create([
             'name'       => 'logs',
             'group_name' => 'logs'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name'        => 'logs.view',
             'group_name'  => 'logs',
             'description' => 'Can view websites logs.',
