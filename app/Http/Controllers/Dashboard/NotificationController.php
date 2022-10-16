@@ -17,9 +17,9 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function show($id): Response
+    public function show(int $id, Request $request): Response
     {
-        $notification = auth()->user()->notifications()
+        $notification = $request->user()->notifications()
                               ->where('id', $id)
                               ->firstOrFail();
         $notification->markAsRead();
@@ -35,7 +35,7 @@ class NotificationController extends Controller
             return redirect()->back();
         }
 
-        auth()->user()->notifications->markAsRead();
+        $request->user()->notifications->markAsRead();
 
         $request->session()->flash('message', [
             'type'    => 'success', // error, success, info
@@ -63,7 +63,7 @@ class NotificationController extends Controller
 
     private function checkIfEmpty(Request $request): bool
     {
-        if (!auth()->user()->notifications()->exists()) {
+        if (!$request->user()->notifications()->exists()) {
             $request->session()->flash('message', [
                 'type'    => 'info', // error, success, info
                 'message' => __('Your inbox is empty.')

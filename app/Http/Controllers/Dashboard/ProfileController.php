@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\City;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
 use App\Models\Country;
 use App\Http\Controllers\Controller;

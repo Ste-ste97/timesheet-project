@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
 use App\Models\Permission;
 use Illuminate\Http\Request;
