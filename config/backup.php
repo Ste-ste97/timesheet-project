@@ -8,7 +8,7 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => env('APP_NAME', 'laravel-backup'),
+        'name' => 'backups',
 
         'source' => [
 
@@ -29,7 +29,9 @@ return [
                 'exclude' => [
                     base_path('vendor'),
                     base_path('node_modules'),
-
+                    base_path('docker-data/mysql-data'),
+                    base_path('docker-data/nginx'),
+                    base_path('storage/app/backups'),
                 ],
 
                 /*
@@ -248,33 +250,33 @@ return [
             /*
              * The number of days for which backups must be kept.
              */
-            'keep_all_backups_for_days' => 7,
+            'keep_all_backups_for_days' => env('BACKUP_KEEP_ALL_BACKUPS_FOR_DAYS', 2),
 
             /*
              * The number of days for which daily backups must be kept.
              */
-            'keep_daily_backups_for_days' => 16,
+            'keep_daily_backups_for_days' => env('BACKUP_KEEP_DAILY_BACKUPS_FOR_DAYS', 2),
 
             /*
              * The number of weeks for which one weekly backup must be kept.
              */
-            'keep_weekly_backups_for_weeks' => 8,
+            'keep_weekly_backups_for_weeks' => env('BACKUP_KEEP_WEEKLY_BACKUPS_FOR_WEEKS', 1),
 
             /*
              * The number of months for which one monthly backup must be kept.
              */
-            'keep_monthly_backups_for_months' => 4,
+            'keep_monthly_backups_for_months' => env('BACKUP_KEEP_MONTHLY_BACKUPS_FOR_MONTHS', 1),
 
             /*
              * The number of years for which one yearly backup must be kept.
              */
-            'keep_yearly_backups_for_years' => 2,
+            'keep_yearly_backups_for_years' => env('BACKUP_KEEP_YEARLY_BACKUPS_FOR_YEARS', 0),
 
             /*
              * After cleaning up the backups remove the oldest backup until
              * this amount of megabytes has been reached.
              */
-            'delete_oldest_backups_when_using_more_megabytes_than' => 5000,
+            'delete_oldest_backups_when_using_more_megabytes_than' => env('BACKUP_DELETE_OLDEST_BACKUPS_WHEN_USING_MORE_MEGABYTES_THAN', 100000),
         ],
     ],
 
