@@ -3,8 +3,8 @@
     <Toast :breakpoints="{'920px': {width: '100%', right: '0', left: '0'}}" position="bottom-right"/>
     <ConfirmDialog></ConfirmDialog>
     <div class="min-h-screen lg:flex lg:relative lg:static surface-ground">
-        <SideBar/>
-        <div class="min-h-screen flex flex-column relative flex-auto">
+        <SideBar class="sidebar-size"/>
+        <div class="app-size min-h-screen flex flex-column relative flex-auto">
             <TopBar/>
             <div class="p-5 flex flex-column flex-auto">
                 <slot/>
@@ -40,4 +40,13 @@ export default {
 
 <style lang="scss">
 @import '../../assets/styles/layout.scss';
+
+@media (min-width: 1000px) {
+    .sidebar-size {
+        max-width: 20vw;
+    }
+    .app-size {
+        width: 80vw;
+    }
+}
 </style>
