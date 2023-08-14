@@ -52,7 +52,7 @@ export default {
                 );
             } else
                 if (this.action === 'Edit') {
-                    Inertia.patch(
+                    this.$inertia.patch(
                         route('roles.update', this.localRole.id),
                         this.localRole,
                         {
