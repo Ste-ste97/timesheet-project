@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 # Build args
 ARG node
@@ -43,13 +43,6 @@ RUN if [ "$user" != "root" ] ; then \
     useradd -G www-data,root -u $uid -d /home/$user $user && \
     mkdir -p /home/$user/.composer &&\
     chown -R $user:$user /home/$user; \
-    fi
-
-# Install node & yarn
-RUN if [ $node ] ; then \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y nodejs && \
-    npm -g install yarn; \
     fi
 
 # Enable cron job

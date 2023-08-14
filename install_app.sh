@@ -11,7 +11,7 @@ if [ "$answer" != "${answer#[Yy]}" ] ;then
     if ! grep -q "DOCKER_USER" .env; then
         echo "DOCKER_USER=$(whoami)" >> .env
     fi
-    docker-compose build
+    docker-compose build --no-cache
     docker-compose up -d
     echo "Done with docker"
     sudo chmod u+x composer.sh

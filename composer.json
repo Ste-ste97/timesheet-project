@@ -7,7 +7,7 @@
     "homepage": "http://packages.example.org",
     "require-all": true,
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^10.0",

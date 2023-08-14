@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose exec app yarn $@
+docker-compose exec node14 yarn $@

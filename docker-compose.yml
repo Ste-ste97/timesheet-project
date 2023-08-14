@@ -23,6 +23,17 @@ services:
     networks:
       - app-network
 
+  # Node14
+  node14:
+    image: node:14
+    restart: unless-stopped
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./:/app
+    networks:
+      - app-network
+
   # Nginx Service
   webserver:
     image: nginx:alpine
