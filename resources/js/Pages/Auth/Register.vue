@@ -2,7 +2,7 @@
     <Head title="Register"/>
 
     <div class="text-center mb-5">
-        <img alt="Image" class="mb-3" height="50" src="/images/blocks/logos/hyper.svg">
+        <img alt="Image" class="mb-3" height="50" :src="appLogo">
         <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
         <span class="text-600 font-medium line-height-3">Already registered?</span>
         <Link class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" href="/login">Login</Link>
@@ -32,8 +32,9 @@
 
 <script>
 import GuestLayout from '@/Layouts/Guest.vue'
-import {Head, Link} from '@inertiajs/inertia-vue3';
+import {Head, Link} from '@inertiajs/vue3';
 import FormField from "@/Components/FormField.vue"
+import appLogo from '/resources/images/blocks/logos/hyper.svg';
 
 export default {
     layout : GuestLayout,
@@ -52,7 +53,8 @@ export default {
                 password              : '',
                 password_confirmation : '',
                 terms                 : false,
-            })
+            }),
+            appLogo
         }
     },
 

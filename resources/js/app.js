@@ -1,125 +1,177 @@
-require('./bootstrap');
-
-import {createApp, h} from 'vue';
-import {App as InertiaApp, plugin as InertiaPlugin} from '@inertiajs/inertia-vue3';
-import {InertiaProgress} from '@inertiajs/progress';
+import './bootstrap';
 import "primevue/resources/themes/lara-light-indigo/theme.css";
-
 import "primeflex/primeflex.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import Checkbox from 'primevue/checkbox';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Message from 'primevue/message';
 import PrimeVue from 'primevue/config';
+import Ripple from 'primevue/ripple';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Avatar from 'primevue/avatar';
 import AvatarGroup from 'primevue/avatargroup';
-import BadgeDirective from 'primevue/badgedirective';
-import Button from 'primevue/button';
-import Badge from 'primevue/badge';
-import Calendar from 'primevue/calendar';
 import Carousel from 'primevue/carousel';
-import Checkbox from 'primevue/checkbox';
 import Chip from 'primevue/chip';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Dialog from 'primevue/dialog';
 import Divider from 'primevue/divider';
-import Dropdown from 'primevue/dropdown';
-import FileUpload from 'primevue/fileupload';
-import InputNumber from 'primevue/inputnumber';
-import InputSwitch from 'primevue/inputswitch';
-import InputText from 'primevue/inputtext';
-import Knob from 'primevue/knob';
-import Menu from 'primevue/menu';
-import Message from 'primevue/message';
-import MultiSelect from 'primevue/multiselect';
-import ProgressBar from 'primevue/progressbar';
-import Paginator from 'primevue/paginator';
-import RadioButton from 'primevue/radiobutton';
-import Rating from 'primevue/rating';
-import Ripple from 'primevue/ripple';
-import Password from 'primevue/password';
-import Sidebar from 'primevue/sidebar';
-import StyleClass from 'primevue/styleclass';
-import TabMenu from 'primevue/tabmenu';
-import Toolbar from 'primevue/toolbar';
-import TabPanel from 'primevue/tabpanel';
-import TabView from 'primevue/tabview';
-import Tag from 'primevue/tag';
-import Textarea from 'primevue/textarea';
-import Tooltip from 'primevue/tooltip';
+import Badge from 'primevue/badge';
+import Calendar from 'primevue/calendar';
 import Toast from 'primevue/toast';
-import ConfirmationService from 'primevue/confirmationservice';
-import ToastService from 'primevue/toastservice';
+import StyleClass from 'primevue/styleclass';
+import HasPermissionDirective from '@/Components/Directives/HasPermissionDirective.vue';
+import HasRoleDirective from '@/Components/Directives/HasRoleDirective.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Toolbar from 'primevue/toolbar';
+import BadgeDirective from 'primevue/badgedirective';
+import Menu from 'primevue/menu';
+import Paginator from 'primevue/paginator';
+import MultiSelect from 'primevue/multiselect';
+import Password from 'primevue/password';
+import ProgressBar from 'primevue/progressbar';
+import RadioButton from 'primevue/radiobutton';
+import Textarea from 'primevue/textarea';
+import InputSwitch from 'primevue/inputswitch';
+import InputNumber from 'primevue/inputnumber';
+import FileUpload from 'primevue/fileupload';
+import Dropdown from 'primevue/dropdown';
+import ToastService from 'primevue/toastservice';
+import Rating from 'primevue/rating';
+import Sidebar from 'primevue/sidebar';
+import TabPanel from 'primevue/tabpanel';
+import Knob from 'primevue/knob';
+import TabView from 'primevue/tabview';
+import TabMenu from 'primevue/tabmenu';
+import Tag from 'primevue/tag';
+import Tooltip from 'primevue/tooltip';
+import ConfirmationService from 'primevue/confirmationservice';
 
-import HasPermissionDirective from './Components/Directives/HasPermissionDirective'
-import HasRoleDirective from './Components/Directives/HasRoleDirective'
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-const el = document.getElementById('app');
-
-const app = createApp({
-    render : () =>
-        h(InertiaApp, {
-            initialPage      : JSON.parse(el.dataset.page),
-            resolveComponent : (name) => require(`./Pages/${name}`).default,
-        }),
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue, Ziggy)
+            .mixin({methods : {route}})
+            .use(PrimeVue, {ripple : true})
+            .use(ToastService)
+            .use(ConfirmationService)
+            .component('router-link', {})
+            .component('Accordion', Accordion)
+            .component('AccordionTab', AccordionTab)
+            .component('AvatarGroup', AvatarGroup)
+            .component('Avatar', Avatar)
+            .component('Badge', Badge)
+            .component('Calendar', Calendar)
+            .component('Carousel', Carousel)
+            .component('Chip', Chip)
+            .component('ConfirmDialog', ConfirmDialog)
+            .component('Dialog', Dialog)
+            .component('Divider', Divider)
+            .component('InputText', InputText)
+            .component('Button', Button)
+            .component('Checkbox', Checkbox)
+            .component('Message', Message)
+            .component('Menu', Menu)
+            .component('Toast', Toast)
+            .component('DataTable', DataTable)
+            .component('Column', Column)
+            .component('Toolbar', Toolbar)
+            .component('Paginator', Paginator)
+            .component('MultiSelect', MultiSelect)
+            .component('Password', Password)
+            .component('Dropdown', Dropdown)
+            .component('FileUpload', FileUpload)
+            .component('InputNumber', InputNumber)
+            .component('InputSwitch', InputSwitch)
+            .component('Textarea', Textarea)
+            .component('RadioButton', RadioButton)
+            .component('ProgressBar', ProgressBar)
+            .component('Rating', Rating)
+            .component('Sidebar', Sidebar)
+            .component('TabPanel', TabPanel)
+            .component('Knob', Knob)
+            .component('TabView', TabView)
+            .component('TabMenu', TabMenu)
+            .component('Tag', Tag)
+            .directive('ripple', Ripple)
+            .directive('tooltip', Tooltip)
+            .directive('styleclass', StyleClass)
+            .directive('badge', BadgeDirective)
+            .directive('has-permission', HasPermissionDirective)
+            .directive('has-role', HasRoleDirective)
+            .mount(el);
+    },
+    progress: {
+        color: '#4B5563',
+    },
 });
 
-app.mixin({methods : {route}});
-app.use(PrimeVue, {ripple : true})
-app.use(InertiaPlugin);
-app.use(ConfirmationService);
-app.use(ToastService);
-
-app.component('router-link', {}) // to hide warning from primevue
-app.component('Accordion', Accordion);
-app.component('AccordionTab', AccordionTab);
-app.component('Avatar', Avatar);
-app.component('AvatarGroup', AvatarGroup);
-app.component('Button', Button);
-app.component('Badge', Badge);
-app.component('Calendar', Calendar);
-app.component('Carousel', Carousel);
-app.component('Checkbox', Checkbox);
-app.component('Chip', Chip);
-app.component('ConfirmDialog', ConfirmDialog);
-app.component('Dialog', Dialog);
-app.component('Divider', Divider);
-app.component('Dropdown', Dropdown);
-app.component('FileUpload', FileUpload);
-app.component('InputNumber', InputNumber);
-app.component('InputSwitch', InputSwitch);
-app.component('InputText', InputText);
-app.component('Knob', Knob);
-app.component('Menu', Menu);
-app.component('MultiSelect', MultiSelect);
-app.component('Message', Message);
-app.component('ProgressBar', ProgressBar);
-app.component('Paginator', Paginator);
-app.component('RadioButton', RadioButton);
-app.component('Password', Password)
-app.component('Rating', Rating);
-app.component('Sidebar', Sidebar);
-app.component('TabMenu', TabMenu);
-app.component('Toolbar', Toolbar);
-app.component('TabPanel', TabPanel);
-app.component('TabView', TabView);
-app.component('Tag', Tag);
-app.component('Textarea', Textarea);
-app.component('Toast', Toast);
-app.component('DataTable', DataTable);
-app.component('Column', Column);
-
-app.directive('badge', BadgeDirective);
-app.directive('tooltip', Tooltip);
-app.directive('ripple', Ripple);
-app.directive('styleclass', StyleClass);
-
-app.directive('has-permission', HasPermissionDirective)
-app.directive('has-role', HasRoleDirective)
-
-app.mount(el);
-
-InertiaProgress.init({color : '#4B5563'});
+//app;
+//app
+//app.use(InertiaPlugin);
+//app;
+//app;
+//
+//app // to hide warning from primevue
+//app;
+//app
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//app;
+//
+//app.;
+//app;
+//app;
+//app;
+//
+//app
+//app
+//
+//app.mount(el);
+//
+//InertiaProgress.init({color : '#4B5563'});

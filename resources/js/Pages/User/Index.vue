@@ -46,7 +46,6 @@
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import UserForm from "./Partials/UserForm.vue"
-import {Inertia} from '@inertiajs/inertia'
 import {FilterMatchMode} from 'primevue/api';
 
 export default {
@@ -80,7 +79,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.delete(route('users.destroy', id))
+                    this.$inertia.delete(route('users.destroy', id))
                 },
                 reject  : () => {
                 }
@@ -102,7 +101,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.post(route('users.massDestroy'), {
+                    this.$inertia.post(route('users.massDestroy'), {
                             users : this.selected,
                         },
                         {

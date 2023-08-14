@@ -21,7 +21,7 @@
 
 <script>
 import GuestLayout from '@/Layouts/Guest.vue'
-import {Head, Link} from '@inertiajs/inertia-vue3';
+import {Head, Link} from '@inertiajs/vue3';
 
 export default {
     layout : GuestLayout,

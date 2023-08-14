@@ -3,7 +3,7 @@
     <Head title="Login"/>
 
     <div class="text-center mb-5">
-        <img alt="Image" class="mb-3" height="50" src="/images/blocks/logos/hyper.svg">
+        <img alt="Image" class="mb-3" height="50" :src="appLogo">
         <div class="text-900 text-3xl font-medium mb-3">Two Factor Authentication</div>
         <div class="grid">
             <span class="col-12 text-600 font-medium line-height-3">Please enter the secret code to connect to this secure portal.</span>
@@ -26,7 +26,8 @@
 <script>
 import GuestLayout from '@/Layouts/Guest.vue'
 import ValidationErrors from '@/Components/ValidationErrors.vue'
-import {Head, Link} from '@inertiajs/inertia-vue3';
+import {Head, Link} from '@inertiajs/vue3';
+import appLogo from '/resources/images/blocks/logos/hyper.svg';
 
 export default {
     layout : GuestLayout,
@@ -47,7 +48,8 @@ export default {
             form      : this.$inertia.form({
                 secret : ''
             }),
-            countdown : 0
+            countdown : 0,
+            appLogo,
         }
     },
     computed : {

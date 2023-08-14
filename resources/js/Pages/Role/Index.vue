@@ -45,7 +45,6 @@
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import RoleForm from "./Partials/RoleForm.vue"
-import {Inertia} from '@inertiajs/inertia'
 import {FilterMatchMode} from 'primevue/api';
 
 export default {
@@ -79,7 +78,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.delete(route('roles.destroy', id))
+                    this.$inertia.delete(route('roles.destroy', id))
                 },
                 reject  : () => {
                 }
@@ -101,7 +100,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.post(route('roles.massDestroy'), {
+                    this.$inertia.post(route('roles.massDestroy'), {
                             roles : this.selected,
                         },
                         {

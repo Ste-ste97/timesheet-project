@@ -69,7 +69,6 @@
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import GroupForm from "./Partials/GroupForm.vue"
 import PermissionForm from "./Partials/PermissionForm.vue"
-import {Inertia} from '@inertiajs/inertia'
 import {FilterMatchMode} from 'primevue/api';
 
 export default {
@@ -105,7 +104,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.delete(route('permissions.destroy', id))
+                    this.$inertia.delete(route('permissions.destroy', id))
                 },
                 reject  : () => {
                 }

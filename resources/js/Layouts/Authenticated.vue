@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import SideBar from "./Partials/SideBar";
-import TopBar from "./Partials/TopBar";
-import {Head} from "@inertiajs/inertia-vue3";
+import SideBar from "./Partials/SideBar.vue";
+import TopBar from "./Partials/TopBar.vue";
+import {Head} from "@inertiajs/vue3";
 
 export default {
     components : {

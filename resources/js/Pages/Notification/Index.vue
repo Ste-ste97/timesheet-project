@@ -23,9 +23,8 @@
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import {Head} from "@inertiajs/inertia-vue3";
-import {Link} from '@inertiajs/inertia-vue3'
-import {Inertia} from '@inertiajs/inertia'
+import {Head} from "@inertiajs/vue3";
+import {Link} from '@inertiajs/vue3'
 
 export default {
     layout     : AuthenticatedLayout,
@@ -39,7 +38,7 @@ export default {
     },
     methods    : {
         changePage(data) {
-            Inertia.get(
+            this.$inertia.get(
                 route('notifications.index'),
                 {page : data.page + 1},
                 {
@@ -54,7 +53,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.post(route('notifications.markAllRead'));
+                    this.$inertia.post(route('notifications.markAllRead'));
                 },
                 reject  : () => {
                 }
@@ -66,7 +65,7 @@ export default {
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    Inertia.post(route('notifications.massDestroy'));
+                    this.$inertia.post(route('notifications.massDestroy'));
                 },
                 reject  : () => {
                 }

@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 /worker.log
 /docker-data/mysql-data/
+/public/build

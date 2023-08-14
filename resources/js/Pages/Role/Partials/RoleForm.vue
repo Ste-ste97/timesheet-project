@@ -19,7 +19,6 @@
 
 <script>
 import FormField from "@/Components/FormField.vue"
-import {Inertia} from '@inertiajs/inertia'
 
 export default {
     emits      : ['update:visible'],
@@ -42,7 +41,7 @@ export default {
     methods : {
         submit() {
             if (this.action === 'Create') {
-                Inertia.post(
+                this.$inertia.post(
                     route('roles.store'),
                     this.localRole,
                     {

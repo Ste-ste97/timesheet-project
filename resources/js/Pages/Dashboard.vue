@@ -12,7 +12,7 @@
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import {Head} from "@inertiajs/inertia-vue3";
+import {Head} from "@inertiajs/vue3";
 
 export default {
     layout     : AuthenticatedLayout,

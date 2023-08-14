@@ -20,7 +20,6 @@
 
 <script>
 import FormField from "@/Components/FormField.vue"
-import {Inertia} from '@inertiajs/inertia'
 
 export default {
     emits      : ['update:visible'],
@@ -43,7 +42,7 @@ export default {
     methods : {
         submit() {
             if (this.action === 'Create') {
-                Inertia.post(
+                this.$inertia.post(
                     route('permissions.store'),
                     {
                         ...this.localPermission,
@@ -57,7 +56,7 @@ export default {
                 );
             } else
                 if (this.action === 'Edit') {
-                    Inertia.patch(
+                    this.$inertia.patch(
                         route('permissions.update', this.localPermission.id),
                         this.localPermission,
                         {

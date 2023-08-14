@@ -16,7 +16,7 @@
 <script>
 import GuestLayout from '@/Layouts/Guest.vue'
 import ValidationErrors from '@/Components/ValidationErrors.vue'
-import {Head} from '@inertiajs/inertia-vue3';
+import {Head} from '@inertiajs/vue3';
 
 export default {
     layout : GuestLayout,
