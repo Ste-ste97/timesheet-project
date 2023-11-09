@@ -18,6 +18,12 @@
     </Password>
     <Dropdown v-else-if="component === 'Dropdown'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" v-bind="$attrs"/>
     <MultiSelect v-else-if="component === 'MultiSelect'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" v-bind="$attrs"/>
+    <InputNumber v-else-if="component==='Number'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" v-bind="$attrs"/>
+    <Textarea v-else-if="component==='Textarea'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" v-bind="$attrs"/>
+    <FileUpload v-else-if="component === 'File'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" style="width:130px;" v-bind="$attrs"/>
+    <Calendar v-else-if="component === 'Calendar'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" locale="en-GB" v-bind="$attrs"/>
+    <InputSwitch v-else-if="component === 'InputSwitch'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" v-bind="$attrs"/>
+    <Checkbox v-else-if="component === 'Checkbox'" :id="name" :class="shouldDisplayErrors ? 'p-invalid' : ''" v-bind="$attrs"/>
     <small v-if="shouldDisplayErrors" :id="name+'-help'" class="p-error">{{ $page.props.errors[name] }}</small>
 </template>
 
