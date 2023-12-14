@@ -21,7 +21,7 @@ if [ "$answer" != "${answer#[Yy]}" ] ;then
     ./artisan.sh key:generate
     sudo chmod u+x yarn.sh
     ./yarn.sh install
-    ./yarn.sh run prod
+    ./yarn.sh run production
     ./artisan.sh migrate:fresh --seed
     echo "Done with everything, enjoy!"
 else
