@@ -3,6 +3,8 @@ import "primevue/resources/themes/lara-light-indigo/theme.css";
 import "primeflex/primeflex.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+import { __ } from './lang-handler';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -65,6 +67,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .mixin({methods : {route}})
+            .mixin({ methods: { __ } })
             .use(PrimeVue, {ripple : true})
             .use(ToastService)
             .use(ConfirmationService)

@@ -55,6 +55,7 @@ class Kernel extends HttpKernel {
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
+            \App\Http\Middleware\SetLocale::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,

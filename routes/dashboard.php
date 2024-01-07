@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\TranslationController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -44,8 +45,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::patch('/profile/update-profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
     Route::patch('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    Route::post('/translations/mass-destroy', [TranslationController::class, 'massDestroy'])->name('translations.massDestroy');
+    Route::resource('translations', TranslationController::class)->except(['create', 'edit']);
 });
 
 Route::get('/test', TestController::class);
+
+Route::post('language/{language}', function ($language) {
+    Session()->put('locale', $language);
+
+    return redirect()->back();
+})->name('language');
 
 require __DIR__ . '/auth.php';

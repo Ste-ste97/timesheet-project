@@ -1,7 +1,7 @@
 <template>
     <div v-has-permission="{props: $page.props,
                                         permissions: ['users.view']}" class="card">
-        <div class="grid">You have access to view users.</div>
+        <div class="grid">{{__('You have access to view users.')}}</div>
     </div>
 
     <div v-has-role="{props: $page.props,

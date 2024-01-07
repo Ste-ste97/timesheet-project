@@ -45,7 +45,8 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth'    => $this->auth->toArray(),
             'message' => $this->message->getMessage(),
-            'navbar'  => $this->navbar->getNavbar()
+            'navbar'  => $this->navbar->getNavbar(),
+            'locale'  => \App::getLocale(),
         ]);
     }
 }
