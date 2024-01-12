@@ -16,6 +16,7 @@
         </a>
         <ul class="list-none p-0 m-0 hidden lg:flex lg:align-items-center select-none lg:flex-row
             surface-section border-1 lg:border-none surface-border right-0 top-100 z-1 shadow-2 lg:shadow-none absolute lg:static">
+            <AppLocale/>
             <li>
                 <Link :href="route('notifications.index')"
                       v-ripple class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
@@ -36,6 +37,7 @@
                 </a>
             </li>
             <Menu ref="profileMenu" :popup="true" :model="profileItems"/>
+
         </ul>
     </div>
 </template>
@@ -43,10 +45,12 @@
 <script>
 import {Link} from '@inertiajs/vue3'
 import genericAvatar from '/resources/images/blocks/avatars/circle/generic_avatar.png';
+import AppLocale from '@/Components/AppLocale.vue';
 
 export default {
     components : {
-        Link
+        Link,
+        AppLocale
     },
     data() {
         return {

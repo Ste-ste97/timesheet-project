@@ -130,11 +130,44 @@ class RolePermissionSeeder extends Seeder
             'parent_id'   => $logs->id
         ]);
 
+        // Translation permission
+        $translations = Permission::create([
+            'name'       => 'translations',
+            'group_name' => 'translations'
+        ]);
+
+        Permission::create([
+            'name'        => 'translations.view',
+            'group_name'  => 'translations',
+            'description' => 'Can view translations.',
+            'parent_id'   => $translations->id
+        ]);
+        Permission::firstOrCreate([
+            'name'        => 'translations.edit',
+            'group_name'  => 'translations',
+            'description' => 'Can edit existing translations.',
+            'parent_id'   => $translations->id
+        ]);
+        Permission::create([
+            'name'        => 'translations.create',
+            'group_name'  => 'translations',
+            'description' => 'Can create new translations.',
+            'parent_id'   => $translations->id
+        ]);
+        Permission::create([
+            'name'        => 'translations.delete',
+            'group_name'  => 'translations',
+            'description' => 'Can delete translations.',
+            'parent_id'   => $translations->id
+        ]);
+
 
         // assign permissions to admin
         $admin->givePermissionTo([$users->children]);
         $admin->givePermissionTo([$permissions->children]);
         $admin->givePermissionTo([$roles->children]);
         $admin->givePermissionTo([$logs->children]);
+        $admin->givePermissionTo([$translations->children]);
+
     }
 }

@@ -53,5 +53,11 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'blv.index'
         ]);
 
+        Navlink::create([
+            'name'        => 'Translations',
+            'icon'        => 'pi pi-globe',
+            'route_name'  => 'translations.index'
+        ]);
+
     }
 }
