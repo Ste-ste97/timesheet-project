@@ -14,7 +14,16 @@
 export default {
     data() {
         return {
-            languages : [
+        }
+    },
+    methods  : {
+        toggle(event) {
+            this.$refs.languageMenu.toggle(event);
+        }
+    },
+    computed : {
+        languages() {
+            const items = [
                 {
                     label   : 'English',
                     icon    : 'fi fi-gb',
@@ -33,15 +42,11 @@ export default {
                         })
                     }
                 },
-            ],
-        }
-    },
-    methods  : {
-        toggle(event) {
-            this.$refs.languageMenu.toggle(event);
-        }
-    },
-    computed : {
+            ];
+
+            return this.$page.props.locale === 'gr' ? items.reverse() : items;
+
+        },
         currentLang() {
             return this.$page.props.locale === 'en' ? 'fi fi-gb' : 'fi fi-gr';
         }

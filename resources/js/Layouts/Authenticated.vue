@@ -43,7 +43,7 @@ export default {
 
 @media (min-width: 1000px) {
     .sidebar-size {
-        max-width: 20vw;
+        max-width: 25vw;
     }
     .app-size {
         width: 80vw;
