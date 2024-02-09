@@ -1,0 +1,8 @@
+models:
+    Address: { street_name: 'string nullable', street_num: 'string nullable', state: 'string nullable', postal_code: 'string nullable', city_id: 'biginteger unsigned', user_id: 'biginteger unsigned' }
+    City: { name: string, greek_name: string, country_id: 'biginteger unsigned' }
+    Country: { name: string, greek_name: string }
+    Navlink: { name: string, icon: string, permissions: 'string nullable', route_name: 'string nullable', parent_id: 'biginteger unsigned nullable', external: 'boolean default:0' }
+    Permission: { name: string, group_name: string, guard_name: string, parent_id: 'biginteger unsigned nullable', description: 'text nullable' }
+    Role: { name: string, guard_name: string }
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
