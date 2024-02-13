@@ -160,6 +160,11 @@ export default {
             selectedColumns : [],
         };
     },
+    computed : {
+        hasPermission() {
+            return this.userPermissions.some(item => item.name === this.permissionEdit || item.name === this.permissionDelete);
+        },
+    },
     methods : {
         async deleteResource(id) {
             const that = this;
