@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @mixin IdeHelperPermission
+ */
 class Permission extends SpatiePermission
 {
     use HasFactory;

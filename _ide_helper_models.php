@@ -26,7 +26,7 @@ namespace App\Models{
  * @property-read \App\Models\City $city
  * @property-read mixed $country
  * @property-read \App\Models\User $user
- * @method static \Database\Factories\AddressFactory factory(...$parameters)
+ * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Address newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Address newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Address query()
@@ -39,8 +39,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Address whereStreetNum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Address whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Address whereUserId($value)
+ * @mixin \Eloquent
  */
-	class Address extends \Eloquent {}
+	class IdeHelperAddress {}
 }
 
 namespace App\Models{
@@ -54,7 +55,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Country $country
- * @method static \Database\Factories\CityFactory factory(...$parameters)
+ * @method static \Database\Factories\CityFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|City newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|City newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|City query()
@@ -64,8 +65,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|City whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class City extends \Eloquent {}
+	class IdeHelperCity {}
 }
 
 namespace App\Models{
@@ -77,9 +79,9 @@ namespace App\Models{
  * @property string $greek_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\City[] $cities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\City> $cities
  * @property-read int|null $cities_count
- * @method static \Database\Factories\CountryFactory factory(...$parameters)
+ * @method static \Database\Factories\CountryFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Country newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Country newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Country query()
@@ -88,8 +90,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Country whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Country whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Country whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class Country extends \Eloquent {}
+	class IdeHelperCountry {}
 }
 
 namespace App\Models{
@@ -102,14 +105,16 @@ namespace App\Models{
  * @property string|null $permissions
  * @property string|null $route_name
  * @property int|null $parent_id
+ * @property int $external
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|Navlink[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Navlink> $children
  * @property-read int|null $children_count
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink query()
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereExternal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereName($value)
@@ -117,8 +122,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink wherePermissions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereRouteName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Navlink whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class Navlink extends \Eloquent {}
+	class IdeHelperNavlink {}
 }
 
 namespace App\Models{
@@ -133,14 +139,14 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Permission> $children
  * @property-read int|null $children_count
  * @property-read string $type
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
@@ -155,8 +161,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class Permission extends \Eloquent {}
+	class IdeHelperPermission {}
 }
 
 namespace App\Models{
@@ -168,9 +175,9 @@ namespace App\Models{
  * @property string $guard_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
@@ -181,8 +188,33 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class Role extends \Eloquent {}
+	class IdeHelperRole {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Translation
+ *
+ * @property int $id
+ * @property string $key
+ * @property string $value
+ * @property string $language
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereValue($value)
+ * @mixin \Eloquent
+ */
+	class IdeHelperTranslation {}
 }
 
 namespace App\Models{
@@ -198,15 +230,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Address|null $address
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
@@ -220,7 +252,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class User extends \Eloquent {}
+	class IdeHelperUser {}
 }
 

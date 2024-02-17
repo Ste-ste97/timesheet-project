@@ -1,19 +1,19 @@
 <template>
     <h1 v-if="showPageTitle" class="mb-4 p-as-md-center">{{ pageTitle }}</h1>
 
-    <DataTable ref="dt" :first="from" :value="data" v-model:selection="selected"
-               :totalRecords="total" @page="onPage($event)"
-               :paginator="true" :rows="perPage" :rowsPerPageOptions="rowsPerPageOptions"
-               @update:rows="perPage = $event" :resizableColumns="true" columnResizeMode="expand" showGridlines
-               :filters="filters"
-               :lazy="true" responsiveLayout="scroll" :reorderableColumns="true" removableSort
-               @sort="onSort" :sortField="sortField" :sortOrder="sortOrderInt" :loading="loading">
+    <DataTable ref="dt" v-model:selection="selected" :filters="filters" :first="from"
+               :lazy="true" :loading="loading"
+               :paginator="true" :reorderableColumns="true" :resizableColumns="true"
+               :rows="perPage" :rowsPerPageOptions="rowsPerPageOptions" :sortField="sortField" :sortOrder="sortOrderInt"
+               :totalRecords="total"
+               :value="data" columnResizeMode="expand" removableSort responsiveLayout="scroll"
+               showGridlines @page="onPage($event)" @sort="onSort" @update:rows="perPage = $event">
 
         <template #header>
             <div class="flex flex-column md:justiify-content-between">
                 <Toolbar>
                     <template #start>
-                        <Button v-if=" showCreateButton"
+                        <Button v-if="showCreateButton"
                                 v-has-permission="{props: $page.props, permissions: [permissionCreate]}"
                                 class="p-button-success mr-2" icon="pi pi-plus" label="New"
                                 @click="createNewResource()"/>
@@ -32,8 +32,8 @@
                                         @click="exportCSV($event)"/>
                             </div>
                             <div class="m-2">
-                                <InputText v-model="searchData" @keydown.enter="searchTerm" class="p-inputtext-sm"
-                                           placeholder="Search..."/>
+                                <InputText v-model="searchData" class="p-inputtext-sm" placeholder="Search..."
+                                           @keydown.enter="searchTerm"/>
                             </div>
                         </div>
                     </template>
@@ -42,9 +42,9 @@
 
             <div style="text-align:left">
                 <MultiSelect v-show="showSelectColumns" :modelValue="selectedColumns" :options="columns"
-                             optionLabel="header" filter
-                             optionGroupLabel="label" optionGroupChildren="items" class="w-full"
-                             display="chip" placeholder="Select Columns" @update:modelValue="onToggle"/>
+                             class="w-full" display="chip"
+                             filter optionGroupChildren="items" optionGroupLabel="label"
+                             optionLabel="header" placeholder="Select Columns" @update:modelValue="onToggle"/>
             </div>
         </template>
 
@@ -52,15 +52,15 @@
             {{ emptyMessage }}
         </template>
         <Column v-if="showMassDeleteButton" :exportable="false" selectionMode="multiple" style="width: 3rem"></Column>
-        <Column v-for="(col, index) in selectedColumns" :field="col.field" :header="col.header"
-                :key="col.field + '_' + index" :sortable="true">
+        <Column v-for="(col, index) in selectedColumns" :key="col.field + '_' + index" :field="col.field"
+                :header="col.header" :sortable="true">
         </Column>
 
         <slot name="customColumns"></slot>
 
-        <Column v-if="hasPermission" :exportable="false">
+        <Column :exportable="false">
             <template #body="slotProps">
-                <slot name="customButtons" :slotProps="slotProps"></slot>
+                <slot :slotProps="slotProps" name="customButtons"></slot>
                 <Button v-has-permission="{props: $page.props, permissions: [permissionEdit]}"
                         class="p-button-rounded mr-2" icon="pi pi-pencil" @click="editResource(slotProps.data)"/>
                 <Button v-has-permission="{props: $page.props, permissions: [permissionDelete]}"
@@ -73,7 +73,7 @@
 
     <div>
         Jump to page
-        <InputNumber v-model="page" mode="decimal" :min="1" :max="lastPage" @keydown.enter="onPageButton(page)"/>
+        <InputNumber v-model="page" :max="lastPage" :min="1" mode="decimal" @keydown.enter="onPageButton(page)"/>
         <Button label="Go" @click="onPageButton(page)"/>
     </div>
 
@@ -82,7 +82,6 @@
 <script>
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import DataTableMixins from "@/Components/Mixins/DataTableMixins.vue";
-import axios from 'axios';
 
 export default {
     layout : AuthenticatedLayout,
@@ -96,6 +95,24 @@ export default {
         showCreateButton     : {
             type    : Boolean,
             default : true,
+        },
+        items                : {
+            type    : Array,
+            default : () => [],
+        },
+        createNewResource    : {
+            type : Function,
+            default() {
+                return () => {
+                };
+            },
+        },
+        editResource         : {
+            type : Function,
+            default() {
+                return () => {
+                };
+            },
         },
         showEditButton       : {
             type    : Boolean,
@@ -149,79 +166,53 @@ export default {
     mixins : [DataTableMixins],
     data() {
         return {
-            routeOriginal : this.dataObject.path,
-            from          : this.dataObject.from,
-            data          : this.dataObject.data,
-            page          : this.dataObject.current_page,
-            perPage       : this.dataObject.per_page,
-            total         : this.dataObject.total,
-            lastPage      : this.dataObject.last_page,
-
+            routeOriginal   : null,
+            from            : null,
+            data            : null,
+            page            : null,
+            perPage         : null,
+            total           : null,
+            lastPage        : null,
             selectedColumns : [],
         };
     },
-    computed : {
-        hasPermission() {
-            return this.userPermissions.some(item => item.name === this.permissionEdit || item.name === this.permissionDelete);
-        },
+    mounted() {
+        this.init();
     },
     methods : {
+        init() {
+            this.routeOriginal = this.dataObject.path
+            this.from          = this.dataObject.from
+            this.data          = this.dataObject.data
+            this.page          = this.dataObject.current_page
+            this.perPage       = this.dataObject.per_page
+            this.total         = this.dataObject.total
+            this.lastPage      = this.dataObject.last_page
+        },
         async deleteResource(id) {
-            const that = this;
             this.$confirm.require({
                 message : 'Are you sure you want to delete this item?',
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    axios({
-                        method : 'delete',
-                        url    : route(this.routeDestroy, id),
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            that.$inertia.get(route(that.routeIndex));
-                        }
-                    }).catch(error => console.log(error));
-                },
-                reject  : () => {
-                },
+                    this.$inertia.delete(route(this.routeDestroy, id));
+                }
             });
         },
-        createNewResource() {
-            this.$emit("createNewResource");
-        },
-        editResource(item) {
-            this.$emit("editResource", item);
-        },
         async massDeleteResource() {
-            const that = this;
             this.$confirm.require({
                 message : 'Are you sure you want to delete all these items?',
                 header  : 'Confirmation',
                 icon    : 'pi pi-exclamation-triangle',
                 accept  : () => {
-                    axios({
-                        method : 'post',
-                        url    : route(this.routeMassDestroy),
-                        data   : {
-                            selected : this.selected,
-                        },
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            that.$inertia.get(route(that.routeIndex));
-                        }
-                    }).catch(error => console.log(error));
+                    this.$inertia.post(route(this.routeMassDestroy), {
+                        selected  : this.selected,
+                    });
                 },
-                reject  : () => {
-                }
             });
         },
         onToggle(value) {
-            // Flatten the array of groups to get all individual items
-            const allColumns = this.columns.flatMap(group => group.items);
-            // Filter the flattened array based on the selected values
-
-            this.selectedColumns = allColumns.filter(col => value.includes(col));
-
+            this.selectedColumns = this.columns.flatMap(group => group.items).filter(col => value.includes(col));
         },
     },
     created() {
@@ -229,49 +220,18 @@ export default {
             this.selectedColumns = this.columns.flatMap(group => group.items);
         } else {
             this.defaultColumns.forEach((field) => {
-                // Find the corresponding column based on the field name
                 const column = this.columns.flatMap(group => group.items).find(item => item.field === field);
 
-                // Add the column to the selectedColumns array
                 if (column) {
                     this.selectedColumns.push(column);
                 }
             });
         }
     },
+    watch : {
+        'dataObject' : function () {
+            this.init();
+        }
+    }
 };
 </script>
-
-<style scoped>
-.table-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    @media screen and (max-width: 960px) {
-        align-items: start;
-    }
-}
-
-.top-margin {
-    margin-top: 20px;
-}
-
-.p-paginator {
-    align-items: start;
-    justify-content: left;
-}
-
-.date-fields-container {
-    display: flex;
-    align-items: center; /*center align */
-    justify-content: flex-start;
-    gap: 1rem;
-}
-
-.field {
-    flex: 1; /* Every  field has same distance */
-    min-height: 50px;
-    margin-bottom: 0;
-}
-</style>
