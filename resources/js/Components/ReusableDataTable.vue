@@ -85,7 +85,6 @@ import DataTableMixins from "@/Components/Mixins/DataTableMixins.vue";
 
 export default {
     layout : AuthenticatedLayout,
-
     props  : {
         dataObject           : Object,
         routeDestroy         : String,
