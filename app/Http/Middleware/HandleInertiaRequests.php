@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App;
 use App\Entities\Message;
 use App\Entities\Navbar;
 use App\Entities\Auth;
@@ -46,7 +47,8 @@ class HandleInertiaRequests extends Middleware
             'auth'    => $this->auth->toArray(),
             'message' => $this->message->getMessage(),
             'navbar'  => $this->navbar->getNavbar(),
-            'locale'  => \App::getLocale(),
+            'locale'  => App::getLocale(),
+            'old'     => $request->input(),
         ]);
     }
 }
