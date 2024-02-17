@@ -1,13 +1,13 @@
 <?php
 
-
 namespace App\Models\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Throwable;
 
 trait Paginatable
 {
-    private const ASC = 'asc';
+    private const ASC  = 'asc';
     private const DESC = 'desc';
 
     public function scopeSetUpQuery(): Builder
@@ -38,7 +38,7 @@ trait Paginatable
     {
         try {
             $query->clone()->orderBy($sortField, $sortOrder)->limit(1)->get();
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return $query;
         }
 
