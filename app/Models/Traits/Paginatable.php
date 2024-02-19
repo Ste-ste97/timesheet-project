@@ -10,9 +10,9 @@ trait Paginatable
     private const ASC  = 'asc';
     private const DESC = 'desc';
 
-    public function scopeSetUpQuery(): Builder
+    public function scopeSetUpQuery($baseQuery = null): Builder
     {
-        $baseQuery = $this->query();
+        $baseQuery = $baseQuery ?? $this->query();
 
         $sortOrder = request()->input('sortOrder');
         if ($sortOrder !== self::ASC && $sortOrder !== self::DESC) {
