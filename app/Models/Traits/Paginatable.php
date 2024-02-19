@@ -10,7 +10,7 @@ trait Paginatable
     private const ASC  = 'asc';
     private const DESC = 'desc';
 
-    public function scopeSetUpQuery(Builder $query): Builder
+    public function scopeSetUpQuery(Builder $baseQuery): Builder
     {
         $sortOrder = request()->input('sortOrder');
         if ($sortOrder !== self::ASC && $sortOrder !== self::DESC) {
