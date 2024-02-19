@@ -26,7 +26,7 @@ trait Paginatable
         $search = request()->input('search');
 
         if ($search !== null) {
-            $baseQuery = $baseQuery->customSearch($search);
+            $baseQuery->customSearch($search);
         }
 
         return $baseQuery;
