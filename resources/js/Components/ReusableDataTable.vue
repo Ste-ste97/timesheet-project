@@ -58,7 +58,7 @@
 
         <slot name="customColumns"></slot>
 
-        <Column :exportable="false">
+        <Column :exportable="false" :field="primaryKey">
             <template #body="slotProps">
                 <slot :slotProps="slotProps" name="customButtons"></slot>
                 <Button v-has-permission="{props: $page.props, permissions: [permissionEdit]}"
