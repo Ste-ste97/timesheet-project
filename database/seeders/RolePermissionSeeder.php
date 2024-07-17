@@ -11,6 +11,7 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $admin = Role::findOrCreate('admin');
+        $user = Role::findOrCreate('user');
 
         // user permissions
         $users = Permission::create([

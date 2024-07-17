@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Timesheet;
 use Illuminate\Database\Seeder;
-use Database\Seeders\NavlinkSeeder;
-use Database\Seeders\CityCountrySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,5 +13,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NavlinkSeeder::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(CompanySeeder::class);
+        $this->call(TimesheetSeeder::class);
     }
 }
