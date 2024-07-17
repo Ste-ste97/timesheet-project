@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import FormField from "@/Components/FormField.vue"
+import FormField from "@/Components/Primitives/FormField.vue"
 
 export default {
     emits      : ['update:visible'],

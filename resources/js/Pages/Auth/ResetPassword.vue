@@ -29,7 +29,7 @@
 import GuestLayout from '@/Layouts/Guest.vue'
 import ValidationErrors from '@/Components/ValidationErrors.vue'
 import {Head, Link} from '@inertiajs/vue3';
-import FormField from "@/Components/FormField.vue"
+import FormField from "@/Components/Primitives/FormField.vue"
 import appLogo from '/resources/images/blocks/logos/hyper.svg';
 
 export default {
