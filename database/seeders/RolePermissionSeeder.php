@@ -13,6 +13,41 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::findOrCreate('admin');
         $user  = Role::findOrCreate('user');
 
+        //time sheet permissions
+        $timesheets = Permission::create([
+            'name'       => 'timesheets',
+            'group_name' => 'timesheets'
+        ]);
+
+        Permission::create([
+            'name'        => 'timesheets.view',
+            'group_name'  => 'timesheets',
+            'description' => 'Can view timesheets.',
+            'parent_id'   => $timesheets->id
+        ]);
+
+        Permission::create([
+            'name'        => 'timesheets.edit',
+            'group_name'  => 'timesheets',
+            'description' => 'Can edit existing timesheets.',
+            'parent_id'   => $timesheets->id
+        ]);
+
+        Permission::create([
+            'name'        => 'timesheets.create',
+            'group_name'  => 'timesheets',
+            'description' => 'Can create new timesheets.',
+            'parent_id'   => $timesheets->id
+        ]);
+
+        Permission::create([
+            'name'        => 'timesheets.delete',
+            'group_name'  => 'timesheets',
+            'description' => 'Can delete timesheets.',
+            'parent_id'   => $timesheets->id
+        ]);
+
+
         //company permissions
         $companies = Permission::create([
             'name'       => 'companies',
@@ -198,9 +233,13 @@ class RolePermissionSeeder extends Seeder
 
 
         // assign permissions to admin
+        $admin->givePermissionTo([$timesheets->children]);
         $admin->givePermissionTo([$companies->children]);
         $admin->givePermissionTo([$users->children]);
         $admin->givePermissionTo([$permissions->children]);
         $admin->givePermissionTo([$roles->children]);
+
+        //assign permissions to user
+        $user->givePermissionTo([$timesheets->children]);
     }
 }

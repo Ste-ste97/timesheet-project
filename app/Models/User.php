@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,4 +67,8 @@ class User extends Authenticatable
         return Cache::get('2fa-' . request()->session()->getId()) ?? false;
     }
 
+    public function companyUserTimesheets(): HasMany
+    {
+        return $this->hasMany(CompanyUserTimeSheet::class, 'user_id', 'id');
+    }
 }

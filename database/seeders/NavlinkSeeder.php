@@ -16,7 +16,15 @@ class NavlinkSeeder extends Seeder
         ]);
 
         Navlink::create([
-            'name'        => 'Company',
+            'name'        => 'TimeSheets',
+            'icon'        => 'pi pi-calendar',
+            'permissions' => 'timesheets.view',
+            'route_name'  => 'timesheets.index'
+        ]);
+
+
+        Navlink::create([
+            'name'        => 'Companies',
             'icon'        => 'pi pi-building',
             'permissions' => 'companies.view',
             'route_name'  => 'companies.index'

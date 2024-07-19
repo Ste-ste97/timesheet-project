@@ -6,6 +6,8 @@ use App\Models\Traits\BaseModelTrait;
 use App\Models\Traits\Paginatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
@@ -36,4 +38,12 @@ class Company extends Model
         'id',
         'name',
     ];
+
+    public function companyUserTimesheets(): HasMany
+    {
+        return $this->hasMany(CompanyUserTimeSheet::class, 'company_id', 'id');
+    }
+
+
+
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\TranslationController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\TimesheetController;
 use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,6 +54,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/companies/mass-destroy', [CompanyController::class, 'massDestroy'])->name('companies.massDestroy');
     Route::resource('companies', CompanyController::class)->except(['create', 'edit']);
+
+    Route::post('/timesheets/mass-destroy', [TimesheetController::class, 'massDestroy'])->name('timesheets.massDestroy');
+    Route::resource('timesheets', TimesheetController::class)->except(['create', 'edit']);
 });
 
 Route::get('/test', TestController::class);
