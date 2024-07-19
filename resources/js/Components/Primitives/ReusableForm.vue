@@ -111,8 +111,6 @@ export default {
                 }
         },
         initForm() {
-            console.log(this.item)
-            console.log(this.fields)
             this.displayErrors = false;
 
             if (this.item) {

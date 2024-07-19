@@ -12,6 +12,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
+import Breadcrumb from 'primevue/breadcrumb';
 import InputText from 'primevue/inputtext';
 import Message from 'primevue/message';
 import PrimeVue from 'primevue/config';
@@ -76,6 +77,7 @@ createInertiaApp({
             .component('AccordionTab', AccordionTab)
             .component('AvatarGroup', AvatarGroup)
             .component('Avatar', Avatar)
+            .component('Breadcrumb', Breadcrumb)
             .component('Badge', Badge)
             .component('Calendar', Calendar)
             .component('Carousel', Carousel)

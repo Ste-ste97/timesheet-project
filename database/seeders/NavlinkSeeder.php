@@ -15,6 +15,13 @@ class NavlinkSeeder extends Seeder
             'route_name' => 'dashboard'
         ]);
 
+        Navlink::create([
+            'name'        => 'Company',
+            'icon'        => 'pi pi-building',
+            'permissions' => 'companies.view',
+            'route_name'  => 'companies.index'
+        ]);
+
         $user_management = Navlink::create([
             'name'        => 'User Management',
             'permissions' => 'users.view|permissions.view|roles.view', // or
@@ -54,9 +61,9 @@ class NavlinkSeeder extends Seeder
         ]);
 
         Navlink::create([
-            'name'        => 'Translations',
-            'icon'        => 'pi pi-globe',
-            'route_name'  => 'translations.index'
+            'name'       => 'Translations',
+            'icon'       => 'pi pi-globe',
+            'route_name' => 'translations.index'
         ]);
 
     }

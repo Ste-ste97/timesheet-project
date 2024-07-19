@@ -11,7 +11,41 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $admin = Role::findOrCreate('admin');
-        $user = Role::findOrCreate('user');
+        $user  = Role::findOrCreate('user');
+
+        //company permissions
+        $companies = Permission::create([
+            'name'       => 'companies',
+            'group_name' => 'companies'
+        ]);
+
+        Permission::create([
+            'name'        => 'companies.view',
+            'group_name'  => 'companies',
+            'description' => 'Can view companies.',
+            'parent_id'   => $companies->id
+        ]);
+
+        Permission::create([
+            'name'        => 'companies.edit',
+            'group_name'  => 'companies',
+            'description' => 'Can edit existing companies.',
+            'parent_id'   => $companies->id
+        ]);
+
+        Permission::create([
+            'name'        => 'companies.create',
+            'group_name'  => 'companies',
+            'description' => 'Can create new companies.',
+            'parent_id'   => $companies->id
+        ]);
+
+        Permission::create([
+            'name'        => 'companies.delete',
+            'group_name'  => 'companies',
+            'description' => 'Can delete companies.',
+            'parent_id'   => $companies->id
+        ]);
 
         // user permissions
         $users = Permission::create([
@@ -164,11 +198,9 @@ class RolePermissionSeeder extends Seeder
 
 
         // assign permissions to admin
+        $admin->givePermissionTo([$companies->children]);
         $admin->givePermissionTo([$users->children]);
         $admin->givePermissionTo([$permissions->children]);
         $admin->givePermissionTo([$roles->children]);
-        $admin->givePermissionTo([$logs->children]);
-        $admin->givePermissionTo([$translations->children]);
-
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProfileController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\TranslationController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
+use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -48,6 +50,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/translations/mass-destroy', [TranslationController::class, 'massDestroy'])->name('translations.massDestroy');
     Route::resource('translations', TranslationController::class)->except(['create', 'edit']);
+
+    Route::post('/companies/mass-destroy', [CompanyController::class, 'massDestroy'])->name('companies.massDestroy');
+    Route::resource('companies', CompanyController::class)->except(['create', 'edit']);
 });
 
 Route::get('/test', TestController::class);
