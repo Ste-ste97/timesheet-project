@@ -39,9 +39,14 @@ class Company extends Model
         'name',
     ];
 
-    public function companyUserTimesheets(): HasMany
+    public function users(): BelongsToMany
     {
-        return $this->hasMany(CompanyUserTimeSheet::class, 'company_id', 'id');
+        return $this->belongsToMany(User::class);
+    }
+
+    public function timesheets(): HasMany
+    {
+        return $this->hasMany(Timesheet::class, 'company_id');
     }
 
 

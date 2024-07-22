@@ -16,11 +16,20 @@ class NavlinkSeeder extends Seeder
         ]);
 
         Navlink::create([
-            'name'        => 'TimeSheets',
+            'name'        => 'Timesheets',
             'icon'        => 'pi pi-calendar',
             'permissions' => 'timesheets.view',
             'route_name'  => 'timesheets.index'
         ]);
+
+        Navlink::create([
+            'name'        => 'Total Timesheets Cost',
+            'icon'        => 'pi pi-calendar-times',
+//            'permissions' => 'totalTimesheetsCost.view',
+            'route_name'  => 'totalTimesheetsCost.index',
+        ]);
+
+
 
 
         Navlink::create([
@@ -69,9 +78,10 @@ class NavlinkSeeder extends Seeder
         ]);
 
         Navlink::create([
-            'name'       => 'Translations',
-            'icon'       => 'pi pi-globe',
-            'route_name' => 'translations.index'
+            'name'        => 'Translations',
+            'icon'        => 'pi pi-globe',
+            'route_name'  => 'translations.index',
+            'permissions' => 'translations.view'
         ]);
 
     }

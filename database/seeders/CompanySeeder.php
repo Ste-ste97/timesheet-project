@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -54,6 +55,25 @@ class CompanySeeder extends Seeder
             Company::create([
                 'name' => $company,
             ]);
+        }
+
+        $users     = User::all();
+        $companies = Company::all();
+
+        // Βεβαιώσου ότι υπάρχουν χρήστες και εταιρίες
+        if ($users->isEmpty() || $companies->isEmpty()) {
+            $this->command->info('There are no users or companies to associate.');
+            return;
+        }
+
+        // Για κάθε χρήστη, συσχέτισέ τον με όλες τις εταιρίες
+        foreach ($users as $user) {
+            $user->companies()->sync($companies->pluck('id'));
+        }
+
+        // Για κάθε εταιρία, συσχέτισέ την με όλους τους χρήστες
+        foreach ($companies as $company) {
+            $company->users()->sync($users->pluck('id'));
         }
     }
 }

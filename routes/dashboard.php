@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\TranslationController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TimesheetController;
+use App\Http\Controllers\TotalTimesheetsCostController;
 use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,6 +58,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/timesheets/mass-destroy', [TimesheetController::class, 'massDestroy'])->name('timesheets.massDestroy');
     Route::resource('timesheets', TimesheetController::class)->except(['create', 'edit']);
+
+    Route::get('/getCompaniesByUserId', [TimesheetController::class, 'getCompaniesByUserId'])->name('timesheets.getCompaniesByUserId');
+    Route::get('/getTimeSheetsByUserIdCompanyId', [TimesheetController::class, 'getTimeSheetsByUserIdCompanyId'])->name('timesheets.getTimeSheetsByUserIdCompanyId');
+
+    Route::resource('totalTimesheetsCost', TotalTimesheetsCostController::class)->except(['create', 'edit']);
 });
 
 Route::get('/test', TestController::class);

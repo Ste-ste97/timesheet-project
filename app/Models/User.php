@@ -67,8 +67,15 @@ class User extends Authenticatable
         return Cache::get('2fa-' . request()->session()->getId()) ?? false;
     }
 
-    public function companyUserTimesheets(): HasMany
+    public function companies(): BelongsToMany
     {
-        return $this->hasMany(CompanyUserTimeSheet::class, 'user_id', 'id');
+        return $this->belongsToMany(Company::class);
     }
+
+    public function timesheets(): HasMany
+    {
+        return $this->hasMany(Timesheet::class, 'user_id');
+    }
+
+
 }

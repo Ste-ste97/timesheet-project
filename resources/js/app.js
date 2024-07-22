@@ -57,6 +57,9 @@ import TabMenu from 'primevue/tabmenu';
 import Tag from 'primevue/tag';
 import Tooltip from 'primevue/tooltip';
 import ConfirmationService from 'primevue/confirmationservice';
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
+
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -111,6 +114,8 @@ createInertiaApp({
             .component('TabView', TabView)
             .component('TabMenu', TabMenu)
             .component('Tag', Tag)
+            .component('InputGroup', InputGroup)
+            .component('InputGroupAddon', InputGroupAddon)
             .directive('ripple', Ripple)
             .directive('tooltip', Tooltip)
             .directive('styleclass', StyleClass)
