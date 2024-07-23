@@ -3,41 +3,32 @@
         <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
 
         <h2 class="mb-4">Manage Total Timesheet Cost of {{ currentYear }}</h2>
-        <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggleAdmin">
+        <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggle">
             <template #header>
                 <h4 class="mb-4">Manage Companies Total Cost </h4>
             </template>
 
             <Column :expander="true" headerStyle="width: 3rem"/>
             <Column field="company.name" header="Company"></Column>
-            <Column field="cost" header="Cost"></Column>
-<!--            <template #expansion="slotProps">-->
-<!--                <DataTable :value="slotProps.data.companies" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggleAdmin">-->
-<!--                    <template #header>-->
-<!--                        <h4 class="mb-4">Manage Companies</h4>-->
-<!--                    </template>-->
+            <Column field="cost" header="Cost">
+                <template #body="slotProps">
+                    {{ formatCurrency(slotProps.data.cost) }}
+                </template>
+            </Column>
+            <template #expansion="slotProps">
+                <DataTable :value="slotProps.data.usersTotalCost">
+                    <template #header>
+                        <h4 class="mb-4">Manage User Total Cost</h4>
+                    </template>
 
-<!--                    <Column :expander="true" headerStyle="width: 3rem"/>-->
-<!--                    <Column field="name" header="Company"></Column>-->
-<!--                    <Column field="total_hours_for_user_in_company" header="Total Hours"></Column>-->
-<!--                    <Column field="cost" header="Total Cost"></Column>-->
-<!--                    <template #expansion="slotProps2">-->
-<!--                        <DataTable :value="slotProps2.data.timesheets">-->
-<!--                            <template #header>-->
-<!--                                <h4 class="mb-4">Manage Monthly TimeSheets </h4>-->
-<!--                            </template>-->
-<!--                            <Column field="month" header="Month"></Column>-->
-<!--                            <Column field="hours" header="Hours"></Column>-->
-<!--                            <Column :exportable="false">-->
-<!--                                <template #body="slotProps">-->
-<!--                                    <Button v-has-permission="{props: $page.props, permissions: ['timesheets.edit']}"-->
-<!--                                            class="p-button-rounded mr-2" icon="pi pi-pencil" @click="editResource(slotProps.data)"/>-->
-<!--                                </template>-->
-<!--                            </Column>-->
-<!--                        </DataTable>-->
-<!--                    </template>-->
-<!--                </DataTable>-->
-<!--            </template>-->
+                    <Column field="name" header="Users"></Column>
+                    <Column field="cost" header="Total Cost">
+                        <template #body="slotProps">
+                            {{ formatCurrency(slotProps.data.cost) }}
+                        </template>
+                    </Column>
+                </DataTable>
+            </template>
         </DataTable>
 
         <TimesheetForm v-model:visible="formVisible" :action="action" :timesheet="item"/>
@@ -54,7 +45,7 @@ import TimesheetForm from '@/Pages/TimeSheet/Partials/TimesheetForm.vue';
 export default {
     layout     : AuthenticatedLayout,
     props      : {
-        timesheetsCompanies     : Object,
+        timesheetsCompanies : Object,
     },
     mixins     : [DataTableMixins],
     components : {
@@ -72,7 +63,7 @@ export default {
                 icon : 'pi pi-home',
             },
             items                    : [
-                {label : "TimeSheets"},
+                {label : "Total TimeSheets Cost"},
             ],
             loadingCompanyTimesheets : {},
         };
@@ -83,41 +74,21 @@ export default {
         }
     },
     methods  : {
-        async onUserToggle(event) {
-            const userId = event.data.user_id;
-            try {
-                const response                = await axios.get(route('timesheets.getCompaniesByUserId', {userId}));
-                const row                     = this.tableData.findIndex(item => item.user_id === userId);
-                this.tableData[row].companies = response.data;
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        },
-        async onCompanyToggleAdmin(event) {
-            const userId    = event.data.pivot.user_id;
-            const companyId = event.data.pivot.company_id;
+        async onCompanyToggle(event) {
+            console.log(event);
+            const companyId = event.data.company_id;
 
             try {
-                const response                                  = await axios.get(route('timesheets.getTimeSheetsByUserIdCompanyId', {userId, companyId}));
-                const row1                                      = this.tableData.findIndex(item => item.user_id === userId);
-                const row2                                      = this.tableData[row1].companies.findIndex(item => item.id === companyId);
-                this.tableData[row1].companies[row2].timesheets = response.data;
+                const response                     = await axios.get(route('totalTimesheetsCost.getUserTotalCostByCompanyId', {companyId}));
+                const row                          = this.tableData.findIndex(item => item.company_id === companyId);
+                this.tableData[row].usersTotalCost = response.data;
             } catch (error) {
                 console.error("Error fetching data: ", error);
             } finally {
                 this.$forceUpdate();
             }
         },
-
-        editResource(item) {
-            this.item        = item;
-            this.action      = "Edit";
-            this.formVisible = true;
-        },
     },
-    created() {
-        console.log(this.timesheetsCompanies);
-    }
 };
 </script>
 

@@ -25,7 +25,7 @@ class NavlinkSeeder extends Seeder
         Navlink::create([
             'name'        => 'Total Timesheets Cost',
             'icon'        => 'pi pi-calendar-times',
-//            'permissions' => 'totalTimesheetsCost.view',
+            'permissions' => 'totalTimesheetsCost.view',
             'route_name'  => 'totalTimesheetsCost.index',
         ]);
 

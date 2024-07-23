@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Company;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Throwable;
@@ -25,7 +26,8 @@ class UserController extends Controller
     {
         return Inertia::render('User/Index', [
             'users' => User::all(),
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'companies'=>Company::all(),
         ]);
     }
 
@@ -40,6 +42,11 @@ class UserController extends Controller
         // has permission to assign roles
         if (auth()->user()->hasPermissionTo('roles.assign')) {
             $user->assignRole($request->input('roles'));
+        }
+
+        //has permission to asign companies to users
+        if (auth()->user()->hasPermissionTo('companies.assign')) {
+            $user->companies()->sync($request->input('companies'));
         }
 
         $user->save();
@@ -64,6 +71,11 @@ class UserController extends Controller
 
         if ($request->input('password')) {
             $user->password = bcrypt($request->input('password'));
+        }
+
+        //has permission to asign companies to users
+        if (auth()->user()->hasPermissionTo('companies.assign')) {
+            $user->companies()->sync($request->input('companies'));
         }
 
         $user->save();

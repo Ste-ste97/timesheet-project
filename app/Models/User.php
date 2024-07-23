@@ -49,7 +49,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['roles'];
+    protected $with = ['roles', 'companies'];
 
     /**
      * Get the address for this user.

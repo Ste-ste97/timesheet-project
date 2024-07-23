@@ -19,7 +19,11 @@
                     <Column :expander="true" headerStyle="width: 3rem"/>
                     <Column field="name" header="Company"></Column>
                     <Column field="total_hours_for_user_in_company" header="Total Hours"></Column>
-                    <Column field="cost" header="Total Cost"></Column>
+                    <Column field="cost" header="Total Cost">
+                        <template #body="slotProps">
+                            {{ formatCurrency(slotProps.data.cost) }}
+                        </template>
+                    </Column>
                     <template #expansion="slotProps2">
                         <DataTable :value="slotProps2.data.timesheets">
                             <template #header>

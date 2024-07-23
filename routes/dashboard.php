@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/getTimeSheetsByUserIdCompanyId', [TimesheetController::class, 'getTimeSheetsByUserIdCompanyId'])->name('timesheets.getTimeSheetsByUserIdCompanyId');
 
     Route::resource('totalTimesheetsCost', TotalTimesheetsCostController::class)->except(['create', 'edit']);
+    Route::get('/getUserTotalCostByCompanyId', [TotalTimesheetsCostController::class, 'getUserTotalCostByCompanyId'])->name('totalTimesheetsCost.getUserTotalCostByCompanyId');
+
 });
 
 Route::get('/test', TestController::class);

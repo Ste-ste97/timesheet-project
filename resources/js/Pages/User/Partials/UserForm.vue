@@ -18,6 +18,11 @@
                 <FormField v-model="localUser.roles" :displayErrors="displayErrors" :filter="false" :options="roles" component="MultiSelect" label="Roles" name="roles" optionLabel="name"
                            optionValue="id"/>
             </div>
+
+            <div v-has-permission="{props: $page.props, permissions: ['companies.assign']}" class="field mb-4 col-12">
+                <FormField v-model="localUser.companies" :displayErrors="displayErrors" :filter="false" :options="companies" component="MultiSelect" label="Companies" name="companies" optionLabel="name"
+                           optionValue="id"/>
+            </div>
         </form>
         <template #footer>
             <Button class="p-button-text" icon="pi pi-times" label="Cancel" @click="closeForm"/>
@@ -35,10 +40,11 @@ export default {
         FormField
     },
     props      : {
-        visible : Boolean,
-        user    : Object,
-        roles   : Object,
-        action  : String
+        visible   : Boolean,
+        user      : Object,
+        roles     : Object,
+        companies : Object,
+        action    : String
     },
     data() {
         return {
@@ -86,6 +92,14 @@ export default {
             })
 
             this.localUser.roles = roles;
+
+            const companies = [];
+            console.log(this.user);
+            this.user?.companies.map((company) => {
+                companies.push(company.id);
+            })
+
+            this.localUser.companies = companies;
 
         },
         closeForm() {

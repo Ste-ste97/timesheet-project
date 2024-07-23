@@ -39,7 +39,7 @@
             </DataTable>
         </div>
 
-        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user"/>
+        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user" :companies="companies"/>
     </div>
 </template>
 
@@ -54,8 +54,9 @@ export default {
         UserForm
     },
     props      : {
-        users : Object,
-        roles : Object
+        users     : Object,
+        roles     : Object,
+        companies : Object
     },
     data() {
         return {

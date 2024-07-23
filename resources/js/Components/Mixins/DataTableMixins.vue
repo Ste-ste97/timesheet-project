@@ -24,6 +24,12 @@ export default {
         },
     },
     methods  : {
+        formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style    : 'currency',
+                currency : 'EUR',
+            }).format(value);
+        },
         exportCSV() {
             this.$refs.dt.exportCSV();
         },

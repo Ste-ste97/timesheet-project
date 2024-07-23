@@ -57,7 +57,7 @@ class CompanySeeder extends Seeder
             ]);
         }
 
-        $users     = User::all();
+        $users     = User::where('id', '!=', 1)->get();
         $companies = Company::all();
 
         // Βεβαιώσου ότι υπάρχουν χρήστες και εταιρίες

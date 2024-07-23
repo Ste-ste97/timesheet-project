@@ -47,6 +47,19 @@ class RolePermissionSeeder extends Seeder
             'parent_id'   => $timesheets->id
         ]);
 
+        //total timesheet cost permissions
+        $totalTimesheetsCost = Permission::create([
+            'name'       => 'totalTimesheetsCost',
+            'group_name' => 'totalTimesheetsCost'
+        ]);
+
+        Permission::create([
+            'name'        => 'totalTimesheetsCost.view',
+            'group_name'  => 'totalTimesheetsCost',
+            'description' => 'Can view total timesheets cost.',
+            'parent_id'   => $totalTimesheetsCost->id
+        ]);
+
 
         //company permissions
         $companies = Permission::create([
@@ -79,6 +92,13 @@ class RolePermissionSeeder extends Seeder
             'name'        => 'companies.delete',
             'group_name'  => 'companies',
             'description' => 'Can delete companies.',
+            'parent_id'   => $companies->id
+        ]);
+
+        Permission::create([
+            'name'        => 'companies.assign',
+            'group_name'  => 'companies',
+            'description' => 'Can assign companies to models (typically to users).',
             'parent_id'   => $companies->id
         ]);
 
@@ -234,6 +254,7 @@ class RolePermissionSeeder extends Seeder
 
         // assign permissions to admin
         $admin->givePermissionTo([$timesheets->children]);
+        $admin->givePermissionTo([$totalTimesheetsCost->children]);
         $admin->givePermissionTo([$companies->children]);
         $admin->givePermissionTo([$users->children]);
         $admin->givePermissionTo([$permissions->children]);
