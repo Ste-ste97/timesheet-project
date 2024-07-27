@@ -15,7 +15,6 @@ class StoreServiceRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'price_per_hour' => 'required|numeric',
         ];
     }
 }

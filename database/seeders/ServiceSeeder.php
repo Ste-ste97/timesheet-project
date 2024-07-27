@@ -11,16 +11,16 @@ class ServiceSeeder extends Seeder
     public function run(): void
     {
         $services = [
-            ['name' => 'Accounting', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Audit', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Taxation', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Social Insurance', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Registral', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Services', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Vat Services', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Consultants', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Payroll', 'price_per_hour' => rand(7, 15)],
-            ['name' => 'Management', 'price_per_hour' => rand(7, 15)],
+            ['name' => 'Accounting'],
+            ['name' => 'Audit'],
+            ['name' => 'Taxation'],
+            ['name' => 'Social Insurance'],
+            ['name' => 'Registral'],
+            ['name' => 'Services'],
+            ['name' => 'Vat Services'],
+            ['name' => 'Consultants'],
+            ['name' => 'Payroll'],
+            ['name' => 'Management'],
         ];
 
         foreach ($services as $service) {
