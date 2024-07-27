@@ -39,6 +39,13 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'companies.index'
         ]);
 
+        Navlink::create([
+            'name'        => 'Services',
+            'icon'        => 'pi pi-briefcase',
+            'permissions' => 'services.view',
+            'route_name'  => 'services.index'
+        ]);
+
         $user_management = Navlink::create([
             'name'        => 'User Management',
             'permissions' => 'users.view|permissions.view|roles.view', // or

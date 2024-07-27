@@ -102,6 +102,41 @@ class RolePermissionSeeder extends Seeder
             'parent_id'   => $companies->id
         ]);
 
+        //Service permissions
+        $services = Permission::create([
+            'name'       => 'services',
+            'group_name' => 'services'
+        ]);
+
+        Permission::create([
+            'name'        => 'services.view',
+            'group_name'  => 'services',
+            'description' => 'Can view services.',
+            'parent_id'   => $services->id
+        ]);
+
+        Permission::create([
+            'name'        => 'services.edit',
+            'group_name'  => 'services',
+            'description' => 'Can edit existing services.',
+            'parent_id'   => $services->id
+        ]);
+
+        Permission::create([
+            'name'        => 'services.create',
+            'group_name'  => 'services',
+            'description' => 'Can create new services.',
+            'parent_id'   => $services->id
+        ]);
+
+        Permission::create([
+            'name'        => 'services.delete',
+            'group_name'  => 'services',
+            'description' => 'Can delete services.',
+            'parent_id'   => $services->id
+        ]);
+
+
         // user permissions
         $users = Permission::create([
             'name'       => 'users',
@@ -259,6 +294,8 @@ class RolePermissionSeeder extends Seeder
         $admin->givePermissionTo([$users->children]);
         $admin->givePermissionTo([$permissions->children]);
         $admin->givePermissionTo([$roles->children]);
+        $admin->givePermissionTo([$services->children]);
+
 
         //assign permissions to user
         $user->givePermissionTo([$timesheets->children]);

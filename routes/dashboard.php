@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\TranslationController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TimesheetController;
 use App\Http\Controllers\TotalTimesheetsCostController;
@@ -55,6 +56,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/companies/mass-destroy', [CompanyController::class, 'massDestroy'])->name('companies.massDestroy');
     Route::resource('companies', CompanyController::class)->except(['create', 'edit']);
+
+    Route::post('/services/mass-destroy', [ServiceController::class, 'massDestroy'])->name('services.massDestroy');
+    Route::resource('services', ServiceController::class)->except(['create', 'edit']);
 
     Route::post('/timesheets/mass-destroy', [TimesheetController::class, 'massDestroy'])->name('timesheets.massDestroy');
     Route::resource('timesheets', TimesheetController::class)->except(['create', 'edit']);

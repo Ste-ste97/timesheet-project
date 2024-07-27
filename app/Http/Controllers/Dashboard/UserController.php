@@ -25,9 +25,9 @@ class UserController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('User/Index', [
-            'users' => User::all(),
-            'roles' => Role::all(),
-            'companies'=>Company::all(),
+            'users'     => User::all(),
+            'roles'     => Role::all(),
+            'companies' => Company::all(),
         ]);
     }
 
@@ -44,12 +44,12 @@ class UserController extends Controller
             $user->assignRole($request->input('roles'));
         }
 
+        $user->save();
+
         //has permission to asign companies to users
         if (auth()->user()->hasPermissionTo('companies.assign')) {
             $user->companies()->sync($request->input('companies'));
         }
-
-        $user->save();
 
         $request->session()->flash('message', [
             'type'    => 'success', // error, success, info
@@ -73,12 +73,12 @@ class UserController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
+        $user->save();
+
         //has permission to asign companies to users
         if (auth()->user()->hasPermissionTo('companies.assign')) {
             $user->companies()->sync($request->input('companies'));
         }
-
-        $user->save();
 
         $request->session()->flash('message', [
             'type'    => 'success', // error, success, info
