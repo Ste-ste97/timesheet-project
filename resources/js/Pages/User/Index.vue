@@ -29,6 +29,14 @@
                 <Column :sortable="true" field="id" header="Id"></Column>
                 <Column :sortable="true" field="name" header="Name"></Column>
                 <Column :sortable="true" field="email" header="Email"></Column>
+                <Column :sortable="true" field="salary_per_hour" header="Salary Per Hour">
+                    <template #body="slotProps">
+                         <span v-if="slotProps.data.id !== 1">
+                            {{ formatCurrency(slotProps.data.salary_per_hour) }}
+                        </span>
+                    </template>
+                </Column>
+
                 <Column :exportable="false">
                     <template #body="slotProps">
                         <Button v-has-permission="{props: $page.props, permissions: ['users.edit']}" class="p-button-rounded mr-2" icon="pi pi-pencil" @click="editResource(slotProps.data)"/>
@@ -45,6 +53,8 @@
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import DataTableMixins from '@/Components/Mixins/DataTableMixins.vue';
+
 import UserForm from "./Partials/UserForm.vue"
 import {FilterMatchMode} from 'primevue/api';
 
@@ -58,6 +68,7 @@ export default {
         roles     : Object,
         companies : Object
     },
+    mixins     : [DataTableMixins],
     data() {
         return {
             selected    : null,

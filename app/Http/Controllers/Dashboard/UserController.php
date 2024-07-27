@@ -38,6 +38,7 @@ class UserController extends Controller
         $user->name     = $request->input('name');
         $user->email    = $request->input('email');
         $user->password = bcrypt($request->input('password'));
+        $user->salary_per_hour = $request->input('salary_per_hour');
 
         // has permission to assign roles
         if (auth()->user()->hasPermissionTo('roles.assign')) {
@@ -63,6 +64,7 @@ class UserController extends Controller
     {
         $user->name  = $request->input('name');
         $user->email = $request->input('email');
+        $user->salary_per_hour = $request->input('salary_per_hour');
 
         // has permission to assign roles
         if (auth()->user()->hasPermissionTo('roles.assign')) {

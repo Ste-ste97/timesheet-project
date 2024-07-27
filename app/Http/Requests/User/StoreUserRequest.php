@@ -46,7 +46,11 @@ class StoreUserRequest extends FormRequest
             'companies.*'=>[
                 'numeric',
                 'exists:companies,id'
-            ]
+            ],
+            'salary_per_hour'  => [
+                'required',
+                'numeric',
+            ],
         ];
     }
 }

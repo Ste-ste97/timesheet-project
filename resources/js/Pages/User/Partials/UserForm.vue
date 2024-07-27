@@ -20,8 +20,13 @@
             </div>
 
             <div v-has-permission="{props: $page.props, permissions: ['companies.assign']}" class="field mb-4 col-12">
-                <FormField v-model="localUser.companies" :displayErrors="displayErrors" :filter="false" :options="companies" component="MultiSelect" label="Companies" name="companies" optionLabel="name"
+                <FormField v-model="localUser.companies" :displayErrors="displayErrors" :filter="false" :options="companies" component="MultiSelect" label="Companies" name="companies"
+                           optionLabel="name"
                            optionValue="id"/>
+            </div>
+
+            <div class="field mb-4 col-12">
+                <FormField v-model="localUser.salary_per_hour" :displayErrors="displayErrors" autocomplete="salary_per_hour" label="Salary Per HOur" name="salary_per_hour" component="Number"/>
             </div>
         </form>
         <template #footer>
@@ -83,6 +88,7 @@ export default {
             this.localUser.id               = this.user?.id
             this.localUser.name             = this.user?.name
             this.localUser.email            = this.user?.email
+            this.localUser.salary_per_hour  = this.user?.salary_per_hour
             this.localUser.password         = ''
             this.localUser.confirm_password = ''
 
