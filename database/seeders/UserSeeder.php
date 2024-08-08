@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token'    => Str::random(10),
+            'is_admin'          => true,
         ]);
 
         $niki = User::create([
@@ -23,7 +24,6 @@ class UserSeeder extends Seeder
             'email'             => 'niki@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 9,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -32,7 +32,6 @@ class UserSeeder extends Seeder
             'email'             => 'pantelis@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 15,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -41,7 +40,6 @@ class UserSeeder extends Seeder
             'email'             => 'athina@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 7.5,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -50,7 +48,6 @@ class UserSeeder extends Seeder
             'email'             => 'Costas@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 11,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -59,7 +56,6 @@ class UserSeeder extends Seeder
             'email'             => 'rena@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 7.5,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -68,7 +64,6 @@ class UserSeeder extends Seeder
             'email'             => 'spiros@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 12,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -77,7 +72,6 @@ class UserSeeder extends Seeder
             'email'             => 'margarita@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 7.5,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -86,7 +80,6 @@ class UserSeeder extends Seeder
             'email'             => 'nikolas@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 8,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -95,7 +88,6 @@ class UserSeeder extends Seeder
             'email'             => 'thomas@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 9,
             'remember_token'    => Str::random(10),
         ]);
 
@@ -104,7 +96,6 @@ class UserSeeder extends Seeder
             'email'             => 'loucas@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'salary_per_hour'   => 9,
             'remember_token'    => Str::random(10),
         ]);
 

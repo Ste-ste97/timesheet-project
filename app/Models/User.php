@@ -28,6 +28,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'salary_per_hour',
+        'is_admin',
     ];
 
     /**
@@ -49,7 +51,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['roles', 'companies'];
+    protected $with = ['roles', 'companies', 'services'];
 
     /**
      * Get the address for this user.
@@ -70,6 +72,11 @@ class User extends Authenticatable
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class);
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class)->withPivot('cost_per_hour');
     }
 
     public function timesheets(): HasMany

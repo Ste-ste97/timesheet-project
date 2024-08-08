@@ -29,13 +29,6 @@
                 <Column :sortable="true" field="id" header="Id"></Column>
                 <Column :sortable="true" field="name" header="Name"></Column>
                 <Column :sortable="true" field="email" header="Email"></Column>
-                <Column :sortable="true" field="salary_per_hour" header="Salary Per Hour">
-                    <template #body="slotProps">
-                         <span v-if="slotProps.data.id !== 1">
-                            {{ formatCurrency(slotProps.data.salary_per_hour) }}
-                        </span>
-                    </template>
-                </Column>
 
                 <Column :exportable="false">
                     <template #body="slotProps">
@@ -47,7 +40,7 @@
             </DataTable>
         </div>
 
-        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user" :companies="companies"/>
+        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user" :companies="companies" :services="services"/>
     </div>
 </template>
 
@@ -66,16 +59,18 @@ export default {
     props      : {
         users     : Object,
         roles     : Object,
-        companies : Object
+        companies : Object,
+        services  : Object,
     },
     mixins     : [DataTableMixins],
     data() {
         return {
-            selected    : null,
-            user        : null,
-            formVisible : false,
-            action      : "",
-            filters     : {}
+            selected            : null,
+            user                : null,
+            formVisible         : false,
+            servicesFormVisible : false,
+            action              : "",
+            filters             : {}
         }
     },
     created() {
@@ -128,6 +123,10 @@ export default {
             this.filters = {
                 'global' : {value : null, matchMode : FilterMatchMode.CONTAINS},
             }
+        },
+        showServices(user) {
+            this.user                = user;
+            this.servicesFormVisible = true;
         }
     }
 };

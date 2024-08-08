@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Service;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
@@ -26,5 +26,18 @@ class ServiceSeeder extends Seeder
         foreach ($services as $service) {
             Service::create($service);
         }
+
+
+        $users = User::all();
+        $services = Service::all();
+
+        foreach ($users as $user) {
+            foreach ($services as $service) {
+                $cost = $user->is_admin ? 50 : 20;
+                $user->services()->attach($service->id, ['cost_per_hour' => $cost]);
+            }
+        }
+
+
     }
 }

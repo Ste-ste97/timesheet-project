@@ -21,12 +21,19 @@
 
             <div v-has-permission="{props: $page.props, permissions: ['companies.assign']}" class="field mb-4 col-12">
                 <FormField v-model="localUser.companies" :displayErrors="displayErrors" :filter="false" :options="companies" component="MultiSelect" label="Companies" name="companies"
-                           optionLabel="name"
-                           optionValue="id"/>
+                           optionLabel="name" optionValue="id"/>
             </div>
 
-            <div class="field mb-4 col-12">
-                <FormField v-model="localUser.salary_per_hour" :displayErrors="displayErrors" autocomplete="salary_per_hour" label="Salary Per HOur" name="salary_per_hour" component="Number"/>
+            <div v-has-permission="{props: $page.props, permissions: ['services.assign']}" class="field mb-4 col-12">
+                <FormField v-model="localUser.services" :displayErrors="displayErrors" :filter="false" :options="services" component="MultiSelect" label="Services" name="services"
+                           optionLabel="name" optionValue="id"/>
+            </div>
+
+            <div v-has-permission="{props: $page.props, permissions: ['services.edit']}" class="field mb-4 col-12">
+                <div v-for="(index) in localUser?.servicesDetails?.length" :key="index">
+                    <FormField v-model="localUser.servicesDetails[index-1].cost_per_hour" :displayErrors="displayErrors" :label="localUser?.servicesDetails[index-1].name" name="service.cost_per_hour" component="Number"
+                               mode="currency" currency="EUR"/>
+                </div>
             </div>
         </form>
         <template #footer>
@@ -49,13 +56,52 @@ export default {
         user      : Object,
         roles     : Object,
         companies : Object,
+        services  : Object,
         action    : String
     },
     data() {
         return {
             showForm      : this.visible,
             localUser     : {},
-            displayErrors : false
+            displayErrors : false,
+            afterInit     : false
+        }
+    },
+    watch: {
+        'localUser.services': {
+            handler(newServices, oldServices) {
+                // Find removed services
+                    const removedServices = oldServices?.filter(serviceId => !newServices.includes(serviceId));
+
+                // Find added services
+                const addedServices = newServices?.filter(serviceId => !oldServices?.includes(serviceId));
+
+                // Remove services from servicesDetails
+                this.localUser.servicesDetails = this.localUser.servicesDetails.filter(serviceDetail => !removedServices?.includes(serviceDetail.id));
+
+                // Add new services to  `servicesDetails`
+                addedServices.forEach(serviceId => {
+                    //check if exist service in  `servicesDetails`
+                    const exists = this.localUser.servicesDetails.some(serviceDetail => serviceDetail.id === serviceId);
+
+                    if (!exists) {
+                        const service = this.services.find(s => s.id === serviceId);
+                        if (service) {
+                            this.localUser.servicesDetails.push({
+                                id: service.id,
+                                name: service.name,
+                                cost_per_hour: this.isAdmin? 50 : 20
+                            });
+                        }
+                    }
+                });
+            },
+            deep: true
+        }
+    },
+    computed: {
+       isAdmin() {
+            return this.user?.is_admin === 1;
         }
     },
     methods : {
@@ -72,6 +118,7 @@ export default {
                 );
             } else
                 if (this.action === 'Edit') {
+                    console.log(this.localUser)
                     this.$inertia.patch(
                         route('users.update', this.localUser.id),
                         this.localUser,
@@ -84,11 +131,11 @@ export default {
                 }
         },
         initForm() {
-            this.displayErrors              = false;
-            this.localUser.id               = this.user?.id
-            this.localUser.name             = this.user?.name
-            this.localUser.email            = this.user?.email
-            this.localUser.salary_per_hour  = this.user?.salary_per_hour
+            this.displayErrors   = false;
+            this.localUser.id    = this.user?.id
+            this.localUser.name  = this.user?.name
+            this.localUser.email = this.user?.email
+
             this.localUser.password         = ''
             this.localUser.confirm_password = ''
 
@@ -100,13 +147,29 @@ export default {
             this.localUser.roles = roles;
 
             const companies = [];
-            console.log(this.user);
             this.user?.companies.map((company) => {
                 companies.push(company.id);
             })
 
             this.localUser.companies = companies;
 
+            const serviceIds = [];
+            this.user?.services.forEach((service) => {
+                serviceIds.push(service.id);
+            });
+
+            this.localUser.services = serviceIds;
+
+            const servicesDetails = [];
+            this.user?.services.forEach((service) => {
+                servicesDetails.push({
+                    id            : service.id,
+                    name          : service.name,
+                    cost_per_hour : parseFloat(service.pivot.cost_per_hour)
+                });
+            });
+
+            this.localUser.servicesDetails = servicesDetails;
         },
         closeForm() {
             this.$emit('update:visible', false)

@@ -6,6 +6,7 @@ use App\Models\Traits\BaseModelTrait;
 use App\Models\Traits\Paginatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
@@ -38,8 +39,15 @@ class Service extends Model
         'name',
     ];
 
+
     public function timesheets(): HasMany
     {
         return $this->hasMany(Timesheet::class, 'service_id');
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+                    ->withPivot('cost_per_hour');
     }
 }

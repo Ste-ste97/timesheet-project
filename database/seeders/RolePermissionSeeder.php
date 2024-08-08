@@ -136,6 +136,13 @@ class RolePermissionSeeder extends Seeder
             'parent_id'   => $services->id
         ]);
 
+        Permission::create([
+            'name'        => 'services.assign',
+            'group_name'  => 'services',
+            'description' => 'Can assign services to models (typically to users).',
+            'parent_id'   => $services->id
+        ]);
+
 
         // user permissions
         $users = Permission::create([

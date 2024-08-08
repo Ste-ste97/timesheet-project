@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Company;
+use App\Models\Service;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Throwable;
@@ -28,6 +29,7 @@ class UserController extends Controller
             'users'     => User::all(),
             'roles'     => Role::all(),
             'companies' => Company::all(),
+            'services'  => Service::all(),
         ]);
     }
 
@@ -38,7 +40,7 @@ class UserController extends Controller
         $user->name     = $request->input('name');
         $user->email    = $request->input('email');
         $user->password = bcrypt($request->input('password'));
-        $user->salary_per_hour = $request->input('salary_per_hour');
+
 
         // has permission to assign roles
         if (auth()->user()->hasPermissionTo('roles.assign')) {
@@ -47,10 +49,25 @@ class UserController extends Controller
 
         $user->save();
 
-        //has permission to asign companies to users
+        //has permission to assign companies to users
         if (auth()->user()->hasPermissionTo('companies.assign')) {
             $user->companies()->sync($request->input('companies'));
         }
+
+        //has permission to assign services to users
+        if (auth()->user()->hasPermissionTo('services.assign')) {
+            $serviceDetails = $request->input('servicesDetails', []);
+
+            $syncData = [];
+            foreach ($serviceDetails as $service) {
+                if (isset($service['id']) && isset($service['cost_per_hour'])) {
+                    $syncData[$service['id']] = ['cost_per_hour' => $service['cost_per_hour']];
+                }
+            }
+
+            $user->services()->sync($syncData);
+        }
+
 
         $request->session()->flash('message', [
             'type'    => 'success', // error, success, info
@@ -64,7 +81,7 @@ class UserController extends Controller
     {
         $user->name  = $request->input('name');
         $user->email = $request->input('email');
-        $user->salary_per_hour = $request->input('salary_per_hour');
+
 
         // has permission to assign roles
         if (auth()->user()->hasPermissionTo('roles.assign')) {
@@ -80,6 +97,20 @@ class UserController extends Controller
         //has permission to asign companies to users
         if (auth()->user()->hasPermissionTo('companies.assign')) {
             $user->companies()->sync($request->input('companies'));
+        }
+
+        //has permission to assign services to users
+        if (auth()->user()->hasPermissionTo('services.assign')) {
+            $serviceDetails = $request->input('servicesDetails', []);
+
+            $syncData = [];
+            foreach ($serviceDetails as $service) {
+                if (isset($service['id']) && isset($service['cost_per_hour'])) {
+                    $syncData[$service['id']] = ['cost_per_hour' => $service['cost_per_hour']];
+                }
+            }
+
+            $user->services()->sync($syncData);
         }
 
         $request->session()->flash('message', [
@@ -147,6 +178,12 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('users.index');
+    }
+
+    public function updateServiceCosts(Request $request, User $user): void
+    {
+
+        dd($request->input());
     }
 
 

@@ -40,14 +40,29 @@ class UpdateUserRequest extends FormRequest
                 'numeric',
                 'exists:roles,id'
             ],
-            'companies'=>[
+            'companies'        => [
                 'array',
             ],
-            'companies.*'=>[
+            'companies.*'      => [
                 'numeric',
                 'exists:companies,id'
             ],
-            'salary_per_hour'  => [
+            'services'         => [
+                'array',
+            ],
+            'services.*'       => [
+                'numeric',
+                'exists:services,id'
+            ],
+            'servicesDetails'  => [
+                'array',
+            ],
+            'servicesDetails.*.service_id' => [
+                'required',
+                'numeric',
+                'exists:services,id'
+            ],
+            'servicesDetails.*.cost_per_hour' => [
                 'required',
                 'numeric',
             ],

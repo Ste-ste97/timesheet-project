@@ -5,10 +5,10 @@
     <div class="text-center mb-5">
         <img alt="Image" class="mb-3" height="50" :src="appLogo">
         <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-        <div class="grid">
-            <span class="col-12 text-600 font-medium line-height-3">Don't have an account?</span>
-            <Link class="col-12 font-medium no-underline ml-2 text-blue-500 cursor-pointer" href="/register">Create today!</Link>
-        </div>
+<!--        <div class="grid">-->
+<!--            <span class="col-12 text-600 font-medium line-height-3">Don't have an account?</span>-->
+<!--            <Link class="col-12 font-medium no-underline ml-2 text-blue-500 cursor-pointer" href="/register">Create today!</Link>-->
+<!--        </div>-->
     </div>
 
     <ValidationErrors class="mb-4"/>
