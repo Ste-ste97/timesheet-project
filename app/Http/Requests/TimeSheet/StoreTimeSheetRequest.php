@@ -6,15 +6,31 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTimeSheetRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
-           'hours' => ['required', 'numeric'],
+            'userId'    => [
+                'required',
+                'integer',
+                'exists:users,id',
+            ],
+            'companyId' => [
+                'required',
+                'integer',
+                'exists:companies,id',
+            ],
+            'serviceId' => [
+                'required',
+                'integer',
+                'exists:services,id',
+            ],
+            'date'       => ['required', 'date'],
+            'hours'      => ['required', 'numeric'],
         ];
     }
 }

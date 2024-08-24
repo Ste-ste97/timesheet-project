@@ -31,7 +31,7 @@
 
             <div v-has-permission="{props: $page.props, permissions: ['services.edit']}" class="field mb-4 col-12">
                 <div v-for="(index) in localUser?.servicesDetails?.length" :key="index">
-                    <FormField v-model="localUser.servicesDetails[index-1].cost_per_hour" :displayErrors="displayErrors" :label="localUser?.servicesDetails[index-1].name" name="service.cost_per_hour" component="Number"
+                    <FormField v-model="localUser.servicesDetails[index-1].cost_per_hour" :displayErrors="displayErrors" :label="localUser?.servicesDetails[index-1].name"  :name="`servicesDetails.${index-1}.cost_per_hour`" component="Number"
                                mode="currency" currency="EUR"/>
                 </div>
             </div>
@@ -118,7 +118,6 @@ export default {
                 );
             } else
                 if (this.action === 'Edit') {
-                    console.log(this.localUser)
                     this.$inertia.patch(
                         route('users.update', this.localUser.id),
                         this.localUser,

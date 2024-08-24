@@ -58,7 +58,6 @@ class UpdateUserRequest extends FormRequest
                 'array',
             ],
             'servicesDetails.*.service_id' => [
-                'required',
                 'numeric',
                 'exists:services,id'
             ],
@@ -66,6 +65,14 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'numeric',
             ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'servicesDetails.*.cost_per_hour.required' => 'The cost per hour is required.',
+            'servicesDetails.*.cost_per_hour.numeric'  => 'The cost per hour must be a numeric value.',
         ];
     }
 }

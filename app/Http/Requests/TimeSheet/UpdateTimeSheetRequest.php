@@ -14,7 +14,23 @@ class UpdateTimeSheetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'hours' => ['required', 'numeric'],
+            'userId'    => [
+                'required',
+                'integer',
+                'exists:users,id',
+            ],
+            'companyId' => [
+                'required',
+                'integer',
+                'exists:companies,id',
+            ],
+            'serviceId' => [
+                'required',
+                'integer',
+                'exists:services,id',
+            ],
+            'date'       => ['required', 'date'],
+            'hours'      => ['required', 'numeric'],
         ];
     }
 }

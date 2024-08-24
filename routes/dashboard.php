@@ -63,8 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/timesheets/mass-destroy', [TimesheetController::class, 'massDestroy'])->name('timesheets.massDestroy');
     Route::resource('timesheets', TimesheetController::class)->except(['create', 'edit']);
 
-    Route::get('/getCompaniesByUserId', [TimesheetController::class, 'getCompaniesByUserId'])->name('timesheets.getCompaniesByUserId');
-    Route::get('/getTimeSheetsByUserIdCompanyId', [TimesheetController::class, 'getTimeSheetsByUserIdCompanyId'])->name('timesheets.getTimeSheetsByUserIdCompanyId');
+    Route::get('/getCompanies', [TimesheetController::class, 'getCompanies'])->name('timesheets.getCompanies');
+    Route::get('/getMonthlyTimeSheets', [TimesheetController::class, 'getMonthlyTimeSheets'])->name('timesheets.getMonthlyTimeSheets');
+    Route::get('/getServices', [TimesheetController::class, 'getServices'])->name('timesheets.getServices');
+
 
     Route::resource('totalTimesheetsCost', TotalTimesheetsCostController::class)->except(['create', 'edit']);
     Route::get('/getUserTotalCostByCompanyId', [TotalTimesheetsCostController::class, 'getUserTotalCostByCompanyId'])->name('totalTimesheetsCost.getUserTotalCostByCompanyId');

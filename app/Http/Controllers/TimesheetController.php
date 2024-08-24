@@ -8,11 +8,13 @@ use App\Models\Company;
 use App\Models\Timesheet;
 use App\Models\User;
 use Auth;
+use DateTime;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class TimesheetController extends Controller
 {
@@ -27,10 +29,7 @@ class TimesheetController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $timesheetsUsers = Timesheet::with(['user', 'company'])
-                                        ->select('user_id')
-                                        ->groupBy('user_id')
-                                        ->paginate(10);
+            $timesheetsUsers = User::where('is_admin', 0)->get();
 
             return Inertia::render('TimeSheet/IndexAdmin', [
                 'timesheetsUsers' => $timesheetsUsers,
@@ -45,16 +44,14 @@ class TimesheetController extends Controller
 
             //calculate total hours for each company for the user
             foreach ($timesheetsCompanies as $company) {
-                $company->total_hours_for_user_in_company = Timesheet::getTotalHoursForUserInCompany($user->id, $company->company_id);
-                $company->cost                            = $company->total_hours_for_user_in_company * $user->salary_per_hour;
+                $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id);
+                $company->cost                            = $user->totalCostForCompany($company->id);
             }
 
             return Inertia::render('TimeSheet/IndexUser', [
                 'timesheetsCompanies' => $timesheetsCompanies,
             ]);
         }
-
-
     }
 
     public function store(StoreTimeSheetRequest $request): RedirectResponse
@@ -110,14 +107,20 @@ class TimesheetController extends Controller
 
     public function bindTimeSheet($request, Timesheet $timesheet): void
     {
-        //can add custom code to alter the fields
-        $data = $request->validated();
-        $timesheet->fill($data);
+        $timesheet->user_id    = $request->input('userId');
+        $timesheet->company_id = $request->input('companyId');
+        $timesheet->service_id = $request->input('serviceId');
+
+        $timesheet->date         = date('Y-m-d H:i:s', strtotime($request->input('date')));
+        $monthNumber             = date('n', strtotime($request->input('date')));
+        $timesheet->month_number = $monthNumber;
+        $timesheet->month        = DateTime::createFromFormat('!m', $monthNumber)->format('F');
+        $timesheet->hours        = $request->input('hours');
 
         $timesheet->save();
     }
 
-    public function getCompaniesByUserId(Request $request): JsonResponse
+    public function getCompanies(Request $request): JsonResponse
     {
         $userId    = $request->input('userId');
         $user      = User::find($userId);
@@ -125,13 +128,13 @@ class TimesheetController extends Controller
 
         //calculate total hours for each company for the user
         foreach ($companies as $company) {
-            $company->total_hours_for_user_in_company = Timesheet::getTotalHoursForUserInCompany($userId, $company->id);
-            $company->cost                            = $company->total_hours_for_user_in_company * $user->salary_per_hour;
+            $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id);
+            $company->cost                            = $user->totalCostForCompany($company->id);
         }
         return response()->json($companies);
     }
 
-    public function getTimeSheetsByUserIdCompanyId(Request $request): JsonResponse
+    public function getMonthlyTimeSheets(Request $request): JsonResponse
     {
         $userId    = $request->input('userId');
         $companyId = $request->input('companyId');
@@ -140,6 +143,46 @@ class TimesheetController extends Controller
         $timesheets = Timesheet::with('user', 'company')
                                ->where('user_id', $userId)
                                ->where('company_id', $companyId)
+                               ->get()
+                               ->groupBy('month');
+
+        $monthOrder = [
+            'January'   => 1,
+            'February'  => 2,
+            'March'     => 3,
+            'April'     => 4,
+            'May'       => 5,
+            'June'      => 6,
+            'July'      => 7,
+            'August'    => 8,
+            'September' => 9,
+            'October'   => 10,
+            'November'  => 11,
+            'December'  => 12,
+        ];
+        $timesheets = $timesheets->sortKeysUsing(function ($key1, $key2) use ($monthOrder) {
+            return $monthOrder[$key1] <=> $monthOrder[$key2];
+        });
+
+
+        return response()->json($timesheets);
+    }
+
+    public function getServices(Request $request): JsonResponse
+    {
+        $userId      = $request->input('userId');
+        $companyId   = $request->input('companyId');
+        $month       = $request->input('monthNumber');
+        $currentYear = Carbon::now()->year;
+
+        $timesheets = Timesheet::with('user', 'company', 'service')
+                               ->where('user_id', $userId)
+                               ->where('company_id', $companyId)
+                               ->where('month_number', $month)
+                               ->whereBetween('date', [
+                                   "{$currentYear}-01-01",
+                                   "{$currentYear}-12-31"
+                               ])
                                ->get();
 
         return response()->json($timesheets);

@@ -19,10 +19,11 @@ class CreateTimesheetsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->integer('month_number');
+            $table->string('month');
+            $table->dateTime('date');
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
-            $table->dateTime('date');
-            $table->string('month');
             $table->integer('hours')->default(0);
             $table->timestamps();
         });

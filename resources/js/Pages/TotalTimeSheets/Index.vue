@@ -3,28 +3,28 @@
         <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
 
         <h2 class="mb-4">Manage Total Timesheet Cost of {{ currentYear }}</h2>
-        <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggle">
+        <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" removableSort showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
             <template #header>
                 <h4 class="mb-4">Manage Companies Total Cost </h4>
             </template>
 
             <Column :expander="true" headerStyle="width: 3rem"/>
-            <Column field="company.name" header="Company"></Column>
-            <Column field="cost" header="Cost">
+            <Column field="name" header="Company" sortable></Column>
+            <Column field="total_cost" header="Total Company Cost" sortable>
                 <template #body="slotProps">
-                    {{ formatCurrency(slotProps.data.cost) }}
+                    {{ formatCurrency(slotProps.data.total_cost) }}
                 </template>
             </Column>
             <template #expansion="slotProps">
-                <DataTable :value="slotProps.data.usersTotalCost">
+                <DataTable :value="slotProps.data.users">
                     <template #header>
                         <h4 class="mb-4">Manage User Total Cost</h4>
                     </template>
 
                     <Column field="name" header="Users"></Column>
-                    <Column field="cost" header="Total Cost">
+                    <Column  field="total_cost_for_user_in_company" header="Personal Cost" sortable>
                         <template #body="slotProps">
-                            {{ formatCurrency(slotProps.data.cost) }}
+                            {{ formatCurrency(slotProps.data.total_cost_for_user_in_company) }}
                         </template>
                     </Column>
                 </DataTable>
@@ -53,7 +53,7 @@ export default {
     },
     data() {
         return {
-            tableData                : this.timesheetsCompanies?.data,
+            tableData                : this.timesheetsCompanies,
             expandedUsers            : [],
             expandedCompanies        : [],
             item                     : null,
@@ -65,29 +65,12 @@ export default {
             items                    : [
                 {label : "Total TimeSheets Cost"},
             ],
-            loadingCompanyTimesheets : {},
         };
     },
     computed : {
         currentYear() {
             return new Date().getFullYear();
         }
-    },
-    methods  : {
-        async onCompanyToggle(event) {
-            console.log(event);
-            const companyId = event.data.company_id;
-
-            try {
-                const response                     = await axios.get(route('totalTimesheetsCost.getUserTotalCostByCompanyId', {companyId}));
-                const row                          = this.tableData.findIndex(item => item.company_id === companyId);
-                this.tableData[row].usersTotalCost = response.data;
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            } finally {
-                this.$forceUpdate();
-            }
-        },
     },
 };
 </script>

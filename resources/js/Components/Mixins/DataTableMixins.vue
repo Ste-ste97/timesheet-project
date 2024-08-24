@@ -30,6 +30,9 @@ export default {
                 currency : 'EUR',
             }).format(value);
         },
+        formatDate(value) {
+            return new Intl.DateTimeFormat('en-US').format(new Date(value));
+        },
         exportCSV() {
             this.$refs.dt.exportCSV();
         },

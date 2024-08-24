@@ -6,6 +6,9 @@ use App;
 use App\Entities\Message;
 use App\Entities\Navbar;
 use App\Entities\Auth;
+use App\Models\Service;
+use App\Models\User;
+use App\Models\Company;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
 
@@ -44,11 +47,14 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'auth'    => $this->auth->toArray(),
-            'message' => $this->message->getMessage(),
-            'navbar'  => $this->navbar->getNavbar(),
-            'locale'  => App::getLocale(),
-            'old'     => $request->input(),
+            'auth'      => $this->auth->toArray(),
+            'message'   => $this->message->getMessage(),
+            'navbar'    => $this->navbar->getNavbar(),
+            'locale'    => App::getLocale(),
+            'old'       => $request->input(),
+            'services'  => Service::all(),
+            'users'     => User::without(['roles', 'companies', 'services'])->where('is_admin', 0)->get(['id', 'name']),
+            'companies' => Company::all(),
         ]);
     }
 }

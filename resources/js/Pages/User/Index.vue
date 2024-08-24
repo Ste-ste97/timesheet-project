@@ -68,7 +68,6 @@ export default {
             selected            : null,
             user                : null,
             formVisible         : false,
-            servicesFormVisible : false,
             action              : "",
             filters             : {}
         }
@@ -124,10 +123,6 @@ export default {
                 'global' : {value : null, matchMode : FilterMatchMode.CONTAINS},
             }
         },
-        showServices(user) {
-            this.user                = user;
-            this.servicesFormVisible = true;
-        }
     }
 };
 </script>

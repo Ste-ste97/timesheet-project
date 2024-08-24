@@ -17,6 +17,8 @@ class Timesheet extends Model
         'company_id',
         'user_id',
         'month',
+        'date',
+        'month_number',
         'hours',
     ];
 
@@ -37,12 +39,18 @@ class Timesheet extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'id');
+    }
+
     public static function getTotalHoursForUserInCompany(int $userId, int $companyId): int
     {
         return self::where('user_id', $userId)
                    ->where('company_id', $companyId)
                    ->sum('hours');
     }
+
 
 
 }
