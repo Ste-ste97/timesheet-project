@@ -36,17 +36,16 @@ class TimesheetController extends Controller
             ]);
 
         } else {
-            $timesheetsCompanies = Timesheet::with(['user', 'company'])
-                                            ->where('user_id', $user->id)
-                                            ->select('company_id')
-                                            ->groupBy('company_id')
-                                            ->paginate(36);
+            //get user companies
+            $timesheetsCompanies = $user->companies;
+
 
             //calculate total hours for each company for the user
             foreach ($timesheetsCompanies as $company) {
                 $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id);
                 $company->cost                            = $user->totalCostForCompany($company->id);
             }
+
 
             return Inertia::render('TimeSheet/IndexUser', [
                 'timesheetsCompanies' => $timesheetsCompanies,

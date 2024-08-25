@@ -4,6 +4,11 @@
 
         <h2 class="mb-4">Manage Total Timesheet Cost of {{ currentYear }}</h2>
         <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" removableSort showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+            <Toolbar>
+                <template #start>
+                    <Button icon="pi pi-minus" label="Collapse All" @click="collapseAll"/>
+                </template>
+            </Toolbar>
             <template #header>
                 <h4 class="mb-4">Manage Companies Total Cost </h4>
             </template>
@@ -72,6 +77,11 @@ export default {
             return new Date().getFullYear();
         }
     },
+    methods:{
+        collapseAll() {
+            this.expandedCompanies = [];
+        },
+    }
 };
 </script>
 

@@ -12,12 +12,21 @@
                     <Button v-has-permission=" {props: $page.props, permissions: ['timesheets.create']}"
                             :label="__('New')" class="p-button-success mr-2" icon="pi pi-plus"
                             @click="createNewResource()"/>
+                    <Button v-has-permission="{props: $page.props, permissions: ['timesheets.delete']}"
+                            :disabled="!selected || !selected.length" :label="__('Delete')"
+                            class="p-button-danger mr-2"
+                            icon="pi pi-trash"
+                            @click="massDeleteResource()"/>
                     <Button icon="pi pi-minus" label="Collapse All" @click="collapseAll"/>
                 </template>
             </Toolbar>
 
             <template #header>
                 <h4 class="mb-4">Manage Users</h4>
+            </template>
+
+            <template #empty>
+                No Users found
             </template>
 
             <Column :expander="true" headerStyle="width: 3rem"/>
@@ -33,6 +42,9 @@
                             <h4 class="mb-4">Manage Companies</h4>
                         </template>
 
+                        <template #empty>
+                            No Companies found
+                        </template>
                         <Column :expander="true" headerStyle="width: 3rem"/>
                         <Column field="name" header="Company"></Column>
                         <Column field="total_hours_for_user_in_company" header="Total Hours" sortable></Column>
@@ -47,6 +59,10 @@
                                     <h4 class="mb-4">Manage Monthly TimeSheets </h4>
                                 </template>
 
+                                <template #empty>
+                                    No Monthly TimeSheets found
+                                </template>
+
                                 <Column :expander="true" headerStyle="width: 3rem"/>
                                 <Column field="month" header="Month"></Column>
                                 <template #expansion="slotProps3">
@@ -56,6 +72,11 @@
                                         <template #header>
                                             <h4 class="mb-4">Manage Services</h4>
                                         </template>
+
+                                        <template #empty>
+                                            No services found
+                                        </template>
+
                                         <Column :exportable="false" selectionMode="multiple" style="width: 3rem"></Column>
                                         <Column field="service.name" header="Service" sortable></Column>
                                         <Column field="date" header="Date" sortable>
@@ -92,6 +113,7 @@
 import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import DataTableMixins from '@/Components/Mixins/DataTableMixins.vue';
+import TimesheetMixins from '@/Components/Mixins/TimesheetMixins.vue';
 import TimesheetForm from '@/Pages/TimeSheet/Partials/TimesheetForm.vue';
 
 export default {
@@ -99,7 +121,7 @@ export default {
     props      : {
         timesheetsUsers : Object,
     },
-    mixins     : [DataTableMixins],
+    mixins     : [DataTableMixins, TimesheetMixins],
     components : {
         TimesheetForm
     },
@@ -122,17 +144,7 @@ export default {
             filters           : {},
         };
     },
-    computed : {
-        currentYear() {
-            return new Date().getFullYear();
-        }
-    },
-    watch    : {
-        'timesheetsUsers' : function () {
-            this.init();
-        }
-    },
-    methods  : {
+    methods : {
         collapseAll() {
             this.expandedUsers     = [];
             this.expandedCompanies = [];
@@ -153,6 +165,8 @@ export default {
         async onCompanyToggle(event) {
             const userId    = event.data.pivot.user_id;
             const companyId = event.data.pivot.company_id;
+            console.log(userId, companyId);
+            console.log(this.tableData);
 
             try {
                 const response = await axios.get(route('timesheets.getMonthlyTimeSheets', {userId, companyId}));
@@ -191,56 +205,6 @@ export default {
             } finally {
                 this.$forceUpdate();
             }
-        },
-        createNewResource() {
-            this.item        = null;
-            this.action      = "Create";
-            this.formVisible = true;
-        },
-        editResource(item) {
-            this.item        = item;
-            this.action      = "Edit";
-            this.formVisible = true;
-        },
-        async deleteResource(id) {
-            this.$confirm.require({
-                message     : this.__('Are you sure you want to delete this item?'),
-                header      : this.__('Confirmation'),
-                icon        : 'pi pi-exclamation-triangle',
-                acceptLabel : this.__('Yes'),
-                rejectLabel : this.__('No'),
-                accept      : () => {
-                    this.$inertia.delete(route('timesheets.destroy', id),
-                        {
-                            preserveScroll : true,
-                            onSuccess      : () => {
-                                this.$inertia.get(route('timesheets.index'));
-                            },
-                        }
-                    );
-                }
-            });
-        },
-        async massDeleteResource() {
-            this.$confirm.require({
-                message     : this.__('Are you sure you want to delete all these items?'),
-                header      : this.__('Confirmation'),
-                icon        : 'pi pi-exclamation-triangle',
-                acceptLabel : this.__('Yes'),
-                rejectLabel : this.__('No'),
-                accept      : () => {
-                    this.$inertia.post(route('timesheets.massDestroy'), {
-                            selected : this.selected,
-                        },
-                        {
-                            preserveScroll : true,
-                            onSuccess      : () => {
-                                this.$inertia.get(route('timesheets.index'));
-                            },
-                        }
-                    );
-                },
-            });
         },
     },
 };

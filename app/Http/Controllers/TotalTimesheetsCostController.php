@@ -7,10 +7,11 @@ use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TotalTimesheetsCostController extends Controller
 {
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $timesheetsCompanies = Company::with('users')->get();
 
