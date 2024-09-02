@@ -24,6 +24,7 @@ class CreateTimesheetsTable extends Migration
             $table->dateTime('date');
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
+            $table->decimal('current_hourly_rate', 8, 2)->nullable()->default(20);
             $table->integer('hours')->default(0);
             $table->timestamps();
         });

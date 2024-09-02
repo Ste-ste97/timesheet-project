@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TimeSheet\StoreTimeSheetRequest;
 use App\Http\Requests\TimeSheet\UpdateTimeSheetRequest;
-use App\Models\Company;
 use App\Models\Timesheet;
 use App\Models\User;
 use Auth;
 use DateTime;
-use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
@@ -57,6 +56,12 @@ class TimesheetController extends Controller
     {
         $timesheet = new Timesheet();
         $this->bindTimeSheet($request, $timesheet);
+        $serviceUser                    = DB::table('service_user')
+                                            ->where('user_id', $timesheet->user_id)
+                                            ->where('service_id', $timesheet->service_id)
+                                            ->first();
+        $timesheet->current_hourly_rate = $serviceUser->cost_per_hour ?? 0;
+        $timesheet->save();
 
         $request->session()->flash('message', [
             'type'    => 'success',

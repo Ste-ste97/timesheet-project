@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Timesheet extends Model
 {
-    use HasFactory,Paginatable;
+    use HasFactory, Paginatable;
 
     protected $table = 'timesheets';
 
@@ -19,6 +19,8 @@ class Timesheet extends Model
         'month',
         'date',
         'month_number',
+        'service_id',
+        'current_hourly_rate',
         'hours',
     ];
 
@@ -26,7 +28,6 @@ class Timesheet extends Model
         'created_at',
         'updated_at',
     ];
-
 
 
     public function company(): BelongsTo
@@ -50,7 +51,6 @@ class Timesheet extends Model
                    ->where('company_id', $companyId)
                    ->sum('hours');
     }
-
 
 
 }

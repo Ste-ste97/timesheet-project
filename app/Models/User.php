@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -95,11 +94,12 @@ class User extends Authenticatable
                     ])
                     ->get()
                     ->reduce(function ($carry, $timesheet) {
-                        $serviceUser = DB::table('service_user')
-                                         ->where('user_id', $timesheet->user_id)
-                                         ->where('service_id', $timesheet->service_id)
-                                         ->first();
-                        $hourlyRate  = $serviceUser->cost_per_hour ?? 0;
+//                        $serviceUser = DB::table('service_user')
+//                                         ->where('user_id', $timesheet->user_id)
+//                                         ->where('service_id', $timesheet->service_id)
+//                                         ->first();
+//                        $hourlyRate  = $serviceUser->cost_per_hour ?? 0;
+                        $hourlyRate  = $timesheet->current_hourly_rate;
                         $cost        = $timesheet->hours * $hourlyRate;
                         return $carry + $cost;
                     }, 0);
