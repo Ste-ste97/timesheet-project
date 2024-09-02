@@ -39,11 +39,11 @@ class TimesheetController extends Controller
             //get user companies
             $timesheetsCompanies = $user->companies;
 
-
+            $currentYear = Carbon::now()->year;
             //calculate total hours for each company for the user
             foreach ($timesheetsCompanies as $company) {
-                $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id);
-                $company->cost                            = $user->totalCostForCompany($company->id);
+                $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id, $currentYear);
+                $company->cost                            = $user->totalCostForCompany($company->id, $currentYear);
             }
 
 
@@ -121,14 +121,15 @@ class TimesheetController extends Controller
 
     public function getCompanies(Request $request): JsonResponse
     {
-        $userId    = $request->input('userId');
-        $user      = User::find($userId);
-        $companies = $user->companies;
+        $userId       = $request->input('userId');
+        $user         = User::find($userId);
+        $companies    = $user->companies;
+        $selectedYear = $request->input('selectedYear');
 
         //calculate total hours for each company for the user
         foreach ($companies as $company) {
-            $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id);
-            $company->cost                            = $user->totalCostForCompany($company->id);
+            $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id, $selectedYear);
+            $company->cost                            = $user->totalCostForCompany($company->id, $selectedYear);
         }
         return response()->json($companies);
     }
@@ -169,18 +170,18 @@ class TimesheetController extends Controller
 
     public function getServices(Request $request): JsonResponse
     {
-        $userId      = $request->input('userId');
-        $companyId   = $request->input('companyId');
-        $month       = $request->input('monthNumber');
-        $currentYear = Carbon::now()->year;
+        $userId       = $request->input('userId');
+        $companyId    = $request->input('companyId');
+        $month        = $request->input('monthNumber');
+        $selectedYear = $request->input('selectedYear');
 
         $timesheets = Timesheet::with('user', 'company', 'service')
                                ->where('user_id', $userId)
                                ->where('company_id', $companyId)
                                ->where('month_number', $month)
                                ->whereBetween('date', [
-                                   "{$currentYear}-01-01",
-                                   "{$currentYear}-12-31"
+                                   "{$selectedYear}-01-01",
+                                   "{$selectedYear}-12-31"
                                ])
                                ->get();
 

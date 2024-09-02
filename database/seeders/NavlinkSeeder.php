@@ -10,9 +10,10 @@ class NavlinkSeeder extends Seeder
     public function run(): void
     {
         Navlink::create([
-            'name'       => 'Dashboard',
-            'icon'       => 'pi pi-home',
-            'route_name' => 'dashboard'
+            'name'        => 'Dashboard',
+            'icon'        => 'pi pi-home',
+            'permissions' => 'dashboard.view',
+            'route_name'  => 'dashboard'
         ]);
 
         Navlink::create([
@@ -28,8 +29,6 @@ class NavlinkSeeder extends Seeder
             'permissions' => 'totalTimesheetsCost.view',
             'route_name'  => 'totalTimesheetsCost.index',
         ]);
-
-
 
 
         Navlink::create([

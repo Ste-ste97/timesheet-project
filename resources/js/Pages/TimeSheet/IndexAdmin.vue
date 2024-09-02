@@ -2,7 +2,10 @@
     <div class="card">
         <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
 
-        <h2 class="mb-4">Manage Timesheet of {{ currentYear }}</h2>
+        <div>
+            <h2>Manage Timesheet</h2>
+            <FormField v-model="selectedYear" name="selectedYear" :options="years" component="Dropdown" class="mb-4" @change="onYearChange"/>
+        </div>
 
         <DataTable ref='userDt' :value="tableData" :expandedRows="expandedUsers" v-model:expandedRows="expandedUsers" @row-expand="onUserToggle"
                    v-model:selection="selected" :filters="filters"
@@ -115,6 +118,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import DataTableMixins from '@/Components/Mixins/DataTableMixins.vue';
 import TimesheetMixins from '@/Components/Mixins/TimesheetMixins.vue';
 import TimesheetForm from '@/Pages/TimeSheet/Partials/TimesheetForm.vue';
+import FormField from '@/Components/Primitives/FormField.vue';
 
 export default {
     layout     : AuthenticatedLayout,
@@ -123,6 +127,7 @@ export default {
     },
     mixins     : [DataTableMixins, TimesheetMixins],
     components : {
+        FormField,
         TimesheetForm
     },
     data() {
@@ -145,16 +150,20 @@ export default {
         };
     },
     methods : {
+        onYearChange() {
+            this.collapseAll();
+        },
         collapseAll() {
             this.expandedUsers     = [];
             this.expandedCompanies = [];
             this.expandedMonths    = [];
         },
         async onUserToggle(event) {
-            const userId = event.data.id;
-            this.loading = true;
+            const userId       = event.data.id;
+            const selectedYear = this.selectedYear;
+            this.loading       = true;
             try {
-                const response                = await axios.get(route('timesheets.getCompanies', {userId}));
+                const response                = await axios.get(route('timesheets.getCompanies', {userId, selectedYear}));
                 const row                     = this.tableData.findIndex(item => item.id === userId);
                 this.tableData[row].companies = response.data;
             } catch (error) {
@@ -165,8 +174,6 @@ export default {
         async onCompanyToggle(event) {
             const userId    = event.data.pivot.user_id;
             const companyId = event.data.pivot.company_id;
-            console.log(userId, companyId);
-            console.log(this.tableData);
 
             try {
                 const response = await axios.get(route('timesheets.getMonthlyTimeSheets', {userId, companyId}));
@@ -190,12 +197,13 @@ export default {
             }
         },
         async onMonthToggle(event) {
-            const userId      = event.data.user_id;
-            const companyId   = event.data.company_id;
-            const monthNumber = event.data.month_number;
+            const userId       = event.data.user_id;
+            const companyId    = event.data.company_id;
+            const monthNumber  = event.data.month_number;
+            const selectedYear = this.selectedYear;
 
             try {
-                const response                                             = await axios.get(route('timesheets.getServices', {userId, companyId, monthNumber}));
+                const response                                             = await axios.get(route('timesheets.getServices', {userId, companyId, monthNumber, selectedYear}));
                 const row1                                                 = this.tableData.findIndex(item => item.id === userId);
                 const row2                                                 = this.tableData[row1].companies.findIndex(item => item.id === companyId);
                 const row3                                                 = this.tableData[row1].companies[row2].months.findIndex(item => item.month_number === monthNumber);

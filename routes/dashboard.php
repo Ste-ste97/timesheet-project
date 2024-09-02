@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('totalTimesheetsCost', TotalTimesheetsCostController::class)->except(['create', 'edit']);
-    Route::get('/getUserTotalCostByCompanyId', [TotalTimesheetsCostController::class, 'getUserTotalCostByCompanyId'])->name('totalTimesheetsCost.getUserTotalCostByCompanyId');
+    Route::get('/changeYear', [TotalTimesheetsCostController::class, 'changeYear'])->name('totalTimesheetsCost.changeYear');
 
 });
 

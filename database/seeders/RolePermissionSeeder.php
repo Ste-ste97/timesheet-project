@@ -13,6 +13,19 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::findOrCreate('admin');
         $user  = Role::findOrCreate('user');
 
+        //dashboard permissions
+        $dashboard = Permission::create([
+            'name'       => 'dashboard',
+            'group_name' => 'dashboard'
+        ]);
+
+        Permission::create([
+            'name'        => 'dashboard.view',
+            'group_name'  => 'dashboard',
+            'description' => 'Can view dashboard.',
+            'parent_id'   => $dashboard->id
+        ]);
+
         //time sheet permissions
         $timesheets = Permission::create([
             'name'       => 'timesheets',
@@ -295,6 +308,7 @@ class RolePermissionSeeder extends Seeder
 
 
         // assign permissions to admin
+        $admin->givePermissionTo([$dashboard->children]);
         $admin->givePermissionTo([$timesheets->children]);
         $admin->givePermissionTo([$totalTimesheetsCost->children]);
         $admin->givePermissionTo([$companies->children]);

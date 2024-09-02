@@ -3,9 +3,17 @@ export default {
     computed : {
         currentYear() {
             return new Date().getFullYear();
+        },
+        years() {
+            return Array.from({length : 6}, (v, k) => this.currentYear - 5 + k);
+        },
+    },
+    data() {
+        return {
+            selectedYear : new Date().getFullYear(),
         }
     },
-    methods  : {
+    methods : {
         createNewResource() {
             this.item        = null;
             this.action      = "Create";

@@ -53,11 +53,15 @@ export default {
             return Object.values(this.$page.props.services);
         },
         users() {
+            if (this.auth.is_admin !== 1) return [this.auth];
             return Object.values(this.$page.props.users);
         },
         companies() {
             return Object.values(this.$page.props.companies);
         },
+        auth() {
+            return this.$page.props.auth.user;
+        }
     },
     methods  : {
         submit() {
@@ -96,11 +100,13 @@ export default {
             if (this.timesheet) {
                 this.localTimesheet.id        = this.timesheet.id;
                 this.localTimesheet.userId    = this.timesheet.user_id;
+                this.localTimesheet.userName  = this.timesheet.user.name;
                 this.localTimesheet.companyId = this.timesheet.company_id;
                 this.localTimesheet.serviceId = this.timesheet.service_id;
                 this.localTimesheet.date      = new Intl.DateTimeFormat('en-US').format(new Date(this.timesheet.date));
                 this.localTimesheet.hours     = this.timesheet.hours;
             }
+
         },
         closeForm() {
             this.$emit('update:visible', false)

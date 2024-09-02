@@ -2,7 +2,11 @@
     <div class="card">
         <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
 
-        <h2 class="mb-4">Manage Timesheet of {{ currentYear }}</h2>
+        <div >
+            <h2>Manage Timesheet</h2>
+            <FormField v-model="selectedYear" name="selectedYear" :options="years" component="Dropdown" class="mb-4" @change="onYearChange"/>
+        </div>
+
         <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggle"
                    v-model:selection="selected" :filters="filters"
                    :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]" showGridlines>
@@ -90,6 +94,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import DataTableMixins from '@/Components/Mixins/DataTableMixins.vue';
 import TimesheetMixins from '@/Components/Mixins/TimesheetMixins.vue';
 import TimesheetForm from '@/Pages/TimeSheet/Partials/TimesheetForm.vue';
+import FormField from '@/Components/Primitives/FormField.vue';
 
 export default {
     layout     : AuthenticatedLayout,
@@ -98,6 +103,7 @@ export default {
     },
     mixins     : [DataTableMixins, TimesheetMixins],
     components : {
+        FormField,
         TimesheetForm
     },
     data() {
@@ -124,6 +130,9 @@ export default {
         },
     },
     methods  : {
+        onYearChange() {
+            this.collapseAll();
+        },
         collapseAll() {
             this.expandedCompanies = [];
             this.expandedMonths    = [];
@@ -156,9 +165,10 @@ export default {
             const userId      = this.userId;
             const companyId   = event.data.company_id;
             const monthNumber = event.data.month_number;
+            const selectedYear = this.selectedYear;
 
             try {
-                const response                             = await axios.get(route('timesheets.getServices', {userId, companyId, monthNumber}));
+                const response                             = await axios.get(route('timesheets.getServices', {userId, companyId, monthNumber, selectedYear}));
                 const row1                                 = this.tableData.findIndex(item => item.id === companyId);
                 const row2                                 = this.tableData[row1].months.findIndex(item => item.month_number === monthNumber);
                 this.tableData[row1].months[row2].services = response.data;

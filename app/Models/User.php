@@ -85,28 +85,35 @@ class User extends Authenticatable
         return $this->hasMany(Timesheet::class, 'user_id');
     }
 
-    public function totalCostForCompany($companyId)
+    public function totalCostForCompany($companyId, $year)
     {
         return $this->timesheets()
                     ->where('company_id', $companyId)
+                    ->whereBetween('date', [
+                        "{$year}-01-01",
+                        "{$year}-12-31"
+                    ])
                     ->get()
                     ->reduce(function ($carry, $timesheet) {
                         $serviceUser = DB::table('service_user')
                                          ->where('user_id', $timesheet->user_id)
                                          ->where('service_id', $timesheet->service_id)
                                          ->first();
-                        $hourlyRate = $serviceUser->cost_per_hour ?? 0;
-                        $cost = $timesheet->hours * $hourlyRate;
+                        $hourlyRate  = $serviceUser->cost_per_hour ?? 0;
+                        $cost        = $timesheet->hours * $hourlyRate;
                         return $carry + $cost;
                     }, 0);
     }
 
 
-    public function totalHoursForCompany($companyId)
+    public function totalHoursForCompany($companyId, $year)
     {
         return $this->timesheets()
                     ->where('company_id', $companyId)
+                    ->whereBetween('date', [
+                        "{$year}-01-01",
+                        "{$year}-12-31"
+                    ])
                     ->sum('hours');
     }
-
 }

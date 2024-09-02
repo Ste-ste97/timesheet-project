@@ -2,8 +2,13 @@
     <div class="card">
         <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
 
-        <h2 class="mb-4">Manage Total Timesheet Cost of {{ currentYear }}</h2>
-        <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" removableSort showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+        <div class="mb-4">
+            <h2>Manage Total Timesheet Cost</h2>
+            <FormField v-model="selectedYear" name="selectedYear" :options="years" component="Dropdown" @change="onYearChange"/>
+        </div>
+
+        <DataTable :value="tableData" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" removableSort showGridlines :paginator="true" :rows="10"
+                   :rowsPerPageOptions="[10,25,50]">
             <Toolbar>
                 <template #start>
                     <Button icon="pi pi-minus" label="Collapse All" @click="collapseAll"/>
@@ -27,7 +32,7 @@
                     </template>
 
                     <Column field="name" header="Users"></Column>
-                    <Column  field="total_cost_for_user_in_company" header="Personal Cost" sortable>
+                    <Column field="total_cost_for_user_in_company" header="Personal Cost" sortable>
                         <template #body="slotProps">
                             {{ formatCurrency(slotProps.data.total_cost_for_user_in_company) }}
                         </template>
@@ -46,38 +51,45 @@ import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import DataTableMixins from '@/Components/Mixins/DataTableMixins.vue';
 import TimesheetForm from '@/Pages/TimeSheet/Partials/TimesheetForm.vue';
+import FormField from '@/Components/Primitives/FormField.vue';
+import TimesheetMixins from '@/Components/Mixins/TimesheetMixins.vue';
 
 export default {
     layout     : AuthenticatedLayout,
     props      : {
         timesheetsCompanies : Object,
     },
-    mixins     : [DataTableMixins],
+    mixins     : [DataTableMixins, TimesheetMixins],
     components : {
+        FormField,
         TimesheetForm
     },
     data() {
         return {
-            tableData                : this.timesheetsCompanies,
-            expandedUsers            : [],
-            expandedCompanies        : [],
-            item                     : null,
-            formVisible              : false,
-            action                   : "",
-            home                     : {
+            tableData         : this.timesheetsCompanies,
+            expandedUsers     : [],
+            expandedCompanies : [],
+            item              : null,
+            formVisible       : false,
+            action            : "",
+            home              : {
                 icon : 'pi pi-home',
             },
-            items                    : [
+            items             : [
                 {label : "Total TimeSheets Cost"},
             ],
         };
     },
-    computed : {
-        currentYear() {
-            return new Date().getFullYear();
-        }
-    },
-    methods:{
+    methods : {
+        async onYearChange() {
+            await axios.get(route('totalTimesheetsCost.changeYear'), {
+                params : {
+                    year : this.selectedYear,
+                },
+            }).then(response => {
+                this.tableData = response.data.timesheetsCompanies;
+            });
+        },
         collapseAll() {
             this.expandedCompanies = [];
         },
