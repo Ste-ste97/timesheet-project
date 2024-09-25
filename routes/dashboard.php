@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProfileController;
@@ -56,6 +57,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/companies/mass-destroy', [CompanyController::class, 'massDestroy'])->name('companies.massDestroy');
     Route::resource('companies', CompanyController::class)->except(['create', 'edit']);
+
+    Route::post('/contacts/mass-destroy', [ContactController::class, 'massDestroy'])->name('contacts.massDestroy');
+    Route::resource('contacts', ContactController::class)->except(['create', 'edit']);
 
     Route::post('/services/mass-destroy', [ServiceController::class, 'massDestroy'])->name('services.massDestroy');
     Route::resource('services', ServiceController::class)->except(['create', 'edit']);

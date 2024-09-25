@@ -9,21 +9,21 @@ class NavlinkSeeder extends Seeder
 {
     public function run(): void
     {
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Dashboard',
             'icon'        => 'pi pi-home',
             'permissions' => 'dashboard.view',
             'route_name'  => 'dashboard'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Timesheets',
             'icon'        => 'pi pi-calendar',
             'permissions' => 'timesheets.view',
             'route_name'  => 'timesheets.index'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Total Timesheets Cost',
             'icon'        => 'pi pi-calendar-times',
             'permissions' => 'totalTimesheetsCost.view',
@@ -31,27 +31,34 @@ class NavlinkSeeder extends Seeder
         ]);
 
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Companies',
             'icon'        => 'pi pi-building',
             'permissions' => 'companies.view',
             'route_name'  => 'companies.index'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Services',
             'icon'        => 'pi pi-briefcase',
             'permissions' => 'services.view',
             'route_name'  => 'services.index'
         ]);
 
-        $user_management = Navlink::create([
+        Navlink::firstOrCreate([
+            'name'        => 'Contacts',
+            'icon'        => 'pi pi-users',
+            'permissions' => 'contacts.view',
+            'route_name'  => 'contacts.index'
+        ]);
+
+        $user_management = Navlink::firstOrCreate([
             'name'        => 'User Management',
             'permissions' => 'users.view|permissions.view|roles.view', // or
             'icon'        => 'pi pi-users',
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Users',
             'icon'        => 'pi pi-user',
             'permissions' => 'users.view',
@@ -59,7 +66,7 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'users.index'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Roles',
             'icon'        => 'pi pi-user-plus',
             'permissions' => 'roles.view',
@@ -67,7 +74,7 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'roles.index'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Permissions',
             'icon'        => 'pi pi-user-plus',
             'permissions' => 'permissions.view',
@@ -75,7 +82,7 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'permissions.index'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Log Viewer',
             'icon'        => 'pi pi-book',
             'external'    => true,
@@ -83,7 +90,7 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'blv.index'
         ]);
 
-        Navlink::create([
+        Navlink::firstOrCreate([
             'name'        => 'Translations',
             'icon'        => 'pi pi-globe',
             'route_name'  => 'translations.index',

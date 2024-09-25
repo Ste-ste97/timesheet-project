@@ -1,7 +1,7 @@
 <template>
     <h2 v-if="showPageTitle" class="mb-4">{{ pageTitle }}</h2>
 
-    <DataTable ref="dt" v-model:expandedRows="expandedRows" v-model:selection="selected" :filters="filters" :first="from"
+    <DataTable ref="dt" v-model:expandedRows="expandedRows" v-model:selection="selected" :rowClass="getRowClass" :filters="filters" :first="from"
                :lazy="true" :loading="loading"
                :paginator="true" :reorderableColumns="true" :resizableColumns="true"
                :rows="perPage" :rowsPerPageOptions="rowsPerPageOptions" :sortField="sortField" :sortOrder="sortOrderInt"
@@ -253,6 +253,9 @@ export default {
         this.init();
     },
     methods : {
+        getRowClass(rowData) {
+            return this.selected?.includes(rowData) ? 'selected-row' : '';
+        },
         saveSelectedColumns() {
             const datatableKey = `selectedColumns_${this.resourceName}_${this.key}`;
             localStorage.setItem(datatableKey, JSON.stringify(this.selectedColumns));
@@ -374,3 +377,10 @@ export default {
     },
 };
 </script>
+
+
+<style>
+.selected-row {
+    background-color: #e0f7fa; /* Μπορείς να αλλάξεις το χρώμα εδώ */
+}
+</style>
