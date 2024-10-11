@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProfileController;
@@ -12,7 +11,6 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TimesheetController;
 use App\Http\Controllers\TotalTimesheetsCostController;
-use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -55,11 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/translations/mass-destroy', [TranslationController::class, 'massDestroy'])->name('translations.massDestroy');
     Route::resource('translations', TranslationController::class)->except(['create', 'edit']);
 
-    Route::post('/companies/mass-destroy', [CompanyController::class, 'massDestroy'])->name('companies.massDestroy');
-    Route::resource('companies', CompanyController::class)->except(['create', 'edit']);
-
-    Route::post('/contacts/mass-destroy', [ContactController::class, 'massDestroy'])->name('contacts.massDestroy');
-    Route::resource('contacts', ContactController::class)->except(['create', 'edit']);
+    Route::post('/clients/mass-destroy', [ClientController::class, 'massDestroy'])->name('clients.massDestroy');
+    Route::resource('clients', ClientController::class)->except(['create', 'edit', 'show']);
 
     Route::post('/services/mass-destroy', [ServiceController::class, 'massDestroy'])->name('services.massDestroy');
     Route::resource('services', ServiceController::class)->except(['create', 'edit']);
@@ -86,3 +81,6 @@ Route::post('language/{language}', function ($language) {
 })->name('language');
 
 require __DIR__ . '/auth.php';
+
+
+        

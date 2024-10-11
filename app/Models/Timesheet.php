@@ -14,7 +14,7 @@ class Timesheet extends Model
     protected $table = 'timesheets';
 
     protected $fillable = [
-        'company_id',
+        'client_id',
         'user_id',
         'month',
         'date',
@@ -30,9 +30,9 @@ class Timesheet extends Model
     ];
 
 
-    public function company(): BelongsTo
+    public function client(): BelongsTo
     {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
+        return $this->belongsTo(Client::class, 'client_id', 'id');
     }
 
     public function user(): BelongsTo
@@ -48,7 +48,7 @@ class Timesheet extends Model
     public static function getTotalHoursForUserInCompany(int $userId, int $companyId): int
     {
         return self::where('user_id', $userId)
-                   ->where('company_id', $companyId)
+                   ->where('client_id', $companyId)
                    ->sum('hours');
     }
 

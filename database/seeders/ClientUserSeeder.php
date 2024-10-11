@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Company;
+use App\Models\Client;
 
-class CompanyUserSeeder extends Seeder
+class ClientUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,10 +16,10 @@ class CompanyUserSeeder extends Seeder
     public function run()
     {
         $users = User::where('id', '!=', 1)->get();
-        $companies = Company::all();
+        $clients = Client::all();
 
-        foreach ($companies as $company) {
-            $company->users()->attach($users->pluck('id')->toArray());
+        foreach ($clients as $client) {
+            $client->users()->attach($users->pluck('id')->toArray());
         }
     }
 }

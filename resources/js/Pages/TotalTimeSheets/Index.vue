@@ -15,12 +15,12 @@
                 </template>
             </Toolbar>
             <template #header>
-                <h4 class="mb-4">Manage Companies Total Cost </h4>
+                <h4 class="mb-4">Manage Clients Total Cost </h4>
             </template>
 
             <Column :expander="true" headerStyle="width: 3rem"/>
-            <Column field="name" header="Company" sortable></Column>
-            <Column field="total_cost" header="Total Company Cost" sortable>
+            <Column field="name" header="Client" sortable></Column>
+            <Column field="total_cost" header="Total Client Cost" sortable>
                 <template #body="slotProps">
                     {{ formatCurrency(slotProps.data.total_cost) }}
                 </template>
@@ -57,7 +57,7 @@ import TimesheetMixins from '@/Components/Mixins/TimesheetMixins.vue';
 export default {
     layout     : AuthenticatedLayout,
     props      : {
-        timesheetsCompanies : Object,
+        timesheetsClients : Object,
     },
     mixins     : [DataTableMixins, TimesheetMixins],
     components : {
@@ -66,7 +66,7 @@ export default {
     },
     data() {
         return {
-            tableData         : this.timesheetsCompanies,
+            tableData         : this.timesheetsClients,
             expandedUsers     : [],
             expandedCompanies : [],
             item              : null,
@@ -87,7 +87,7 @@ export default {
                     year : this.selectedYear,
                 },
             }).then(response => {
-                this.tableData = response.data.timesheetsCompanies;
+                this.tableData = response.data.timesheetsClients;
             });
         },
         collapseAll() {

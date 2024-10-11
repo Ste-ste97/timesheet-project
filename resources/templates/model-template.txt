@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\BaseModelTrait;
+use App\Models\Traits\Paginatable;
+
+
+class {ModelName} extends Model
+{
+    use BaseModelTrait, Paginatable, HasFactory;
+
+    protected $table = '{modelNameLowerPlural}';
+
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+
+    ];
+
+    protected array $datatableColumns = [
+
+    ];
+
+    protected array $formColumns = [
+
+    ];
+
+    protected array $searchable = [
+
+    ];
+
+    protected array $sortable = [
+
+    ];
+
+    public static function relationships(): array
+    {
+        return [
+
+        ];
+    }
+
+}

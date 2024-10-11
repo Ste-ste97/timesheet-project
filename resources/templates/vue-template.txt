@@ -1,0 +1,74 @@
+<template>
+    <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
+
+    <div class="card">
+        <ReusableDataTable
+            :dataObject="{{camelCaseName}}s"
+            resourceName="{{camelCaseName}}s"
+            primaryKey="id"
+            :showPageTitle="true"
+            :pageTitle="__('Manage {{firstLetterUpperCaseName}}')"
+            :emptyMessage="__('No {{pluralCamelCaseName}} found.')"
+            :columns="dataColumns"
+            key="{{pluralCamelCaseName}}"
+            :showCustomButtons="true"
+            @createNewResource="createNewResource"
+            @editResource="editResource">
+        </ReusableDataTable>
+
+        <ReusableForm v-model:visible="formVisible" :action="action" :item="item" :fields="dataColumns['items']" dialogHeader="{{name}} Details"
+                      resourceName="{{pluralCamelCaseName}}" primaryKey="id"/>
+    </div>
+</template>
+
+<script>
+import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import ReusableDataTable from '@/Components/Primitives/ReusableDataTable.vue';
+import ReusableForm from '@/Components/Primitives/ReusableForm.vue';
+
+export default {
+    layout: AuthenticatedLayout,
+    components: {ReusableForm, ReusableDataTable},
+    props: {
+        {{pluralCamelCaseName}}: Object,
+        dataColumns: Object,
+    },
+    data() {
+        return {
+            item: null,
+            formVisible: false,
+            action: "",
+            home: {
+                icon: 'pi pi-home',
+            },
+        }
+    },
+    computed: {
+        items() {
+            return [
+                {label: this.__('{{firstLetterUpperCaseName}}')},
+            ]
+        }
+    },
+    methods: {
+        createNewResource() {
+            this.item = null;
+            this.action = "Create";
+            this.formVisible = true;
+        },
+        editResource(item) {
+            this.item = item;
+            this.action = "Edit";
+            this.formVisible = true;
+        },
+    },
+}
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+</style>

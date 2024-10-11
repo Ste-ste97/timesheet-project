@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Navlink;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -10,8 +11,10 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::create([
-            'name'              => 'Admin',
+        Navlink::truncate();
+
+        $admin = User::firstOrCreate([
+            'name'              => 'Marios',
             'email'             => 'admin@admin.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -19,81 +22,33 @@ class UserSeeder extends Seeder
             'is_admin'          => true,
         ]);
 
-        $niki = User::create([
-            'name'              => 'Niki',
-            'email'             => 'niki@test.com',
+        $konstantinos = User::firstOrCreate([
+            'name'              => 'Konstantinos',
+            'email'             => 'konstantinos@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token'    => Str::random(10),
         ]);
 
-        $pantelis = User::create([
-            'name'              => 'Pantelis',
-            'email'             => 'pantelis@test.com',
+        $stalo = User::firstOrCreate([
+            'name'              => 'Stalo',
+            'email'             => 'stalo@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token'    => Str::random(10),
         ]);
 
-        $athina = User::create([
-            'name'              => 'Athina',
-            'email'             => 'athina@test.com',
+        $mariaP = User::firstOrCreate([
+            'name'              => 'Maria P',
+            'email'             => 'mariap@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token'    => Str::random(10),
         ]);
 
-        $costas = User::create([
-            'name'              => 'Costas',
-            'email'             => 'Costas@test.com',
-            'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token'    => Str::random(10),
-        ]);
-
-        $rena = User::create([
-            'name'              => 'Rena',
-            'email'             => 'rena@test.com',
-            'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token'    => Str::random(10),
-        ]);
-
-        $spiros = User::create([
-            'name'              => 'Spyros',
-            'email'             => 'spiros@test.com',
-            'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token'    => Str::random(10),
-        ]);
-
-        $margarita = User::create([
-            'name'              => 'Margarita',
-            'email'             => 'margarita@test.com',
-            'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token'    => Str::random(10),
-        ]);
-
-        $nikolas = User::create([
-            'name'              => 'Nikolas',
-            'email'             => 'nikolas@test.com',
-            'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token'    => Str::random(10),
-        ]);
-
-        $thomas = User::create([
-            'name'              => 'Thomas',
-            'email'             => 'thomas@test.com',
-            'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token'    => Str::random(10),
-        ]);
-
-        $loucas = User::create([
-            'name'              => 'Loucas',
-            'email'             => 'loucas@test.com',
+        $maria = User::firstOrCreate([
+            'name'              => 'Maria',
+            'email'             => 'maria@test.com',
             'email_verified_at' => now(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token'    => Str::random(10),
@@ -101,16 +56,9 @@ class UserSeeder extends Seeder
 
 
         $admin->assignRole('admin');
-        $niki->assignRole('user');
-        $pantelis->assignRole('user');
-        $athina->assignRole('user');
-        $costas->assignRole('user');
-        $rena->assignRole('user');
-        $spiros->assignRole('user');
-        $margarita->assignRole('user');
-        $nikolas->assignRole('user');
-        $thomas->assignRole('user');
-        $loucas->assignRole('user');
-
+        $konstantinos->assignRole('user');
+        $stalo->assignRole('user');
+        $mariaP->assignRole('user');
+        $maria->assignRole('user');
     }
 }

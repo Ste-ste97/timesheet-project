@@ -12,9 +12,8 @@ class DatabaseSeeder extends Seeder
         $this->call(NavlinkSeeder::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(CompanySeeder::class);
+        $this->call(ClientSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(TimesheetSeeder::class);
-        $this->call(ContactSeeder::class);
     }
 }

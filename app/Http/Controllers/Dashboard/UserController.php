@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Company;
+use App\Models\Client;
 use App\Models\Service;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -26,10 +26,9 @@ class UserController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('User/Index', [
-            'users'     => User::all(),
-            'roles'     => Role::all(),
-            'companies' => Company::all(),
-            'services'  => Service::all(),
+            'users'    => User::all(),
+            'roles'    => Role::all(),
+            'services' => Service::all(),
         ]);
     }
 
@@ -48,12 +47,6 @@ class UserController extends Controller
         }
 
         $user->save();
-
-        //has permission to assign companies to users
-        if (auth()->user()->hasPermissionTo('companies.assign')) {
-            $user->companies()->sync($request->input('companies'));
-        }
-
         //has permission to assign services to users
         if (auth()->user()->hasPermissionTo('services.assign')) {
             $serviceDetails = $request->input('servicesDetails', []);
@@ -94,10 +87,6 @@ class UserController extends Controller
 
         $user->save();
 
-        //has permission to asign companies to users
-        if (auth()->user()->hasPermissionTo('companies.assign')) {
-            $user->companies()->sync($request->input('companies'));
-        }
 
         //has permission to assign services to users
         if (auth()->user()->hasPermissionTo('services.assign')) {

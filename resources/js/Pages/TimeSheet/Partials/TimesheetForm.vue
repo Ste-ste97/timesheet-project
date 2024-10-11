@@ -7,7 +7,7 @@
                            component="Dropdown"/>
             </div>
             <div class="field mb-4 col-12">
-                <FormField v-model="localTimesheet.companyId" optionLabel="name" optionValue="id" :displayErrors="displayErrors" label="Companies" name="companyId" :options="companies"
+                <FormField v-model="localTimesheet.clientId" optionLabel="name" optionValue="id" :displayErrors="displayErrors" label="Clients" name="clientId" :options="clients"
                            component="Dropdown"/>
             </div>
             <div class="field mb-4 col-12">
@@ -56,8 +56,8 @@ export default {
             if (this.auth.is_admin !== 1) return [this.auth];
             return Object.values(this.$page.props.users);
         },
-        companies() {
-            return Object.values(this.$page.props.companies);
+        clients() {
+            return Object.values(this.$page.props.clients);
         },
         auth() {
             return this.$page.props.auth.user;
@@ -101,7 +101,7 @@ export default {
                 this.localTimesheet.id        = this.timesheet.id;
                 this.localTimesheet.userId    = this.timesheet.user_id;
                 this.localTimesheet.userName  = this.timesheet.user.name;
-                this.localTimesheet.companyId = this.timesheet.company_id;
+                this.localTimesheet.clientId = this.timesheet.client_id;
                 this.localTimesheet.serviceId = this.timesheet.service_id;
                 this.localTimesheet.date      = new Intl.DateTimeFormat('en-US').format(new Date(this.timesheet.date));
                 this.localTimesheet.hours     = this.timesheet.hours;

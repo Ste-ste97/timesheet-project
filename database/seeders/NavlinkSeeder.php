@@ -30,12 +30,11 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'totalTimesheetsCost.index',
         ]);
 
-
         Navlink::firstOrCreate([
-            'name'        => 'Companies',
+            'name'        => 'Clients',
             'icon'        => 'pi pi-building',
-            'permissions' => 'companies.view',
-            'route_name'  => 'companies.index'
+            'permissions' => 'clients.view',
+            'route_name'  => 'clients.index'
         ]);
 
         Navlink::firstOrCreate([
@@ -45,16 +44,9 @@ class NavlinkSeeder extends Seeder
             'route_name'  => 'services.index'
         ]);
 
-        Navlink::firstOrCreate([
-            'name'        => 'Contacts',
-            'icon'        => 'pi pi-users',
-            'permissions' => 'contacts.view',
-            'route_name'  => 'contacts.index'
-        ]);
-
         $user_management = Navlink::firstOrCreate([
             'name'        => 'User Management',
-            'permissions' => 'users.view|permissions.view|roles.view', // or
+            'permissions' => 'users.view|permissions.view|roles.view',
             'icon'        => 'pi pi-users',
         ]);
 

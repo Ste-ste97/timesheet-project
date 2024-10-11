@@ -40,16 +40,16 @@
                     <i class="pi pi-spin pi-spinner"></i>
                 </div>
                 <div v-else>
-                    <DataTable :value="slotProps.data.companies" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggle" removableSort>
+                    <DataTable :value="slotProps.data.clients" :expandedRows="expandedCompanies" v-model:expandedRows="expandedCompanies" @row-expand="onCompanyToggle" removableSort>
                         <template #header>
-                            <h4 class="mb-4">Manage Companies</h4>
+                            <h4 class="mb-4">Manage Clients</h4>
                         </template>
 
                         <template #empty>
-                            No Companies found
+                            No Clients found
                         </template>
                         <Column :expander="true" headerStyle="width: 3rem"/>
-                        <Column field="name" header="Company"></Column>
+                        <Column field="name" header="Client"></Column>
                         <Column field="total_hours_for_user_in_company" header="Total Hours" sortable></Column>
                         <Column field="cost" header="Total Cost" sortable>
                             <template #body="slotProps">
@@ -166,7 +166,7 @@ export default {
             try {
                 const response                = await axios.get(route('timesheets.getCompanies', {userId, selectedYear}));
                 const row                     = this.tableData.findIndex(item => item.id === userId);
-                this.tableData[row].companies = response.data;
+                this.tableData[row].clients = response.data;
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
@@ -174,23 +174,23 @@ export default {
         },
         async onCompanyToggle(event) {
             const userId    = event.data.pivot.user_id;
-            const companyId = event.data.pivot.company_id;
+            const clientId = event.data.pivot.client_id;
 
             try {
-                const response = await axios.get(route('timesheets.getMonthlyTimeSheets', {userId, companyId}));
+                const response = await axios.get(route('timesheets.getMonthlyTimeSheets', {userId, clientId}));
                 const row1     = this.tableData.findIndex(item => item.id === userId);
-                const row2     = this.tableData[row1].companies.findIndex(item => item.id === companyId);
+                const row2     = this.tableData[row1].clients.findIndex(item => item.id === clientId);
 
                 const months = Object.keys(response.data).map(monthName => {
                     return {
                         month        : monthName,
                         month_number : response.data[monthName][0].month_number,
                         user_id      : userId,
-                        company_id   : companyId
+                        client_id   : clientId
                     };
                 });
 
-                this.tableData[row1].companies[row2].months = months;
+                this.tableData[row1].clients[row2].months = months;
             } catch (error) {
                 console.error("Error fetching data: ", error);
             } finally {
@@ -199,16 +199,16 @@ export default {
         },
         async onMonthToggle(event) {
             const userId       = event.data.user_id;
-            const companyId    = event.data.company_id;
+            const clientId    = event.data.client_id;
             const monthNumber  = event.data.month_number;
             const selectedYear = this.selectedYear;
 
             try {
-                const response                                             = await axios.get(route('timesheets.getServices', {userId, companyId, monthNumber, selectedYear}));
+                const response                                             = await axios.get(route('timesheets.getServices', {userId, clientId, monthNumber, selectedYear}));
                 const row1                                                 = this.tableData.findIndex(item => item.id === userId);
-                const row2                                                 = this.tableData[row1].companies.findIndex(item => item.id === companyId);
-                const row3                                                 = this.tableData[row1].companies[row2].months.findIndex(item => item.month_number === monthNumber);
-                this.tableData[row1].companies[row2].months[row3].services = response.data;
+                const row2                                                 = this.tableData[row1].clients.findIndex(item => item.id === clientId);
+                const row3                                                 = this.tableData[row1].clients[row2].months.findIndex(item => item.month_number === monthNumber);
+                this.tableData[row1].clients[row2].months[row3].services = response.data;
             } catch (error) {
                 console.error("Error fetching data: ", error);
             } finally {

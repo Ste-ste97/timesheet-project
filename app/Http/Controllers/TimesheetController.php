@@ -35,19 +35,19 @@ class TimesheetController extends Controller
             ]);
 
         } else {
-            //get user companies
-            $timesheetsCompanies = $user->companies;
+            //get user clients
+            $timesheetsClients = $user->clients;
 
             $currentYear = Carbon::now()->year;
-            //calculate total hours for each company for the user
-            foreach ($timesheetsCompanies as $company) {
-                $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id, $currentYear);
-                $company->cost                            = $user->totalCostForCompany($company->id, $currentYear);
+            //calculate total hours for each client for the user
+            foreach ($timesheetsClients as $client) {
+                $client->total_hours_for_user_in_company = $user->totalHoursForCompany($client->id, $currentYear);
+                $client->cost                            = $user->totalCostForCompany($client->id, $currentYear);
             }
 
 
             return Inertia::render('TimeSheet/IndexUser', [
-                'timesheetsCompanies' => $timesheetsCompanies,
+                'timesheetsClients' => $timesheetsClients,
             ]);
         }
     }
@@ -112,7 +112,7 @@ class TimesheetController extends Controller
     public function bindTimeSheet($request, Timesheet $timesheet): void
     {
         $timesheet->user_id    = $request->input('userId');
-        $timesheet->company_id = $request->input('companyId');
+        $timesheet->client_id = $request->input('clientId');
         $timesheet->service_id = $request->input('serviceId');
 
         $timesheet->date         = date('Y-m-d H:i:s', strtotime($request->input('date')));
@@ -128,26 +128,26 @@ class TimesheetController extends Controller
     {
         $userId       = $request->input('userId');
         $user         = User::find($userId);
-        $companies    = $user->companies;
+        $clients    = $user->clients;
         $selectedYear = $request->input('selectedYear');
 
-        //calculate total hours for each company for the user
-        foreach ($companies as $company) {
-            $company->total_hours_for_user_in_company = $user->totalHoursForCompany($company->id, $selectedYear);
-            $company->cost                            = $user->totalCostForCompany($company->id, $selectedYear);
+        //calculate total hours for each client for the user
+        foreach ($clients as $client) {
+            $client->total_hours_for_user_in_company = $user->totalHoursForCompany($client->id, $selectedYear);
+            $client->cost                            = $user->totalCostForCompany($client->id, $selectedYear);
         }
-        return response()->json($companies);
+        return response()->json($clients);
     }
 
     public function getMonthlyTimeSheets(Request $request): JsonResponse
     {
         $userId    = $request->input('userId');
-        $companyId = $request->input('companyId');
+        $companyId = $request->input('clientId');
 
 
-        $timesheets = Timesheet::with('user', 'company')
+        $timesheets = Timesheet::with('user', 'client')
                                ->where('user_id', $userId)
-                               ->where('company_id', $companyId)
+                               ->where('client_id', $companyId)
                                ->get()
                                ->groupBy('month');
 
@@ -176,13 +176,13 @@ class TimesheetController extends Controller
     public function getServices(Request $request): JsonResponse
     {
         $userId       = $request->input('userId');
-        $companyId    = $request->input('companyId');
+        $companyId    = $request->input('clientId');
         $month        = $request->input('monthNumber');
         $selectedYear = $request->input('selectedYear');
 
-        $timesheets = Timesheet::with('user', 'company', 'service')
+        $timesheets = Timesheet::with('user', 'client', 'service')
                                ->where('user_id', $userId)
-                               ->where('company_id', $companyId)
+                               ->where('client_id', $companyId)
                                ->where('month_number', $month)
                                ->whereBetween('date', [
                                    "{$selectedYear}-01-01",

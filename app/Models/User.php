@@ -51,7 +51,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['roles', 'companies', 'services'];
+    protected $with = ['roles', 'clients', 'services'];
 
     /**
      * Get the address for this user.
@@ -69,9 +69,9 @@ class User extends Authenticatable
         return Cache::get('2fa-' . request()->session()->getId()) ?? false;
     }
 
-    public function companies(): BelongsToMany
+    public function clients(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class);
+        return $this->belongsToMany(Client::class);
     }
 
     public function services(): BelongsToMany
@@ -87,7 +87,7 @@ class User extends Authenticatable
     public function totalCostForCompany($companyId, $year)
     {
         return $this->timesheets()
-                    ->where('company_id', $companyId)
+                    ->where('client_id', $companyId)
                     ->whereBetween('date', [
                         "{$year}-01-01",
                         "{$year}-12-31"
@@ -109,7 +109,7 @@ class User extends Authenticatable
     public function totalHoursForCompany($companyId, $year)
     {
         return $this->timesheets()
-                    ->where('company_id', $companyId)
+                    ->where('client_id', $companyId)
                     ->whereBetween('date', [
                         "{$year}-01-01",
                         "{$year}-12-31"

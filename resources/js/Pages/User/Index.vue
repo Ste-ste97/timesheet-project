@@ -40,7 +40,7 @@
             </DataTable>
         </div>
 
-        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user" :companies="companies" :services="services"/>
+        <UserForm v-model:visible="formVisible" :action="action" :roles="roles" :user="user" :services="services"/>
     </div>
 </template>
 
@@ -57,19 +57,18 @@ export default {
         UserForm
     },
     props      : {
-        users     : Object,
-        roles     : Object,
-        companies : Object,
-        services  : Object,
+        users    : Object,
+        roles    : Object,
+        services : Object,
     },
     mixins     : [DataTableMixins],
     data() {
         return {
-            selected            : null,
-            user                : null,
-            formVisible         : false,
-            action              : "",
-            filters             : {}
+            selected    : null,
+            user        : null,
+            formVisible : false,
+            action      : "",
+            filters     : {}
         }
     },
     created() {

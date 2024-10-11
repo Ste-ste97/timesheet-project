@@ -1,19 +1,19 @@
 <template>
-    <div class="card">
-        <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
+    <Breadcrumb class="mb-4" :home="home" :model="items" style="pointer-events : none;"/>
 
+    <div class="card">
         <ReusableDataTable
-            :dataObject="contacts"
-            resourceName="contacts"
+            :dataObject="clients"
+            resourceName="clients"
             primaryKey="id"
             :showPageTitle="true"
-            pageTitle="Manage Contacts"
-            emptyMessage="No contacts found."
-            :showSelectColumns="true"
+            :pageTitle="__('Manage Clients')"
+            :emptyMessage="__('No clients found.')"
             :columns="dataColumns"
+            key="clients"
+            :showCustomButtons="true"
             @createNewResource="createNewResource"
-            @editResource="editResource"
-            key="contacts">
+            @editResource="editResource">
             <template #customColumns="{slotProps}">
                 <Column field="email" header="Email">
                     <template #body="slotProps">
@@ -25,25 +25,28 @@
             </template>
         </ReusableDataTable>
 
-        <ReusableForm v-model:visible="formVisible" :action="action" :item="item" :fields="dataColumns['items']" dialogHeader="Contact Details"
-                      resourceName="contacts" primaryKey="id"/>
+        <!--        <ReusableForm v-model:visible="formVisible" :action="action" :item="item" :fields="dataColumns['items']" dialogHeader="Client Details"-->
+        <!--                      resourceName="clients" primaryKey="id"/>-->
+
+        <ClientForm v-model:visible="formVisible" :action="action" :client="item" :fields="dataColumns['items']" :users="users"/>
+
     </div>
 </template>
 
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import DataTableMixins from "@/Components/Mixins/DataTableMixins.vue";
 import ReusableDataTable from '@/Components/Primitives/ReusableDataTable.vue';
 import ReusableForm from '@/Components/Primitives/ReusableForm.vue';
+import ClientForm from "./Partials/ClientForm.vue"
 
 export default {
     layout     : AuthenticatedLayout,
-    components : {ReusableForm, ReusableDataTable},
+    components : {ReusableForm, ReusableDataTable, ClientForm},
     props      : {
-        contacts    : Object,
+        clients     : Object,
         dataColumns : Object,
+        users       : Object,
     },
-    mixins     : [DataTableMixins],
     data() {
         return {
             item        : null,
@@ -52,13 +55,16 @@ export default {
             home        : {
                 icon : 'pi pi-home',
             },
-            items       : [
-                {label : "Contacts"},
-            ],
-            columns     : [this.dataColumns],
         }
     },
-    methods : {
+    computed : {
+        items() {
+            return [
+                {label : this.__('Clients')},
+            ]
+        }
+    },
+    methods  : {
         createNewResource() {
             this.item        = null;
             this.action      = "Create";
@@ -67,11 +73,6 @@ export default {
         editResource(item) {
             this.item        = item;
             this.action      = "Edit";
-            this.formVisible = true;
-        },
-        showResource(item) {
-            this.item        = item;
-            this.action      = "Show";
             this.formVisible = true;
         },
         createNewEmail(email) {
@@ -87,9 +88,5 @@ export default {
     display         : flex;
     align-items     : center;
     justify-content : space-between;
-
-    @media screen and (max-width : 960px) {
-        align-items : start;
-    }
 }
 </style>

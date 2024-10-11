@@ -6,15 +6,15 @@ use App\Models\Service;
 use App\Models\Timesheet;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Company;
+use App\Models\Client;
 
 class TimesheetSeeder extends Seeder
 {
     public function run()
     {
-        $users     = User::where('id', '!=', 1)->get();
-        $companies = Company::all();
-        $services  = Service::all();
+        $users    = User::where('id', '!=', 1)->get();
+        $clients  = Client::all();
+        $services = Service::all();
 
         $months = [
             'January'   => ['date' => '2024-01-01', 'number' => 1],
@@ -32,12 +32,12 @@ class TimesheetSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            foreach ($companies as $company) {
+            foreach ($clients as $client) {
                 foreach ($months as $monthName => $monthData) {
                     foreach ($services as $service) {
                         Timesheet::create([
                             'user_id'      => $user->id,
-                            'company_id'   => $company->id,
+                            'client_id'    => $client->id,
                             'service_id'   => $service->id,
                             'month'        => $monthName,
                             'date'         => $monthData['date'],

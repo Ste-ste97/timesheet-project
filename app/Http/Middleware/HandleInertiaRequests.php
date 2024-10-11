@@ -8,7 +8,7 @@ use App\Entities\Navbar;
 use App\Entities\Auth;
 use App\Models\Service;
 use App\Models\User;
-use App\Models\Company;
+use App\Models\Client;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
 
@@ -53,8 +53,8 @@ class HandleInertiaRequests extends Middleware
             'locale'    => App::getLocale(),
             'old'       => $request->input(),
             'services'  => Service::all(),
-            'users'     => User::without(['roles', 'companies', 'services'])->where('is_admin', 0)->get(['id', 'name']),
-            'companies' => Company::all(),
+            'users'     => User::without(['roles', 'clients', 'services'])->where('is_admin', 0)->get(['id', 'name']),
+            'clients' => Client::all(),
         ]);
     }
 }

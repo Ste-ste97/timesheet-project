@@ -40,13 +40,6 @@ class StoreUserRequest extends FormRequest
                 'numeric',
                 'exists:roles,id'
             ],
-            'companies'        => [
-                'array',
-            ],
-            'companies.*'      => [
-                'numeric',
-                'exists:companies,id'
-            ],
             'services'         => [
                 'array',
             ],

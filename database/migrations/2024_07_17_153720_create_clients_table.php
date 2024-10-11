@@ -8,9 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
+            $table->string('name');
+            $table->boolean('is_private')->default(0);
             $table->string('mobile_phone');
             $table->string('landline_phone')->nullable();
             $table->string('address')->nullable();
@@ -23,6 +24,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('clients');
     }
 };

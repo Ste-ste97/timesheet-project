@@ -19,10 +19,10 @@ class UpdateTimeSheetRequest extends FormRequest
                 'integer',
                 'exists:users,id',
             ],
-            'companyId' => [
+            'clientId' => [
                 'required',
                 'integer',
-                'exists:companies,id',
+                'exists:clients,id',
             ],
             'serviceId' => [
                 'required',

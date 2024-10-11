@@ -14,7 +14,7 @@ use ReflectionException;
 class ColumnTypeHelper
 {
     private static array $modelMappings = [
-//        'App\Models\ModelName'       => ['App\Models\ModelName', 'Label', 'value'],
+        'App\Models\User' => ['App\Models\User', 'name', 'id'],
     ];
 
     /**

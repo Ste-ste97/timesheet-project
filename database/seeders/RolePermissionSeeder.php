@@ -74,45 +74,45 @@ class RolePermissionSeeder extends Seeder
         ]);
 
 
-        //company permissions
-        $companies = Permission::firstOrCreate([
-            'name'       => 'companies',
-            'group_name' => 'companies'
+        //client permissions
+        $clients = Permission::firstOrCreate([
+            'name'       => 'clients',
+            'group_name' => 'clients'
         ]);
 
         Permission::firstOrCreate([
-            'name'        => 'companies.view',
-            'group_name'  => 'companies',
-            'description' => 'Can view companies.',
-            'parent_id'   => $companies->id
+            'name'        => 'clients.view',
+            'group_name'  => 'clients',
+            'description' => 'Can view clients.',
+            'parent_id'   => $clients->id
         ]);
 
         Permission::firstOrCreate([
-            'name'        => 'companies.edit',
-            'group_name'  => 'companies',
-            'description' => 'Can edit existing companies.',
-            'parent_id'   => $companies->id
+            'name'        => 'clients.edit',
+            'group_name'  => 'clients',
+            'description' => 'Can edit existing clients.',
+            'parent_id'   => $clients->id
         ]);
 
         Permission::firstOrCreate([
-            'name'        => 'companies.create',
-            'group_name'  => 'companies',
-            'description' => 'Can create new companies.',
-            'parent_id'   => $companies->id
+            'name'        => 'clients.create',
+            'group_name'  => 'clients',
+            'description' => 'Can create new clients.',
+            'parent_id'   => $clients->id
         ]);
 
         Permission::firstOrCreate([
-            'name'        => 'companies.delete',
-            'group_name'  => 'companies',
-            'description' => 'Can delete companies.',
-            'parent_id'   => $companies->id
+            'name'        => 'clients.delete',
+            'group_name'  => 'clients',
+            'description' => 'Can delete clients.',
+            'parent_id'   => $clients->id
         ]);
 
         Permission::firstOrCreate([
-            'name'        => 'companies.assign',
-            'group_name'  => 'companies',
-            'description' => 'Can assign companies to models (typically to users).',
-            'parent_id'   => $companies->id
+            'name'        => 'clients.assign',
+            'group_name'  => 'clients',
+            'description' => 'Can assign clients to models (typically to users).',
+            'parent_id'   => $clients->id
         ]);
 
         //Service permissions
@@ -156,42 +156,6 @@ class RolePermissionSeeder extends Seeder
             'parent_id'   => $services->id
         ]);
 
-
-        //contact permissions
-        $contacts = Permission::firstOrCreate([
-            'name'       => 'contacts',
-            'group_name' => 'contacts'
-        ]);
-
-        Permission::firstOrCreate([
-            'name'        => 'contacts.view',
-            'group_name'  => 'contacts',
-            'description' => 'Can view contacts.',
-            'parent_id'   => $contacts->id
-        ]);
-
-        Permission::firstOrCreate([
-            'name'        => 'contacts.edit',
-            'group_name'  => 'contacts',
-            'description' => 'Can edit existing contacts.',
-            'parent_id'   => $contacts->id
-        ]);
-
-        Permission::firstOrCreate([
-            'name'        => 'contacts.create',
-            'group_name'  => 'contacts',
-            'description' => 'Can create new contacts.',
-            'parent_id'   => $contacts->id
-        ]);
-
-        Permission::firstOrCreate([
-            'name'        => 'contacts.delete',
-            'group_name'  => 'contacts',
-            'description' => 'Can delete contacts.',
-            'parent_id'   => $contacts->id
-        ]);
-
-
         // user permissions
         $users = Permission::firstOrCreate([
             'name'       => 'users',
@@ -220,6 +184,13 @@ class RolePermissionSeeder extends Seeder
             'name'        => 'users.delete',
             'group_name'  => 'users',
             'description' => 'Can delete users.',
+            'parent_id'   => $users->id
+        ]);
+
+        Permission::firstOrCreate([
+            'name'        => 'users.assign',
+            'group_name'  => 'users',
+            'description' => 'Can assign users to models (typically to clients).',
             'parent_id'   => $users->id
         ]);
 
@@ -346,12 +317,11 @@ class RolePermissionSeeder extends Seeder
         $admin->givePermissionTo([$dashboard->children]);
         $admin->givePermissionTo([$timesheets->children]);
         $admin->givePermissionTo([$totalTimesheetsCost->children]);
-        $admin->givePermissionTo([$companies->children]);
+        $admin->givePermissionTo([$clients->children]);
         $admin->givePermissionTo([$users->children]);
         $admin->givePermissionTo([$permissions->children]);
         $admin->givePermissionTo([$roles->children]);
         $admin->givePermissionTo([$services->children]);
-        $admin->givePermissionTo([$contacts->children]);
 
 
         //assign permissions to user

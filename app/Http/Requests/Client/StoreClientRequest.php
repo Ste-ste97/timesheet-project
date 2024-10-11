@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Contact;
+namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateContactRequest extends FormRequest
+class StoreClientRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,7 +15,8 @@ class UpdateContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name'      => 'required|string|max:255',
+            'name'           => 'required|string|max:255',
+            'is_private'     => 'required|boolean',
             'mobile_phone'   => 'required|string|max:20',
             'landline_phone' => 'nullable|string|max:20',
             'address'        => 'nullable|string|max:255',
@@ -23,9 +24,16 @@ class UpdateContactRequest extends FormRequest
             'email'          => [
                 'required',
                 'email',
-                Rule::unique('contacts')->ignore($this->id)
+                Rule::unique('clients')
             ],
             'postal_code'    => 'nullable|string|max:10',
+            'users'          => [
+                'array',
+            ],
+            'users.*'        => [
+                'numeric',
+                'exists:users,id'
+            ],
         ];
     }
 }

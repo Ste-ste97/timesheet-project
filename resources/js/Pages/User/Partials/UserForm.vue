@@ -19,11 +19,6 @@
                            optionValue="id"/>
             </div>
 
-            <div v-has-permission="{props: $page.props, permissions: ['companies.assign']}" class="field mb-4 col-12">
-                <FormField v-model="localUser.companies" :displayErrors="displayErrors" :filter="false" :options="companies" component="MultiSelect" label="Companies" name="companies"
-                           optionLabel="name" optionValue="id"/>
-            </div>
-
             <div v-has-permission="{props: $page.props, permissions: ['services.assign']}" class="field mb-4 col-12">
                 <FormField v-model="localUser.services" :displayErrors="displayErrors" :filter="false" :options="services" component="MultiSelect" label="Services" name="services"
                            optionLabel="name" optionValue="id"/>
@@ -31,7 +26,8 @@
 
             <div v-has-permission="{props: $page.props, permissions: ['services.edit']}" class="field mb-4 col-12">
                 <div v-for="(index) in localUser?.servicesDetails?.length" :key="index">
-                    <FormField v-model="localUser.servicesDetails[index-1].cost_per_hour" :displayErrors="displayErrors" :label="localUser?.servicesDetails[index-1].name"  :name="`servicesDetails.${index-1}.cost_per_hour`" component="Number"
+                    <FormField v-model="localUser.servicesDetails[index-1].cost_per_hour" :displayErrors="displayErrors" :label="localUser?.servicesDetails[index-1].name"
+                               :name="`servicesDetails.${index-1}.cost_per_hour`" component="Number"
                                mode="currency" currency="EUR"/>
                 </div>
             </div>
@@ -52,12 +48,12 @@ export default {
         FormField
     },
     props      : {
-        visible   : Boolean,
-        user      : Object,
-        roles     : Object,
-        companies : Object,
-        services  : Object,
-        action    : String
+        visible  : Boolean,
+        user     : Object,
+        roles    : Object,
+        clients  : Object,
+        services : Object,
+        action   : String
     },
     data() {
         return {
@@ -67,11 +63,11 @@ export default {
             afterInit     : false
         }
     },
-    watch: {
-        'localUser.services': {
+    watch    : {
+        'localUser.services' : {
             handler(newServices, oldServices) {
                 // Find removed services
-                    const removedServices = oldServices?.filter(serviceId => !newServices.includes(serviceId));
+                const removedServices = oldServices?.filter(serviceId => !newServices.includes(serviceId));
 
                 // Find added services
                 const addedServices = newServices?.filter(serviceId => !oldServices?.includes(serviceId));
@@ -88,23 +84,23 @@ export default {
                         const service = this.services.find(s => s.id === serviceId);
                         if (service) {
                             this.localUser.servicesDetails.push({
-                                id: service.id,
-                                name: service.name,
-                                cost_per_hour: this.isAdmin? 50 : 20
+                                id            : service.id,
+                                name          : service.name,
+                                cost_per_hour : this.isAdmin ? 50 : 20
                             });
                         }
                     }
                 });
             },
-            deep: true
+            deep : true
         }
     },
-    computed: {
-       isAdmin() {
+    computed : {
+        isAdmin() {
             return this.user?.is_admin === 1;
         }
     },
-    methods : {
+    methods  : {
         submit() {
             if (this.action === 'Create') {
                 this.$inertia.post(
@@ -145,12 +141,12 @@ export default {
 
             this.localUser.roles = roles;
 
-            const companies = [];
-            this.user?.companies.map((company) => {
-                companies.push(company.id);
+            const clients = [];
+            this.user?.clients.map((client) => {
+                clients.push(client.id);
             })
 
-            this.localUser.companies = companies;
+            this.localUser.clients = clients;
 
             const serviceIds = [];
             this.user?.services.forEach((service) => {

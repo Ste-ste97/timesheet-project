@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{ModelName}\Store{ModelName}Request;
+use App\Http\Requests\{ModelName}\Update{ModelName}Request;
+use App\Models\{ModelName};
+use Arr;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class {ModelName}Controller extends Controller
+{
+    public function __construct()
+    {
+        $this->authorizeResource({ModelName}::class, '{modelNameLower}');
+    }
+
+    public function index(Request $request): Response
+    {
+        return Inertia::render('{ModelName}/Index', [
+            '{modelNameLowerPlural}' => {ModelName}::setUpQuery()->paginate($request->input('per_page', 10)),
+            'dataColumns' => {ModelName}::getDataColumns(),
+        ]);
+    }
+
+    public function store(Store{ModelName}Request $request): RedirectResponse
+    {
+        {ModelName}::create($request->validated());
+
+        $request->session()->flash('message', [
+            'type'    => 'success', // error, success, info
+            'message' => __('{ModelName} has been created.')
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function update(Update{ModelName}Request $request, {ModelName} ${modelNameLower}): RedirectResponse
+    {
+        ${modelNameLower}->update($request->validated());
+
+        $request->session()->flash('message', [
+            'type'    => 'success', // error, success, info
+            'message' => __('{ModelName} has been updated.')
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function destroy(Request $request, {ModelName} ${modelNameLower}): RedirectResponse
+    {
+        ${modelNameLower}->delete();
+
+        $request->session()->flash('message', [
+            'type'    => 'success', // error, success, info
+            'message' => __('{ModelName} has been deleted.')
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function massDestroy(Request $request): RedirectResponse
+    {
+        $this->authorize('delete', {ModelName}::class);
+        ${modelNameLower}IDs = Arr::pluck($request->input('selected'), 'id');
+
+        {ModelName}::whereIn('id', ${modelNameLower}IDs)->delete();
+
+        $request->session()->flash('message', [
+            'type'    => 'success', // error, success, info
+            'message' => __('{modelNamePlural} have been deleted.')
+        ]);
+
+        return redirect()->route('{modelNameLowerPlural}.index');
+    }
+}
