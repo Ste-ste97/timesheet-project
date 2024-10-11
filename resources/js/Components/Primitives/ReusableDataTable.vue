@@ -101,6 +101,7 @@
 <script>
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import DataTableMixins from "@/Components/Mixins/DataTableMixins.vue";
+import {formatDate} from '@/helpers';
 
 export default {
     layout : AuthenticatedLayout,
@@ -324,7 +325,10 @@ export default {
                     //remove last comma
                     selectedLabels = selectedLabels.slice(0, -2);
                     return selectedLabels;
-                }
+                } else
+                    if (column.component_type === 'Calendar') {
+                        return formatDate(value);
+                    }
 
             return value;
         },
@@ -377,7 +381,6 @@ export default {
     },
 };
 </script>
-
 
 <style>
 .selected-row {

@@ -64,7 +64,7 @@
                             <Column field="service.name" header="Service" sortable></Column>
                             <Column field="date" header="Date" sortable>
                                 <template #body="slotProps4">
-                                    {{ formatDate(slotProps4.data.date) }}
+                                    {{ displayDate(slotProps4.data.date) }}
                                 </template>
                             </Column>
                             <Column field="hours" header="Hours" sortable></Column>

@@ -1,5 +1,6 @@
 <script>
 import {FilterMatchMode} from 'primevue/api';
+import {formatDate} from '@/helpers';
 
 export default {
     data() {
@@ -30,8 +31,8 @@ export default {
                 currency : 'EUR',
             }).format(value);
         },
-        formatDate(value) {
-            return new Intl.DateTimeFormat('en-US').format(new Date(value));
+        displayDate(date) {
+            return formatDate(date);
         },
         exportCSV() {
             this.$refs.dt.exportCSV();

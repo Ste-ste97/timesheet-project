@@ -84,7 +84,7 @@
                                         <Column field="service.name" header="Service" sortable></Column>
                                         <Column field="date" header="Date" sortable>
                                             <template #body="slotProps4">
-                                                {{ formatDate(slotProps4.data.date) }}
+                                                {{ displayDate(slotProps4.data.date) }}
                                             </template>
                                         </Column>
                                         <Column field="hours" header="Hours" sortable></Column>
@@ -119,6 +119,7 @@ import DataTableMixins from '@/Components/Mixins/DataTableMixins.vue';
 import TimesheetMixins from '@/Components/Mixins/TimesheetMixins.vue';
 import TimesheetForm from '@/Pages/TimeSheet/Partials/TimesheetForm.vue';
 import FormField from '@/Components/Primitives/FormField.vue';
+
 
 export default {
     layout     : AuthenticatedLayout,
