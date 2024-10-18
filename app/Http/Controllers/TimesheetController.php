@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TimeSheet\StoreTimeSheetRequest;
 use App\Http\Requests\TimeSheet\UpdateTimeSheetRequest;
+use App\Models\Client;
+use App\Models\Service;
 use App\Models\Timesheet;
 use App\Models\User;
 use Auth;
@@ -14,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Inertia\Response;
 
 class TimesheetController extends Controller
 {
@@ -22,8 +25,7 @@ class TimesheetController extends Controller
         $this->authorizeResource(Timesheet::class, 'timesheet');
     }
 
-
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $user = Auth::user();
 
@@ -50,6 +52,21 @@ class TimesheetController extends Controller
                 'timesheetsClients' => $timesheetsClients,
             ]);
         }
+    }
+
+    public function search(): Response
+    {
+        $this->authorize('search', Timesheet::class);
+
+        $timesheets = Timesheet::publicSearch()->paginate(request('per_page', 10));
+
+
+        return Inertia::render('TimeSheet/IndexWithFilter', [
+            'timesheets' => $timesheets,
+            'users'    => User::where('is_admin', 0)->get(),
+            'clients'  => Client::all(),
+            'services' => Service::all()
+        ]);
     }
 
     public function store(StoreTimeSheetRequest $request): RedirectResponse
@@ -112,7 +129,7 @@ class TimesheetController extends Controller
     public function bindTimeSheet($request, Timesheet $timesheet): void
     {
         $timesheet->user_id    = $request->input('userId');
-        $timesheet->client_id = $request->input('clientId');
+        $timesheet->client_id  = $request->input('clientId');
         $timesheet->service_id = $request->input('serviceId');
 
         $timesheet->date         = date('Y-m-d H:i:s', strtotime($request->input('date')));
@@ -128,7 +145,7 @@ class TimesheetController extends Controller
     {
         $userId       = $request->input('userId');
         $user         = User::find($userId);
-        $clients    = $user->clients;
+        $clients      = $user->clients;
         $selectedYear = $request->input('selectedYear');
 
         //calculate total hours for each client for the user

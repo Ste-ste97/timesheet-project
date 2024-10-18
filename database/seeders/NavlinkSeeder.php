@@ -24,6 +24,13 @@ class NavlinkSeeder extends Seeder
         ]);
 
         Navlink::firstOrCreate([
+            'name'        => 'Advanced Timesheets',
+            'icon'        => 'pi pi-calendar-plus',
+            'permissions' => 'timesheets.view',
+            'route_name'  => 'timesheets.search',
+        ]);
+
+        Navlink::firstOrCreate([
             'name'        => 'Total Timesheets Cost',
             'icon'        => 'pi pi-calendar-times',
             'permissions' => 'totalTimesheetsCost.view',

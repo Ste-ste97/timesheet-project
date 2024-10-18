@@ -4,6 +4,9 @@ export default {
         currentYear() {
             return new Date().getFullYear();
         },
+        currentMonthYear() {
+            return  (new Date().getMonth() + 1) + '/' +  new Date().getFullYear();
+        },
         years() {
             return Array.from({length : 6}, (v, k) => this.currentYear - 5 + k);
         },

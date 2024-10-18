@@ -60,6 +60,13 @@ class RolePermissionSeeder extends Seeder
             'parent_id'   => $timesheets->id
         ]);
 
+        Permission::firstOrCreate([
+            'name'        => 'timesheets.search',
+            'group_name'  => 'timesheets',
+            'description' => 'Can search timesheets.',
+            'parent_id'   => $timesheets->id
+        ]);
+
         //total timesheet cost permissions
         $totalTimesheetsCost = Permission::firstOrCreate([
             'name'       => 'totalTimesheetsCost',

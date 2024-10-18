@@ -57,10 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->except(['create', 'edit', 'show']);
 
     Route::post('/services/mass-destroy', [ServiceController::class, 'massDestroy'])->name('services.massDestroy');
-    Route::resource('services', ServiceController::class)->except(['create', 'edit']);
+    Route::resource('services', ServiceController::class)->except(['create', 'edit', 'show']);
 
     Route::post('/timesheets/mass-destroy', [TimesheetController::class, 'massDestroy'])->name('timesheets.massDestroy');
-    Route::resource('timesheets', TimesheetController::class)->except(['create', 'edit']);
+    Route::resource('timesheets', TimesheetController::class)->except(['create', 'edit', 'show']);
+    Route::match(['get', 'post'], '/timesheets/search', [TimesheetController::class, 'search'])->name('timesheets.search');
 
     Route::get('/getCompanies', [TimesheetController::class, 'getCompanies'])->name('timesheets.getCompanies');
     Route::get('/getMonthlyTimeSheets', [TimesheetController::class, 'getMonthlyTimeSheets'])->name('timesheets.getMonthlyTimeSheets');
